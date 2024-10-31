@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.nifa.myapplication"
-    compileSdk = 34
+    namespace = "com.nifa.fuel_buddy"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.nifa.myapplication"
+        applicationId = "com.nifa.fuel_buddy"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

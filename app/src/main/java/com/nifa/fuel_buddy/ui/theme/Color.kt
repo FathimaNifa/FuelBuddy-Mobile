@@ -1,4 +1,4 @@
-package com.nifa.myapplication.ui.theme
+package com.nifa.fuel_buddy.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
