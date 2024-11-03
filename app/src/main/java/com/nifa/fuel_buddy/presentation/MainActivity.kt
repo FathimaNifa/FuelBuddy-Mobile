@@ -39,11 +39,12 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
 
                     val bottomPadding = innerPadding.calculateBottomPadding()
+                    val topPadding = innerPadding.calculateTopPadding()
 
                     SetupNavGraph(
                         navHostController = navHostController,
                         startDestination = NavigationScreen.HomeScreen,
-                        modifier = Modifier.padding(bottom = bottomPadding)
+                        modifier = Modifier.padding(bottom = bottomPadding, top = topPadding)
                     )
                 }
             }
