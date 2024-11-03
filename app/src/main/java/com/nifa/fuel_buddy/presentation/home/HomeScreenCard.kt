@@ -3,11 +3,10 @@ package com.nifa.fuel_buddy.presentation.home
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -34,20 +33,18 @@ fun HomeScreenCard(
     distance: String
 ) {
     Card(
-        modifier = Modifier
-            .width(350.dp)
-            .height(280.dp),
+        modifier = modifier.wrapContentSize(),
         border = BorderStroke(0.8.dp, colorResource(R.color.saffron)),
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.raisin_black)),
         shape = RoundedCornerShape(8.dp)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column {
             Image(
-                painter = painterResource(id = imageDrawableId),
-                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp),
+                    .aspectRatio(16f / 9f),
+                painter = painterResource(id = imageDrawableId),
+                contentDescription = null,
                 contentScale = ContentScale.Crop
             )
             Text(
@@ -55,24 +52,27 @@ fun HomeScreenCard(
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp),
                 textAlign = TextAlign.Left,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
             )
             Text(
                 text = distance,
                 color = Color.White,
                 fontSize = 13.sp,
-                modifier = Modifier.padding(10.dp),
                 textAlign = TextAlign.Left,
-
-                )
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = false)
 @Composable
 private fun HomeScreenComponentPreview() {
     HomeScreenCard(
