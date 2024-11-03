@@ -1,6 +1,8 @@
 package com.nifa.fuel_buddy.presentation.activity.components
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,10 +32,13 @@ fun ActivityCard(
     imageDrawableId: Int,
     title: String,
     price: String,
-    datetime: String
+    datetime: String,
+    onClick: () -> Unit
 ) {
     Card(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier
+            .wrapContentSize()
+            .clickable(onClick = onClick),
         border = BorderStroke(0.8.dp, colorResource(R.color.saffron)),
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.raisin_black)),
         shape = RoundedCornerShape(8.dp)
@@ -78,6 +83,7 @@ fun ActivityCard(
         }
     }
 }
+
 @Preview(showBackground = false)
 @Composable
 private fun ActivityCardPreview() {
@@ -85,6 +91,7 @@ private fun ActivityCardPreview() {
         imageDrawableId = R.drawable.bharat,
         title = "Bharat Petroleum",
         price = "Rs.120",
-        datetime = "20 Oct | 2:00PM"
+        datetime = "20 Oct | 2:00PM",
+        onClick = {}
     )
 }
