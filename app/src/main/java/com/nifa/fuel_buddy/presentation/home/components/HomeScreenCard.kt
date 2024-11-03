@@ -1,5 +1,4 @@
-package com.nifa.fuel_buddy.presentation.home
-
+package com.nifa.fuel_buddy.presentation.home.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
