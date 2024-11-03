@@ -11,7 +11,9 @@ import androidx.navigation.compose.composable
 import com.nifa.fuel_buddy.domain.FuelStation
 import com.nifa.fuel_buddy.domain.Product
 import com.nifa.fuel_buddy.presentation.account.AccountScreen
+import com.nifa.fuel_buddy.presentation.activity.ActivityDetailScreen
 import com.nifa.fuel_buddy.presentation.activity.ActivityScreen
+import com.nifa.fuel_buddy.presentation.activity.ActivityScreenViewModel
 import com.nifa.fuel_buddy.presentation.home.HomeDetailScreen
 import com.nifa.fuel_buddy.presentation.home.HomeScreen
 import com.nifa.fuel_buddy.presentation.home.HomeScreenViewModel
@@ -54,7 +56,25 @@ fun SetupNavGraph(
         }
 
         composable<NavigationScreen.ActivityScreen> {
-            ActivityScreen()
+
+            val viewModel = viewModel<ActivityScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            ActivityScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navHostController::navigateTo
+            )
+        }
+
+        composable<NavigationScreen.ActivityDetailScreen>(
+            typeMap = mapOf(
+                typeOf<FuelStation>() to CustomNavType.FuelStationType,
+                typeOf<Product>() to CustomNavType.ProductType
+            )
+        ) {
+            ActivityDetailScreen()
         }
 
         composable<NavigationScreen.AccountScreen> {
