@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.home
+package com.nifa.fuel_buddy.presentation.feature.activity
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,27 +11,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nifa.fuel_buddy.R
-import com.nifa.fuel_buddy.data.dummyFuelStationList
-import com.nifa.fuel_buddy.presentation.home.components.HomeScreenCard
-import com.nifa.fuel_buddy.presentation.navigation.NavigationScreen
+import com.nifa.fuel_buddy.data.dummyFuelOrderHistory
+import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.feature.activity.components.ActivityCard
 import com.nifa.fuel_buddy.presentation.utils.CollectAsEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
-fun HomeScreen(
+fun ActivityScreen(
     modifier: Modifier = Modifier,
-    uiState: HomeScreenUiState,
-    uiAction: ((HomeScreenUiAction) -> Unit),
-    uiEvent: Flow<HomeScreenUiEvent>,
-    navigateToCallback: ((NavigationScreen) -> Unit)
+    uiState: ActivityScreenUiState,
+    uiEvent: Flow<ActivityScreenUiEvent>,
+    uiAction: (ActivityScreenUiAction) -> Unit,
+    navigateToCallback: (NavigationScreen) -> Unit
 ) {
 
     uiEvent.CollectAsEffect { event ->
         when (event) {
-            is HomeScreenUiEvent.NavigateTo -> navigateToCallback.invoke(event.navigationScreen)
+            is ActivityScreenUiEvent.NavigateTo -> navigateToCallback.invoke(event.navigationScreen)
         }
     }
+
 
     LazyColumn(
         modifier = modifier
@@ -40,14 +41,15 @@ fun HomeScreen(
         contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        items(uiState.fuelStationList.size) { index ->
-            val data = uiState.fuelStationList[index]
-            HomeScreenCard(
-                title = data.name,
-                distance = data.distance,
+        items(uiState.fuelOrderHistoryList.size) { index ->
+            val data = uiState.fuelOrderHistoryList[index]
+            ActivityCard(
                 imageDrawableId = R.drawable.hp,
+                price = data.price,
+                title = data.fuelStation.name,
+                datetime = data.orderDateTime,
                 onClick = {
-                    uiAction.invoke(HomeScreenUiAction.OnFuelStationCardClicked(data))
+                    uiAction.invoke(ActivityScreenUiAction.OnActivityCardClicked(data.fuelStation))
                 }
             )
         }
@@ -56,10 +58,10 @@ fun HomeScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeScreenPreview() {
-    HomeScreen(
-        uiState = HomeScreenUiState(
-            fuelStationList = dummyFuelStationList
+private fun ActivityScreenPreview() {
+    ActivityScreen(
+        uiState = ActivityScreenUiState(
+            fuelOrderHistoryList = dummyFuelOrderHistory
         ),
         uiAction = {},
         uiEvent = emptyFlow(),

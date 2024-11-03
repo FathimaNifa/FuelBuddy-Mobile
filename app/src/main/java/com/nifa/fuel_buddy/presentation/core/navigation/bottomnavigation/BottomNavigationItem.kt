@@ -1,9 +1,9 @@
-package com.nifa.fuel_buddy.presentation.navigation.bottomnavigation
+package com.nifa.fuel_buddy.presentation.core.navigation.bottomnavigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.nifa.fuel_buddy.R
-import com.nifa.fuel_buddy.presentation.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 
 enum class BottomNavigationItem(
     @DrawableRes val icon: Int,

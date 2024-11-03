@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.activity.components
+package com.nifa.fuel_buddy.presentation.feature.activity.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

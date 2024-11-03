@@ -2,7 +2,7 @@ package com.nifa.fuel_buddy.presentation.utils
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.nifa.fuel_buddy.presentation.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 
 fun NavHostController.navigateFromSetupScreen(navigationScreen: NavigationScreen) {
     navigate(navigationScreen) {
