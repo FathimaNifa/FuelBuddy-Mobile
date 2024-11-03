@@ -1,11 +1,11 @@
-package com.nifa.fuel_buddy.presentation.home
+package com.nifa.fuel_buddy.presentation.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.data.FakeFuelBuddyRepositoryImpl
 import com.nifa.fuel_buddy.domain.FuelBuddyRepository
 import com.nifa.fuel_buddy.domain.FuelStation
-import com.nifa.fuel_buddy.presentation.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

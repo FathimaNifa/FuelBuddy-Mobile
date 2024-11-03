@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.home
+package com.nifa.fuel_buddy.presentation.feature.activity
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,14 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun HomeDetailScreen(modifier: Modifier = Modifier) {
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        Text("HomeDetailScreen")
+fun ActivityDetailScreen(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text("ActivityDetailScreen")
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeDetailScreenPreview() {
-    HomeDetailScreen()
+private fun ActivityDetailScreenPreview() {
+    ActivityDetailScreen()
 }

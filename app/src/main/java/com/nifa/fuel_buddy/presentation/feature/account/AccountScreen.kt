@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.account
+package com.nifa.fuel_buddy.presentation.feature.account
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

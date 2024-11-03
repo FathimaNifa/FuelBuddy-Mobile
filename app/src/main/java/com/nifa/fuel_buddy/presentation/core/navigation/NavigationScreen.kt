@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.navigation
+package com.nifa.fuel_buddy.presentation.core.navigation
 
 import com.nifa.fuel_buddy.domain.FuelStation
 import kotlinx.serialization.Serializable
