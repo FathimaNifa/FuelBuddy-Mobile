@@ -1,13 +1,20 @@
 package com.nifa.fuel_buddy.presentation.home
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.data.dummyFuelStationList
+import com.nifa.fuel_buddy.presentation.home.components.HomeScreenCard
+import com.nifa.fuel_buddy.presentation.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.utils.CollectAsEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -16,15 +23,33 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeScreenUiState,
     uiAction: ((HomeScreenUiAction) -> Unit),
-    uiEvent: Flow<HomeScreenUiEvent>
+    uiEvent: Flow<HomeScreenUiEvent>,
+    navigateToCallback: ((NavigationScreen) -> Unit)
 ) {
 
+    uiEvent.CollectAsEffect { event ->
+        when (event) {
+            is HomeScreenUiEvent.NavigateTo -> navigateToCallback.invoke(event.navigationScreen)
+        }
+    }
+
     LazyColumn(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        contentPadding = PaddingValues(20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         items(uiState.fuelStationList.size) { index ->
             val data = uiState.fuelStationList[index]
-            Text(text = data.name, color = Color.Blue)
+            HomeScreenCard(
+                title = data.name,
+                distance = data.distance,
+                imageDrawableId = R.drawable.hp,
+                onClick = {
+                    uiAction.invoke(HomeScreenUiAction.OnFuelStationCardClicked(data))
+                }
+            )
         }
     }
 }
@@ -37,6 +62,7 @@ private fun HomeScreenPreview() {
             fuelStationList = dummyFuelStationList
         ),
         uiAction = {},
-        uiEvent = emptyFlow()
+        uiEvent = emptyFlow(),
+        navigateToCallback = {}
     )
 }

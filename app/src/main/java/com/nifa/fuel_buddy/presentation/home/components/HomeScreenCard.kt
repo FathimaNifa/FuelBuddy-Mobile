@@ -1,6 +1,7 @@
 package com.nifa.fuel_buddy.presentation.home.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,10 +30,13 @@ fun HomeScreenCard(
     modifier: Modifier = Modifier,
     imageDrawableId: Int,
     title: String,
-    distance: String
+    distance: String,
+    onClick: () -> Unit
 ) {
     Card(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier
+            .wrapContentSize()
+            .clickable(onClick = onClick),
         border = BorderStroke(0.8.dp, colorResource(R.color.saffron)),
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.raisin_black)),
         shape = RoundedCornerShape(8.dp)
@@ -77,6 +81,7 @@ private fun HomeScreenComponentPreview() {
     HomeScreenCard(
         imageDrawableId = R.drawable.bharat,
         title = "Bharat Petroleum",
-        distance = "1.2 km away"
+        distance = "1.2 km away",
+        onClick = {}
     )
 }
