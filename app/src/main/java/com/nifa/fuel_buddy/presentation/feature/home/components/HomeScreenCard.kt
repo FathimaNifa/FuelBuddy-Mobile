@@ -1,4 +1,5 @@
 package com.nifa.fuel_buddy.presentation.feature.home.components
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
+import com.nifa.fuel_buddy.presentation.utils.Font
 
 @Composable
 fun HomeScreenCard(
@@ -37,7 +39,7 @@ fun HomeScreenCard(
         modifier = modifier
             .wrapContentSize()
             .clickable(onClick = onClick),
-        border = BorderStroke(0.8.dp, colorResource(R.color.saffron)),
+        border = BorderStroke(0.8.dp, colorResource(R.color.saffron).copy(0.5f)),
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.raisin_black)),
         shape = RoundedCornerShape(8.dp)
     ) {
@@ -54,6 +56,7 @@ fun HomeScreenCard(
                 text = title,
                 color = Color.White,
                 fontSize = 18.sp,
+                fontFamily = Font.JosefinBold,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Left,
                 maxLines = 1,
@@ -66,6 +69,7 @@ fun HomeScreenCard(
                 text = distance,
                 color = Color.White,
                 fontSize = 13.sp,
+                fontFamily = Font.JosefinRegular,
                 textAlign = TextAlign.Left,
                 modifier = Modifier
                     .fillMaxWidth()
