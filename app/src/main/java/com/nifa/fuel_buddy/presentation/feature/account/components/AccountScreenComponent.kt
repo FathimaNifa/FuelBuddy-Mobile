@@ -1,4 +1,5 @@
 package com.nifa.fuel_buddy.presentation.feature.account.components
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
@@ -17,18 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 
 @Composable
-fun ActionButton(text: String, iconResId: Int,onClick: () -> Unit) {
+fun ActionButton(text: String, iconResId: Int, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = Modifier
             .padding(10.dp)
             .width(296.dp)
-            .border(2.dp, colorResource(R.color.saffron),
+            .border(
+                2.dp, colorResource(R.color.saffron),
                 RoundedCornerShape(8.dp)
             ),
         colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.raisin_black))
@@ -52,7 +55,16 @@ fun ActionButton(text: String, iconResId: Int,onClick: () -> Unit) {
                 color = colorResource(R.color.saffron),
                 modifier = Modifier.weight(1f)
             )
-
         }
     }
+}
+
+@Preview(showBackground = false)
+@Composable
+private fun AccountScreenPreview() {
+    ActionButton(
+        text = "xyz@gmail.com",
+        iconResId = R.drawable.account,
+        onClick = {}
+    )
 }
