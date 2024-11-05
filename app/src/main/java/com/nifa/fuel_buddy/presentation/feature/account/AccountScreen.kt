@@ -23,50 +23,51 @@ import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.presentation.feature.account.components.ActionButton
 
 @Composable
-fun AccountScreen(modifier: Modifier = Modifier, text: String, iconResId: Int.Companion, onClick: () -> Unit) {
+fun AccountScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(50.dp)
+            .background(colorResource(R.color.black)),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(40.dp))
+        Image(
+            painter = painterResource(R.drawable.profile),
+            contentDescription = "Profile Image",
+            modifier = Modifier
+                .padding(30.dp)
+                .size(100.dp)
+                .clip(CircleShape)
+                .background(colorResource(R.color.black))
+        )
+
+        Spacer(modifier = Modifier.height(60.dp))
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(50.dp)
-                .background(colorResource(R.color.black)),
-            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            Image(
-                painter = painterResource(R.drawable.profile),
-                contentDescription = "Profile Image",
-                modifier = Modifier.padding(30.dp)
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(colorResource(R.color.black))
-            )
+            ActionButton("xyz@gmail.com", R.drawable.account) {
 
-            Spacer(modifier = Modifier.height(60.dp))
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ActionButton("xyz@gmail.com", R.drawable.account) {
+            }
+            ActionButton("Change Password", R.drawable.chngpwd) {
 
-                }
-                ActionButton("Change Password", R.drawable.chngpwd) {
+            }
+            ActionButton("Support and Feedback", R.drawable.support) {
 
-                }
-                ActionButton("Support and Feedback", R.drawable.support) {
+            }
+            ActionButton("Logout", R.drawable.logout) {
 
-                }
-                ActionButton("Logout", R.drawable.logout) {
-
-                }
             }
         }
     }
+}
 
 
 @Preview(showBackground = true)
 @Composable
 private fun AccountScreenPreview() {
-    AccountScreen( Modifier , String.toString(),  Int) { }
+    AccountScreen(Modifier)
 }

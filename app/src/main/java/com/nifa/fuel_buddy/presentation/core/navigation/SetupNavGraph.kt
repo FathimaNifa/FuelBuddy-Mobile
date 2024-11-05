@@ -78,10 +78,7 @@ fun SetupNavGraph(
         }
 
         composable<NavigationScreen.AccountScreen> {
-            AccountScreen(
-                Modifier, toString(), Int,
-                onClick = TODO()
-            )
+            AccountScreen(Modifier)
         }
     }
 }
