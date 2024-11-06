@@ -78,7 +78,7 @@ fun SetupNavGraph(
         }
 
         composable<NavigationScreen.AccountScreen> {
-            AccountScreen()
+            AccountScreen(Modifier)
         }
     }
 }
