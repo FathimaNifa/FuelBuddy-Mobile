@@ -55,7 +55,7 @@ fun HomeScreenCard(
             Text(
                 text = title,
                 color = Color.White,
-                fontSize = 18.sp,
+                fontSize = 14.sp,
                 fontFamily = Font.JosefinBold,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Left,
@@ -68,7 +68,7 @@ fun HomeScreenCard(
             Text(
                 text = distance,
                 color = Color.White,
-                fontSize = 13.sp,
+                fontSize = 12.sp,
                 fontFamily = Font.JosefinRegular,
                 textAlign = TextAlign.Left,
                 modifier = Modifier

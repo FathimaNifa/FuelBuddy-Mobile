@@ -38,8 +38,8 @@ fun ActivityScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Color.Black),
-        contentPadding = PaddingValues(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        contentPadding = PaddingValues(30.dp),
+        verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
         items(uiState.fuelOrderHistoryList.size) { index ->
             val data = uiState.fuelOrderHistoryList[index]
