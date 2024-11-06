@@ -17,19 +17,25 @@ class FakeFuelBuddyRepositoryImpl : FuelBuddyRepository {
 
 val dummyProductList = listOf(
     Product(
+        productId = 0,
         name = "Petrol",
         imageUrl = "",
-        price = 102
+        price = 102,
+        quantityAdded = 0
     ),
     Product(
+        productId = 1,
         name = "Diesel",
         imageUrl = "",
-        price = 95
+        price = 95,
+        quantityAdded = 0
     ),
     Product(
+        productId = 3,
         name = "Engine Oil",
         imageUrl = "",
-        price = 500
+        price = 500,
+        quantityAdded = 0
     )
 )
 
