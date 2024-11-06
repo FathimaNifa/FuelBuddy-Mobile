@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.nifa.fuel_buddy.R
+import com.nifa.fuel_buddy.presentation.utils.Font
 
 @Composable
 fun SetupBottomNavigation(
@@ -56,7 +57,8 @@ fun SetupBottomNavigation(
                     },
                     label = {
                         Text(
-                            text = stringResource(bottomNavigationItems.label)
+                            text = stringResource(bottomNavigationItems.label),
+                            fontFamily = Font.JosefinBold
                         )
                     },
                     colors = NavigationBarItemColors(
