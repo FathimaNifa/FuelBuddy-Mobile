@@ -11,17 +11,17 @@ enum class BottomNavigationItem(
     @StringRes val label : Int
 ) {
     HOME(
-        icon = R.drawable.home,
+        icon = R.drawable.ic_home,
         screen = NavigationScreen.HomeScreen,
         label = R.string.home
     ),
     ACTIVITY(
-        icon = R.drawable.activity,
+        icon = R.drawable.ic_activity,
         screen = NavigationScreen.ActivityScreen,
         label = R.string.activity
     ),
     ACCOUNT(
-        icon = R.drawable.account,
+        icon = R.drawable.ic_account,
         screen = NavigationScreen.AccountScreen,
         label = R.string.account
     )
