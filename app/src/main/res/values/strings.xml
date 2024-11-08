@@ -8,4 +8,6 @@
     <string name="item_added">%1$s item added</string>
     <string name="view_cart">View cart</string>
     <string name="order_now">Order Now !</string>
+    <string name="delivery_charge">Delivery Charge</string>
+    <string name="total">Total</string>
 </resources>

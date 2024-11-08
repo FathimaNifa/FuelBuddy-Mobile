@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.presentation.utils.Font
+import com.nifa.fuel_buddy.presentation.utils.ext.prependRupees
 
 @Composable
 fun ActivityCard(
@@ -83,7 +84,7 @@ fun ActivityCard(
                         .align(Alignment.Start)
                 )
                 Text(
-                    text = price,
+                    text = price.prependRupees(),
                     fontSize = 12.sp,
                     fontFamily = Font.JosefinRegular,
                     color = Color.White,
@@ -111,7 +112,7 @@ private fun ActivityCardPreview() {
     ActivityCard(
         imageDrawableId = R.drawable.bharat,
         title = "Bharat Petroleum",
-        price = "Rs.120",
+        price = "120",
         datetime = "20 Oct | 2:00PM",
         onClick = {}
     )

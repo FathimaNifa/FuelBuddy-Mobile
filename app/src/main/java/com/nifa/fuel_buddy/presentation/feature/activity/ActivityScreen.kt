@@ -45,7 +45,7 @@ fun ActivityScreen(
             val data = uiState.fuelOrderHistoryList[index]
             ActivityCard(
                 imageDrawableId = R.drawable.hp,
-                price = data.price,
+                price = data.totalPrice,
                 title = data.fuelStation.name,
                 datetime = data.orderDateTime,
                 onClick = {

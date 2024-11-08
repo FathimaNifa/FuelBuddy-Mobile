@@ -13,6 +13,7 @@ import com.nifa.fuel_buddy.domain.FuelStation
 import com.nifa.fuel_buddy.domain.Product
 import com.nifa.fuel_buddy.presentation.feature.account.AccountScreen
 import com.nifa.fuel_buddy.presentation.feature.activity.ActivityDetailScreen
+import com.nifa.fuel_buddy.presentation.feature.activity.ActivityDetailScreenViewModel
 import com.nifa.fuel_buddy.presentation.feature.activity.ActivityScreen
 import com.nifa.fuel_buddy.presentation.feature.activity.ActivityScreenViewModel
 import com.nifa.fuel_buddy.presentation.feature.home.HomeDetailScreen
@@ -94,7 +95,16 @@ fun SetupNavGraph(
                 typeOf<Product>() to CustomNavType.ProductType
             )
         ) {
-            ActivityDetailScreen()
+            val fuelStation = it.toRoute<NavigationScreen.HomeDetailScreen>().fuelStation
+
+            val viewModel = viewModel<ActivityDetailScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            viewModel.updateFuelStationUiState(fuelStation)
+
+            ActivityDetailScreen(
+                uiState = uiState
+            )
         }
 
         composable<NavigationScreen.AccountScreen> {
