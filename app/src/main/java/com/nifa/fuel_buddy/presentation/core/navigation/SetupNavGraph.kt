@@ -21,6 +21,7 @@ import com.nifa.fuel_buddy.presentation.feature.home.HomeDetailScreenViewModel
 import com.nifa.fuel_buddy.presentation.feature.home.HomeScreen
 import com.nifa.fuel_buddy.presentation.feature.home.HomeScreenViewModel
 import com.nifa.fuel_buddy.presentation.feature.home.OrderStatusScreen
+import com.nifa.fuel_buddy.presentation.feature.home.OrderStatusScreenViewModel
 import com.nifa.fuel_buddy.presentation.utils.CustomNavType
 import com.nifa.fuel_buddy.presentation.utils.ext.navigateTo
 import kotlin.reflect.typeOf
@@ -73,7 +74,12 @@ fun SetupNavGraph(
         }
 
         composable<NavigationScreen.OrderStatusScreen> {
-            OrderStatusScreen()
+            val viewModel = viewModel<OrderStatusScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            OrderStatusScreen(
+                uiState = uiState
+            )
         }
 
         composable<NavigationScreen.ActivityScreen> {
