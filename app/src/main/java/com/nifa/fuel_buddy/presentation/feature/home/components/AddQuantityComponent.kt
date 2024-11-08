@@ -48,12 +48,7 @@ fun AddQuantityComponent(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
-                modifier = Modifier .padding(
-                    top = 10.dp,
-                    bottom = 10.dp,
-                    start = 20.dp,
-                    end = 20.dp
-                )
+                modifier = Modifier.padding(10.dp)
 
             ) {
                 Image(

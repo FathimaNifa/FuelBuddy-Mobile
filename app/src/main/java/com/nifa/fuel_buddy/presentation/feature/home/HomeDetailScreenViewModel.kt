@@ -63,6 +63,11 @@ class HomeDetailScreenViewModel : ViewModel() {
                 val deliveryCharges = uiState.value.fuelStation?.deliveryCharge ?: 0
                 val totalPrice = (products.sumOf { it.price * it.quantityAdded }) + deliveryCharges
                 updateTotalPriceUiState(totalPrice)
+                if (products.isEmpty()) {
+                    val screenState = uiState.value.homeDetailScreenState
+                    if(screenState == HomeDetailScreenState.CART)
+                        updateHomeDetailScreenStateUiState(HomeDetailScreenState.DETAIL)
+                }
             }.launchIn(viewModelScope)
 
     }
