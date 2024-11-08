@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,16 +20,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
-import com.nifa.fuel_buddy.data.dummyFuelStationList
-import com.nifa.fuel_buddy.data.dummyProductList
+import com.nifa.fuel_buddy.data.dummyProductListWithAddedQuantity
+import com.nifa.fuel_buddy.data.quantityAddedFuelStationList
 import com.nifa.fuel_buddy.presentation.feature.home.components.AddQuantityComponent
 import com.nifa.fuel_buddy.presentation.feature.home.components.OrderNowBottomCTA
 import com.nifa.fuel_buddy.presentation.utils.Font
+import com.nifa.fuel_buddy.presentation.utils.ext.prependRupees
 
 @Composable
 fun HomeCartContent(
@@ -123,11 +126,11 @@ fun HomeCartContent(
                         )
 
                         Text(
-                            text = (data.quantityAdded * data.price).toString(),
+                            text = (data.quantityAdded * data.price).toString().prependRupees(),
                             fontSize = 12.sp,
                             fontFamily = Font.JosefinRegular,
                             color = Color.White,
-                            textAlign = TextAlign.Center,
+                            textAlign = TextAlign.Right,
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -139,8 +142,11 @@ fun HomeCartContent(
                             .fillMaxSize()
                             .padding(top = 20.dp)
                     ) {
+
+                        Box(modifier = Modifier.weight(1f))
+
                         Text(
-                            text = "Delivery Charge",
+                            text = stringResource(R.string.delivery_charge),
                             fontSize = 12.sp,
                             fontFamily = Font.JosefinRegular,
                             color = colorResource(R.color.saffron),
@@ -149,11 +155,11 @@ fun HomeCartContent(
                         )
 
                         Text(
-                            text = uiState.fuelStation?.deliveryCharge.toString(),
+                            text = uiState.fuelStation?.deliveryCharge.toString().prependRupees(),
                             fontSize = 12.sp,
                             fontFamily = Font.JosefinRegular,
                             color = Color.White,
-                            textAlign = TextAlign.Center,
+                            textAlign = TextAlign.Right,
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -169,9 +175,9 @@ private fun HomeCartContentPreview() {
     HomeCartContent(
         uiAction = { },
         uiState = HomeDetailScreenUiState(
-            fuelStation = dummyFuelStationList[0],
-            productList = dummyProductList,
-            productListAddedInTheCart = dummyProductList,
+            fuelStation = quantityAddedFuelStationList[0],
+            productList = dummyProductListWithAddedQuantity,
+            productListAddedInTheCart = dummyProductListWithAddedQuantity,
             addedItemCount = 3,
             shouldShowCartCTABottomSheet = true
         )
