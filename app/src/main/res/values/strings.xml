@@ -10,4 +10,8 @@
     <string name="order_now">Order Now !</string>
     <string name="delivery_charge">Delivery Charge</string>
     <string name="total">Total</string>
+    <string name="your_order_is_sent_to_petrol_station_waiting_for_the_confirmation">Your Order is sent to Petrol station, Waiting for the Confirmation</string>
+    <string name="your_order_is_accepted">Your Order is Accepted</string>
+    <string name="track_order">Track Order</string>
+    <string name="back_to_home">Back to Home</string>
 </resources>
