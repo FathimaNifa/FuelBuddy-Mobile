@@ -14,7 +14,7 @@ import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.data.dummyFuelOrderHistory
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.presentation.feature.activity.components.ActivityCard
-import com.nifa.fuel_buddy.presentation.utils.CollectAsEffect
+import com.nifa.fuel_buddy.presentation.utils.ext.CollectAsEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -38,14 +38,14 @@ fun ActivityScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Color.Black),
-        contentPadding = PaddingValues(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        contentPadding = PaddingValues(30.dp),
+        verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
         items(uiState.fuelOrderHistoryList.size) { index ->
             val data = uiState.fuelOrderHistoryList[index]
             ActivityCard(
                 imageDrawableId = R.drawable.hp,
-                price = data.price,
+                price = data.totalPrice,
                 title = data.fuelStation.name,
                 datetime = data.orderDateTime,
                 onClick = {

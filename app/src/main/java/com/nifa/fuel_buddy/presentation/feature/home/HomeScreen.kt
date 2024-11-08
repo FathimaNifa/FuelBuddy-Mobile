@@ -14,7 +14,7 @@ import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.data.dummyFuelStationList
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.presentation.feature.home.components.HomeScreenCard
-import com.nifa.fuel_buddy.presentation.utils.CollectAsEffect
+import com.nifa.fuel_buddy.presentation.utils.ext.CollectAsEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -37,8 +37,8 @@ fun HomeScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Color.Black),
-        contentPadding = PaddingValues(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        contentPadding = PaddingValues(30.dp),
+        verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
         items(uiState.fuelStationList.size) { index ->
             val data = uiState.fuelStationList[index]

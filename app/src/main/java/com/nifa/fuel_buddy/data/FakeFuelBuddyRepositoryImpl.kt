@@ -17,19 +17,49 @@ class FakeFuelBuddyRepositoryImpl : FuelBuddyRepository {
 
 val dummyProductList = listOf(
     Product(
+        productId = 0,
         name = "Petrol",
         imageUrl = "",
-        price = 102
+        price = 102,
+        quantityAdded = 0
     ),
     Product(
+        productId = 1,
         name = "Diesel",
         imageUrl = "",
-        price = 95
+        price = 95,
+        quantityAdded = 0
     ),
     Product(
+        productId = 3,
         name = "Engine Oil",
         imageUrl = "",
-        price = 500
+        price = 500,
+        quantityAdded = 0
+    )
+)
+
+val dummyProductListWithAddedQuantity = listOf(
+    Product(
+        productId = 0,
+        name = "Petrol",
+        imageUrl = "",
+        price = 102,
+        quantityAdded = 2
+    ),
+    Product(
+        productId = 1,
+        name = "Diesel",
+        imageUrl = "",
+        price = 95,
+        quantityAdded = 1
+    ),
+    Product(
+        productId = 3,
+        name = "Engine Oil",
+        imageUrl = "",
+        price = 500,
+        quantityAdded = 3
     )
 )
 
@@ -63,24 +93,30 @@ val dummyFuelStationList = listOf(
     indianFuelStation
 )
 
+val quantityAddedFuelStationList = listOf(
+    hpFuelStation.copy(productList = dummyProductListWithAddedQuantity),
+    bharathFuelStation.copy(productList = dummyProductListWithAddedQuantity),
+    indianFuelStation.copy(productList = dummyProductListWithAddedQuantity)
+)
+
 val dummyFuelOrderHistory = listOf(
     FuelOrderHistory(
         orderId = "1",
         orderDateTime = "20 Oct | 1.41 PM",
-        price = "690",
-        fuelStation = hpFuelStation
+        totalPrice = "690",
+        fuelStation = hpFuelStation.copy(productList = dummyProductListWithAddedQuantity)
     ),
     FuelOrderHistory(
         orderId = "2",
         orderDateTime = "1 Oct | 10.03 PM",
-        price = "550",
-        fuelStation = bharathFuelStation
+        totalPrice = "550",
+        fuelStation = bharathFuelStation.copy(productList = dummyProductListWithAddedQuantity)
     ),
     FuelOrderHistory(
         orderId = "3",
         orderDateTime = "12 Sept | 12.41 PM",
-        price = "220",
-        fuelStation = indianFuelStation
+        totalPrice = "220",
+        fuelStation = indianFuelStation.copy(productList = dummyProductListWithAddedQuantity)
     ),
 )
 
