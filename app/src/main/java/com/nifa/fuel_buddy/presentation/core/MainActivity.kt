@@ -20,7 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.presentation.core.navigation.SetupNavGraph
 import com.nifa.fuel_buddy.presentation.core.navigation.bottomnavigation.SetupBottomNavigation
-import com.nifa.fuel_buddy.presentation.utils.navigateBottomBar
+import com.nifa.fuel_buddy.presentation.utils.ext.navigateBottomBar
 import com.nifa.fuel_buddy.ui.theme.FuelBuddyMobileTheme
 
 class MainActivity : ComponentActivity() {

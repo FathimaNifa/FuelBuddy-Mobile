@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.utils
+package com.nifa.fuel_buddy.presentation.utils.ext
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController

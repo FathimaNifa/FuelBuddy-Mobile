@@ -12,6 +12,9 @@ sealed interface NavigationScreen {
     data class HomeDetailScreen(val fuelStation: FuelStation) : NavigationScreen
 
     @Serializable
+    data object OrderStatusScreen : NavigationScreen
+
+    @Serializable
     data object ActivityScreen : NavigationScreen
 
     @Serializable

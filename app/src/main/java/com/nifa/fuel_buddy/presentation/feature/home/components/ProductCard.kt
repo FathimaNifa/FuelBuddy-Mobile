@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.presentation.utils.Font
+import com.nifa.fuel_buddy.presentation.utils.ext.prependRupees
 
 @Composable
 fun ProductCard(
@@ -74,7 +75,7 @@ fun ProductCard(
                 .fillMaxHeight()
         ) {
             Text(
-                text = price.toString(),
+                text = price.toString().prependRupees(),
                 fontSize = 12.sp,
                 fontFamily = Font.JosefinRegular,
                 color = Color.White,
