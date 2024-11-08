@@ -19,8 +19,9 @@ import com.nifa.fuel_buddy.presentation.feature.home.HomeDetailScreen
 import com.nifa.fuel_buddy.presentation.feature.home.HomeDetailScreenViewModel
 import com.nifa.fuel_buddy.presentation.feature.home.HomeScreen
 import com.nifa.fuel_buddy.presentation.feature.home.HomeScreenViewModel
+import com.nifa.fuel_buddy.presentation.feature.home.OrderStatusScreen
 import com.nifa.fuel_buddy.presentation.utils.CustomNavType
-import com.nifa.fuel_buddy.presentation.utils.navigateTo
+import com.nifa.fuel_buddy.presentation.utils.ext.navigateTo
 import kotlin.reflect.typeOf
 
 @Composable
@@ -66,7 +67,12 @@ fun SetupNavGraph(
                 uiState = uiState,
                 uiAction = viewModel::onUiAction,
                 uiEvent = viewModel.uiEvent,
+                navigateToCallback = navHostController::navigateTo
             )
+        }
+
+        composable<NavigationScreen.OrderStatusScreen> {
+            OrderStatusScreen()
         }
 
         composable<NavigationScreen.ActivityScreen> {

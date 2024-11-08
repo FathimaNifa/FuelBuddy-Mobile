@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,7 +85,7 @@ fun AddQuantityComponent(
 
         } else {
             Text(
-                text = "Add",
+                text = stringResource(R.string.add),
                 fontSize = 12.sp,
                 fontFamily = Font.JosefinRegular,
                 color = Color.White,

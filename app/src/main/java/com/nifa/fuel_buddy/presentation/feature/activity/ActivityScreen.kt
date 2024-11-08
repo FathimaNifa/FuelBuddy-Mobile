@@ -14,7 +14,7 @@ import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.data.dummyFuelOrderHistory
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.presentation.feature.activity.components.ActivityCard
-import com.nifa.fuel_buddy.presentation.utils.CollectAsEffect
+import com.nifa.fuel_buddy.presentation.utils.ext.CollectAsEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

@@ -38,8 +38,33 @@ class HomeDetailScreenViewModel : ViewModel() {
             .onEach {
                 updateTitleUiState(it.name)
                 updateProductListUiState(it.productList)
-            }
-            .launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+
+
+        uiState.map { it.productList }
+            .distinctUntilChanged()
+            .onEach { products: List<Product> ->
+                val addedItemCount = products.count { it.quantityAdded > 0 }
+                val productListAddedInTheCart = products.filter { it.quantityAdded > 0 }
+                updateAddedItemCountUiState(addedItemCount = addedItemCount)
+                updateProductListAddedInTheCart(productListAddedInTheCart)
+            }.launchIn(viewModelScope)
+
+        uiState.map { it.addedItemCount }
+            .distinctUntilChanged()
+            .onEach {
+                val shouldShowCartCTABottomSheet = it > 0
+                updateShouldShowCartCTABottomSheet(shouldShowCartCTABottomSheet)
+            }.launchIn(viewModelScope)
+
+        uiState.map { it.productListAddedInTheCart }
+            .distinctUntilChanged()
+            .onEach { products: List<Product> ->
+                val deliveryCharges = uiState.value.fuelStation?.deliveryCharge ?: 0
+                val totalPrice = (products.sumOf { it.price * it.quantityAdded }) + deliveryCharges
+                updateTotalPriceUiState(totalPrice)
+            }.launchIn(viewModelScope)
+
     }
 
 
@@ -62,6 +87,20 @@ class HomeDetailScreenViewModel : ViewModel() {
                     action = {
                         it - 1
                     }
+                )
+            }
+
+            HomeDetailUiAction.ViewCartButtonClicked -> {
+                updateHomeDetailScreenStateUiState(HomeDetailScreenState.CART)
+            }
+
+            HomeDetailUiAction.OnBackPressClicked -> {
+                updateHomeDetailScreenStateUiState(HomeDetailScreenState.DETAIL)
+            }
+
+            HomeDetailUiAction.OrderNowButtonClicked -> {
+                sendEvent(
+                    HomeDetailScreenUiEvent.NavigateTo(NavigationScreen.OrderStatusScreen)
                 )
             }
         }
@@ -108,12 +147,52 @@ class HomeDetailScreenViewModel : ViewModel() {
             )
         }
 
+    private fun updateAddedItemCountUiState(addedItemCount: Int): Unit =
+        _uiState.update {
+            it.copy(
+                addedItemCount = addedItemCount
+            )
+        }
+
+    private fun updateShouldShowCartCTABottomSheet(shouldShowCartCTABottomSheet: Boolean): Unit =
+        _uiState.update {
+            it.copy(
+                shouldShowCartCTABottomSheet = shouldShowCartCTABottomSheet
+            )
+        }
+
+    private fun updateProductListAddedInTheCart(productListAddedInTheCart: List<Product>): Unit =
+        _uiState.update {
+            it.copy(
+                productListAddedInTheCart = productListAddedInTheCart
+            )
+        }
+
+    private fun updateTotalPriceUiState(totalPrice: Long): Unit =
+        _uiState.update {
+            it.copy(
+                totalPrice = totalPrice
+            )
+        }
+
+    private fun updateHomeDetailScreenStateUiState(homeDetailScreenState: HomeDetailScreenState): Unit =
+        _uiState.update {
+            it.copy(
+                homeDetailScreenState = homeDetailScreenState
+            )
+        }
+
 }
 
 data class HomeDetailScreenUiState(
     val fuelStation: FuelStation? = null,
     val title: String = "",
-    val productList: List<Product> = emptyList()
+    val productList: List<Product> = emptyList(),
+    val addedItemCount: Int = 0,
+    val shouldShowCartCTABottomSheet: Boolean = false,
+    val productListAddedInTheCart: List<Product> = emptyList(),
+    val totalPrice: Long = 0,
+    val homeDetailScreenState: HomeDetailScreenState = HomeDetailScreenState.DETAIL
 )
 
 sealed interface HomeDetailUiAction {
@@ -121,8 +200,19 @@ sealed interface HomeDetailUiAction {
     data class AddButtonClicked(val productId: Long) : HomeDetailUiAction
 
     data class ReduceButtonClicked(val productId: Long) : HomeDetailUiAction
+
+    data object ViewCartButtonClicked : HomeDetailUiAction
+
+    data object OnBackPressClicked : HomeDetailUiAction
+
+    data object OrderNowButtonClicked : HomeDetailUiAction
 }
 
 sealed interface HomeDetailScreenUiEvent {
     data class NavigateTo(val navigationScreen: NavigationScreen) : HomeDetailScreenUiEvent
+}
+
+enum class HomeDetailScreenState {
+    DETAIL,
+    CART
 }

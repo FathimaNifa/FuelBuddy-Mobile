@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.utils
+package com.nifa.fuel_buddy.presentation.utils.ext
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
