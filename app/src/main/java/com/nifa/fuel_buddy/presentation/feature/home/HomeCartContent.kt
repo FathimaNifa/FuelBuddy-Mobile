@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,6 +53,7 @@ fun HomeCartContent(
         contentColor = colorResource(R.color.white),
         bottomBar = {
             OrderNowBottomCTA(
+                modifier = Modifier.windowInsetsPadding(NavigationBarDefaults.windowInsets),
                 totalPrice = uiState.totalPrice,
                 onClick = { uiAction.invoke(HomeDetailUiAction.OrderNowButtonClicked) }
             )
@@ -107,7 +110,7 @@ fun HomeCartContent(
                         AddQuantityComponent(
                             modifier = Modifier
                                 .weight(2f)
-                                .padding(horizontal = 20.dp),
+                                .padding(20.dp),
                             quantity = data.quantityAdded,
                             addButtonClicked = {
                                 uiAction.invoke(
