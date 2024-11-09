@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.data.dummyFuelStationList
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.presentation.feature.home.components.HomeScreenCard
@@ -45,7 +44,7 @@ fun HomeScreen(
             HomeScreenCard(
                 title = data.name,
                 distance = data.distance,
-                imageDrawableId = R.drawable.hp,
+                imageUrl = data.imageUrl,
                 onClick = {
                     uiAction.invoke(HomeScreenUiAction.OnFuelStationCardClicked(data))
                 }

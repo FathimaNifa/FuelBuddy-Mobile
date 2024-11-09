@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.data.dummyFuelOrderHistory
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.presentation.feature.activity.components.ActivityCard
@@ -44,10 +43,10 @@ fun ActivityScreen(
         items(uiState.fuelOrderHistoryList.size) { index ->
             val data = uiState.fuelOrderHistoryList[index]
             ActivityCard(
-                imageDrawableId = R.drawable.hp,
                 price = data.totalPrice,
                 title = data.fuelStation.name,
                 datetime = data.orderDateTime,
+                imageUrl = data.fuelStation.imageUrl,
                 onClick = {
                     uiAction.invoke(ActivityScreenUiAction.OnActivityCardClicked(data.fuelStation))
                 }

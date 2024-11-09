@@ -23,18 +23,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.presentation.utils.Font
 import com.nifa.fuel_buddy.presentation.utils.ext.prependRupees
+import com.nifa.fuel_buddy.presentation.utils.imagePainter
 
 @Composable
 fun ActivityCard(
     modifier: Modifier = Modifier,
-    imageDrawableId: Int,
+    imageUrl : String,
     title: String,
     price: String,
     datetime: String,
@@ -56,7 +56,7 @@ fun ActivityCard(
         ) {
 
             Image(
-                painter = painterResource(id = imageDrawableId),
+                painter = imagePainter(imageUrl),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -110,7 +110,7 @@ fun ActivityCard(
 @Composable
 private fun ActivityCardPreview() {
     ActivityCard(
-        imageDrawableId = R.drawable.bharat,
+        imageUrl = "",
         title = "Bharat Petroleum",
         price = "120",
         datetime = "20 Oct | 2:00PM",
