@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,6 +30,7 @@ import com.nifa.fuel_buddy.data.dummyProductList
 import com.nifa.fuel_buddy.presentation.feature.home.components.ProductCard
 import com.nifa.fuel_buddy.presentation.feature.home.components.ViewCartBottomCTA
 import com.nifa.fuel_buddy.presentation.utils.Font
+import com.nifa.fuel_buddy.presentation.utils.imagePainter
 
 @Composable
 fun HomeDetailContent(
@@ -78,7 +78,7 @@ fun HomeDetailContent(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
                         .aspectRatio(16f / 9f),
-                    painter = painterResource(id = R.drawable.hp),
+                    painter = imagePainter(uiState.imageUrl),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
@@ -92,7 +92,7 @@ fun HomeDetailContent(
                     name = data.name,
                     price = data.price,
                     quantity = data.quantityAdded,
-                    imageDrawableId = R.drawable.petrol,
+                    imageUrl = data.imageUrl,
                     addButtonClicked = {
                         uiAction.invoke(
                             HomeDetailUiAction.AddButtonClicked(

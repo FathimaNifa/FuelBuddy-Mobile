@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,11 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.presentation.utils.Font
+import com.nifa.fuel_buddy.presentation.utils.imagePainter
 
 @Composable
 fun HomeScreenCard(
     modifier: Modifier = Modifier,
-    imageDrawableId: Int,
+    imageUrl : String,
     title: String,
     distance: String,
     onClick: () -> Unit
@@ -48,7 +48,7 @@ fun HomeScreenCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(16f / 9f),
-                painter = painterResource(id = imageDrawableId),
+                painter = imagePainter(imageUrl),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -83,9 +83,9 @@ fun HomeScreenCard(
 @Composable
 private fun HomeScreenComponentPreview() {
     HomeScreenCard(
-        imageDrawableId = R.drawable.bharat,
         title = "Bharat Petroleum",
         distance = "1.2 km away",
-        onClick = {}
+        onClick = {},
+        imageUrl = ""
     )
 }

@@ -36,6 +36,7 @@ class HomeDetailScreenViewModel : ViewModel() {
             .distinctUntilChanged()
             .filterNotNull()
             .onEach {
+                updateImageUrlUiState(it.imageUrl)
                 updateTitleUiState(it.name)
                 updateProductListUiState(it.productList)
             }.launchIn(viewModelScope)
@@ -187,11 +188,19 @@ class HomeDetailScreenViewModel : ViewModel() {
             )
         }
 
+    private fun updateImageUrlUiState(imageUrl : String) : Unit =
+        _uiState.update {
+            it.copy(
+                imageUrl = imageUrl
+            )
+        }
+
 }
 
 data class HomeDetailScreenUiState(
     val fuelStation: FuelStation? = null,
     val title: String = "",
+    val imageUrl : String = "",
     val productList: List<Product> = emptyList(),
     val addedItemCount: Int = 0,
     val shouldShowCartCTABottomSheet: Boolean = false,
