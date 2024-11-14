@@ -35,97 +35,85 @@ fun UserSignUpScreen(modifier: Modifier = Modifier) {
             .verticalScroll(state = rememberScrollState())
             .background(color = colorResource(R.color.black))
             .padding(30.dp),
-
+        verticalArrangement = Arrangement.SpaceAround
         ) {
 
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.Center
+        Text(
+            text = "SIGN UP",
+            color = colorResource(R.color.white),
+            fontFamily = Font.JosefinBold,
+            fontSize = 32.sp,
+            textAlign = TextAlign.Center
+        )
+
+        AuthTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            label = "User Name",
+            leadingIconResId = R.drawable.ic_account,
+            onValueChange = {},
+            value = ""
+        )
+
+        AuthTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            label = "Email Id",
+            leadingIconResId = R.drawable.ic_mail,
+            onValueChange = {},
+            value = ""
+        )
+
+        AuthTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            label = "Create New Password",
+            leadingIconResId = R.drawable.ic_lock,
+            onValueChange = {},
+            value = ""
+        )
+
+        AuthTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            label = "Confirm Password",
+            leadingIconResId = R.drawable.ic_lock,
+            onValueChange = {},
+            value = ""
+        )
+
+
+        AuthCTA(
+            text = "Sign In",
+            onClick = {}
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { },
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "SIGN UP",
+                text = "I’m a already member ",
+                fontSize = 14.sp,
+                fontFamily = Font.JosefinRegular,
                 color = colorResource(R.color.white),
-                fontFamily = Font.JosefinBold,
-                fontSize = 32.sp,
                 textAlign = TextAlign.Center
             )
-        }
-
-
-        Column(
-            modifier = Modifier.weight(4f),
-            verticalArrangement = Arrangement.SpaceAround
-        ) {
-
-            AuthTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                label = "User Name",
-                leadingIconResId = R.drawable.ic_account,
-                onValueChange = {},
-                value = ""
+            Text(
+                text = "SIGN IN",
+                fontSize = 14.sp,
+                fontFamily = Font.JosefinRegular,
+                color = colorResource(R.color.saffron),
+                textAlign = TextAlign.Center,
+                style = TextStyle(textDecoration = TextDecoration.Underline)
             )
-
-            AuthTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                label = "Email Id",
-                leadingIconResId = R.drawable.ic_mail,
-                onValueChange = {},
-                value = ""
-            )
-
-            AuthTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                label = "Create New Password",
-                leadingIconResId = R.drawable.ic_lock,
-                onValueChange = {},
-                value = ""
-            )
-
-            AuthTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                label = "Confirm Password",
-                leadingIconResId = R.drawable.ic_lock,
-                onValueChange = {},
-                value = ""
-            )
-
-
-            AuthCTA(
-                text = "Sign In",
-                onClick = {}
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { },
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "I’m a already member ",
-                    fontSize = 14.sp,
-                    fontFamily = Font.JosefinRegular,
-                    color = colorResource(R.color.white),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = "SIGN IN",
-                    fontSize = 14.sp,
-                    fontFamily = Font.JosefinRegular,
-                    color = colorResource(R.color.saffron),
-                    textAlign = TextAlign.Center,
-                    style = TextStyle(textDecoration = TextDecoration.Underline)
-                )
-            }
         }
     }
 }
