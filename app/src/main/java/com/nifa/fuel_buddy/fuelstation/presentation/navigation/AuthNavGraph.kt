@@ -13,7 +13,7 @@ import com.nifa.fuel_buddy.fuelstation.presentation.UserSignUpScreen
 
 fun NavGraphBuilder.authNavGraph(navController: NavController) {
     navigation<AuthNavigation.AuthNavGraph>(
-        startDestination = AuthNavigation.UserSignUpScreen
+        startDestination = AuthNavigation.FuelStationSignUpScreen
     ) {
 
         composable<AuthNavigation.SignInScreen> {
