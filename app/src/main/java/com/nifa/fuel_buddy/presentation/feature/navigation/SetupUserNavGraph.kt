@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.core.navigation
+package com.nifa.fuel_buddy.presentation.feature.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.domain.FuelStation
 import com.nifa.fuel_buddy.domain.Product
+import com.nifa.fuel_buddy.presentation.core.navigation.UserNavigation
 import com.nifa.fuel_buddy.presentation.feature.account.AccountScreen
 import com.nifa.fuel_buddy.presentation.feature.activity.ActivityDetailScreen
 import com.nifa.fuel_buddy.presentation.feature.activity.ActivityDetailScreenViewModel
@@ -27,10 +28,10 @@ import com.nifa.fuel_buddy.presentation.utils.ext.navigateTo
 import kotlin.reflect.typeOf
 
 @Composable
-fun SetupNavGraph(
+fun SetupUserNavGraph(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    startDestination: NavigationScreen
+    startDestination: UserNavigation
 ) {
 
     NavHost(
@@ -39,7 +40,7 @@ fun SetupNavGraph(
         startDestination = startDestination
     ) {
 
-        composable<NavigationScreen.HomeScreen> {
+        composable<UserNavigation.HomeScreen> {
             val viewModel = viewModel<HomeScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -51,14 +52,14 @@ fun SetupNavGraph(
             )
         }
 
-        composable<NavigationScreen.HomeDetailScreen>(
+        composable<UserNavigation.HomeDetailScreen>(
             typeMap = mapOf(
                 typeOf<FuelStation>() to CustomNavType.FuelStationType,
                 typeOf<Product>() to CustomNavType.ProductType
             )
         ) {
 
-            val fuelStation = it.toRoute<NavigationScreen.HomeDetailScreen>().fuelStation
+            val fuelStation = it.toRoute<UserNavigation.HomeDetailScreen>().fuelStation
 
             val viewModel = viewModel<HomeDetailScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -73,7 +74,7 @@ fun SetupNavGraph(
             )
         }
 
-        composable<NavigationScreen.OrderStatusScreen> {
+        composable<UserNavigation.OrderStatusScreen> {
             val viewModel = viewModel<OrderStatusScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -82,7 +83,7 @@ fun SetupNavGraph(
             )
         }
 
-        composable<NavigationScreen.ActivityScreen> {
+        composable<UserNavigation.ActivityScreen> {
 
             val viewModel = viewModel<ActivityScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -95,13 +96,13 @@ fun SetupNavGraph(
             )
         }
 
-        composable<NavigationScreen.ActivityDetailScreen>(
+        composable<UserNavigation.ActivityDetailScreen>(
             typeMap = mapOf(
                 typeOf<FuelStation>() to CustomNavType.FuelStationType,
                 typeOf<Product>() to CustomNavType.ProductType
             )
         ) {
-            val fuelStation = it.toRoute<NavigationScreen.HomeDetailScreen>().fuelStation
+            val fuelStation = it.toRoute<UserNavigation.HomeDetailScreen>().fuelStation
 
             val viewModel = viewModel<ActivityDetailScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -113,7 +114,7 @@ fun SetupNavGraph(
             )
         }
 
-        composable<NavigationScreen.AccountScreen> {
+        composable<UserNavigation.AccountScreen> {
             AccountScreen(Modifier)
         }
     }

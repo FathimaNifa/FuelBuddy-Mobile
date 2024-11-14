@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.core.navigation.UserNavigation
 
 enum class BottomNavigationItem(
     @DrawableRes val icon: Int,
@@ -12,17 +13,17 @@ enum class BottomNavigationItem(
 ) {
     HOME(
         icon = R.drawable.ic_home,
-        screen = NavigationScreen.HomeScreen,
+        screen = UserNavigation.HomeScreen,
         label = R.string.home
     ),
     ACTIVITY(
         icon = R.drawable.ic_activity,
-        screen = NavigationScreen.ActivityScreen,
+        screen = UserNavigation.ActivityScreen,
         label = R.string.activity
     ),
     ACCOUNT(
         icon = R.drawable.ic_account,
-        screen = NavigationScreen.AccountScreen,
+        screen = UserNavigation.AccountScreen,
         label = R.string.account
     )
 }

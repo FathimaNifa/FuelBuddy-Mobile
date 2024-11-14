@@ -7,6 +7,7 @@ import com.nifa.fuel_buddy.domain.FuelBuddyRepository
 import com.nifa.fuel_buddy.domain.FuelOrderHistory
 import com.nifa.fuel_buddy.domain.FuelStation
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.core.navigation.UserNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -44,7 +45,7 @@ class ActivityScreenViewModel : ViewModel() {
             is ActivityScreenUiAction.OnActivityCardClicked -> {
                 sendEvent(
                     ActivityScreenUiEvent.NavigateTo(
-                        NavigationScreen.ActivityDetailScreen(action.fuelStation)
+                        UserNavigation.ActivityDetailScreen(action.fuelStation)
                     )
                 )
             }

@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.presentation.core
+package com.nifa.fuel_buddy.presentation.feature.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,17 +8,19 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
-class MainViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(MainUiState())
+class UserNavMainScreenViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(UserNavMainScreenViewModelUiState())
     val uiState = _uiState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = MainUiState()
+        initialValue = UserNavMainScreenViewModelUiState()
     )
 
-    fun onUiAction(action: MainUiAction) {
+    fun onUiAction(action: UserNavMainScreenViewModelUiAction) {
         when (action) {
-            is MainUiAction.OnNavDestinationChanged -> setBottomBarVisibility(action.route)
+            is UserNavMainScreenViewModelUiAction.OnNavDestinationChanged -> setBottomBarVisibility(
+                action.route
+            )
         }
     }
 
@@ -37,10 +39,10 @@ class MainViewModel : ViewModel() {
         }
 }
 
-data class MainUiState(
+data class UserNavMainScreenViewModelUiState(
     val shouldShowBottomBar: Boolean = true
 )
 
-sealed interface MainUiAction {
-    data class OnNavDestinationChanged(val route: String) : MainUiAction
+sealed interface UserNavMainScreenViewModelUiAction {
+    data class OnNavDestinationChanged(val route: String) : UserNavMainScreenViewModelUiAction
 }

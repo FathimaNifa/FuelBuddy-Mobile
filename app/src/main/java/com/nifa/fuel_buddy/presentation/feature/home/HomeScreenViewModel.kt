@@ -6,6 +6,7 @@ import com.nifa.fuel_buddy.data.FakeFuelBuddyRepositoryImpl
 import com.nifa.fuel_buddy.domain.FuelBuddyRepository
 import com.nifa.fuel_buddy.domain.FuelStation
 import com.nifa.fuel_buddy.presentation.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.presentation.core.navigation.UserNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,7 +36,7 @@ class HomeScreenViewModel : ViewModel() {
     fun onUiAction(action: HomeScreenUiAction) {
         when (action) {
             is HomeScreenUiAction.OnFuelStationCardClicked -> {
-                sendEvent(HomeScreenUiEvent.NavigateTo(NavigationScreen.HomeDetailScreen(action.fuelStation)))
+                sendEvent(HomeScreenUiEvent.NavigateTo(UserNavigation.HomeDetailScreen(action.fuelStation)))
             }
         }
     }
