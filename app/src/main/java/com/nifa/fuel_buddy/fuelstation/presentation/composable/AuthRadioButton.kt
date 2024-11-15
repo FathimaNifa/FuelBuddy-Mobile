@@ -49,7 +49,10 @@ fun AuthRadioButton(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .padding(
+                    horizontal = 10.dp,
+                    vertical = 20.dp
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
