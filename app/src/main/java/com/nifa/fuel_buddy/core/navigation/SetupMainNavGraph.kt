@@ -8,7 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.nifa.fuel_buddy.fuelstation.presentation.navigation.authNavGraph
+import com.nifa.fuel_buddy.auth.presentation.navigation.authNavGraph
 import com.nifa.fuel_buddy.user.presentation.feature.main.UserNavMainScreen
 import com.nifa.fuel_buddy.user.presentation.feature.main.UserNavMainScreenViewModel
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation

@@ -1,12 +1,12 @@
-package com.nifa.fuel_buddy.fuelstation.presentation.signin
+package com.nifa.fuel_buddy.auth.presentation.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
+import com.nifa.fuel_buddy.auth.util.ValidateEmail
+import com.nifa.fuel_buddy.auth.util.ValidatePassword
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
-import com.nifa.fuel_buddy.fuelstation.presentation.navigation.AuthNavigation
-import com.nifa.fuel_buddy.fuelstation.util.ValidateEmail
-import com.nifa.fuel_buddy.fuelstation.util.ValidatePassword
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
