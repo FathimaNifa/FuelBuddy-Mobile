@@ -10,7 +10,7 @@ import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
-import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
+import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -106,7 +106,8 @@ class FuelStationSignUpScreenViewModel : ViewModel() {
             password = password,
             confirmPassword = confirmPassword
         )
-        val registerNumberResult = ValidateEmptyField.execute(registerNumber,R.string.registration_number_not_blank)
+        val registerNumberResult =
+            ValidateEmptyField.execute(registerNumber, R.string.registration_number_not_blank)
 
         val hasError = listOf(
             userNameResult,
@@ -125,7 +126,7 @@ class FuelStationSignUpScreenViewModel : ViewModel() {
             return
         }
 
-        sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(UserNavigation.UserNavGraph))
+        sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(FuelStationNavigation.FuelNavGraph))
 
     }
 
