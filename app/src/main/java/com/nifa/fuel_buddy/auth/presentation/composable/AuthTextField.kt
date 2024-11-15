@@ -56,8 +56,8 @@ fun AuthTextField(
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = colorResource(R.color.saffron),
             unfocusedBorderColor = colorResource(R.color.saffron).copy(alpha = 0.5f),
-            focusedContainerColor = colorResource(R.color.raisin_black),
-            unfocusedContainerColor = colorResource(R.color.raisin_black),
+            focusedContainerColor = colorResource(R.color.black),
+            unfocusedContainerColor = colorResource(R.color.black),
             focusedLabelColor = colorResource(R.color.saffron),
             unfocusedLabelColor = colorResource(R.color.saffron),
             focusedTextColor = colorResource(R.color.saffron),

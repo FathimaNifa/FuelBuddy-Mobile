@@ -15,6 +15,8 @@
     <string name="track_order">Track Order</string>
     <string name="back_to_home">Back to Home</string>
     <string name="email_not_blank">The email can\'t be blank</string>
+    <string name="user_name_not_blank">The user name can\'t be blank</string>
+    <string name="error_password_not_match">The passwords don\'t match</string>
     <string name="not_valid_email">That\'s not a valid email</string>
     <string name="error_password_min_length">The password needs to consist of at least 8 characters</string>
     <string name="error_password_mix_characters">The password needs to contain at least one letter and digit</string>
@@ -28,5 +30,10 @@
     <string name="user">User</string>
     <string name="fuel_station">Fuel Station</string>
     <string name="continue_cta">Continue</string>
+    <string name="user_name">User Name</string>
+    <string name="create_new_password">Create New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="next">Next</string>
+    <string name="i_m_a_already_member">"I’m a already member "</string>
 
 </resources>
