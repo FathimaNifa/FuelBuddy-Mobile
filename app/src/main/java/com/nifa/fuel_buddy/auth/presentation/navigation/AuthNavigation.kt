@@ -25,4 +25,7 @@ sealed interface AuthNavigation : NavigationScreen{
 
     @Serializable
     data object ForgotPasswordScreen : AuthNavigation
+
+    @Serializable
+    data object LoaderScreen : AuthNavigation
 }

@@ -3,6 +3,7 @@ package com.nifa.fuel_buddy.auth.presentation.dlverification
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.R
+import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.auth.util.ValidateDateField
 import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
@@ -75,7 +76,7 @@ class DLVerificationScreenViewModel : ViewModel() {
             return
         }
 
-//        sendEvent(SignInScreenUiEvent.NavigateAndPopupBackStack(UserNavigation.UserNavGraph))
+        sendEvent(DLVerificationScreenUiEvent.NavigateTo(AuthNavigation.LoaderScreen))
     }
 
     private fun observeDOBSupportingTextAndUpdateShowDOBErrorUiState() {
