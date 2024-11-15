@@ -10,6 +10,8 @@ import androidx.navigation.compose.navigation
 import com.nifa.fuel_buddy.auth.presentation.ForgotPasswordScreen
 import com.nifa.fuel_buddy.auth.presentation.dlverification.DLVerificationScreen
 import com.nifa.fuel_buddy.auth.presentation.dlverification.DLVerificationScreenViewModel
+import com.nifa.fuel_buddy.auth.presentation.dlverification.LoaderScreen
+import com.nifa.fuel_buddy.auth.presentation.dlverification.LoaderScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreen
 import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.signup.choosesingup.ChooseSignUpScreen
@@ -90,6 +92,17 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
 
         composable<AuthNavigation.ForgotPasswordScreen> {
             ForgotPasswordScreen()
+        }
+
+        composable<AuthNavigation.LoaderScreen> {
+            val viewModel = viewModel<LoaderScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LoaderScreen(
+                uiEvent = viewModel.uiEvent,
+                uiState = uiState,
+                navigateAndClearBackStack = navController::navigateAndPopupAllBackStack
+            )
         }
     }
 }
