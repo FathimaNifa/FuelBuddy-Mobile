@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.fuelstation.presentation.util
+package com.nifa.fuel_buddy.fuelstation.util
 
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.core.utils.UiText

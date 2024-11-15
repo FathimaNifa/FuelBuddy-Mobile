@@ -9,13 +9,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupAllBackStack
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
-import com.nifa.fuel_buddy.fuelstation.presentation.ChooseSignUpScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.DLVerificationScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.ForgotPasswordScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.FuelStationSignUpScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.UserSignUpScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.signin.SignInScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.signin.SignInScreenViewModel
+import com.nifa.fuel_buddy.fuelstation.presentation.signup.choosesingup.ChooseSignUpScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.signup.choosesingup.ChooseSignUpViewModel
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation<AuthNavigation.AuthNavGraph>(
@@ -36,7 +37,15 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         }
 
         composable<AuthNavigation.ChooseSignUpScreen> {
-            ChooseSignUpScreen()
+            val viewModel = viewModel<ChooseSignUpViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            ChooseSignUpScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navController::navigateTo
+            )
         }
 
         composable<AuthNavigation.UserSignUpScreen> {

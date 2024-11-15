@@ -4,14 +4,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 
-fun NavHostController.navigateFromSetupScreen(navigationScreen: NavigationScreen) {
-    navigate(navigationScreen) {
-        popUpTo(currentBackStackEntry?.destination?.route.toString()) {
-            inclusive = true
-        }
-    }
-}
-
 fun NavHostController.navigateTo(navigationScreen: NavigationScreen) {
     navigate(navigationScreen) {
         launchSingleTop = true
