@@ -7,8 +7,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.nifa.fuel_buddy.auth.presentation.DLVerificationScreen
 import com.nifa.fuel_buddy.auth.presentation.ForgotPasswordScreen
+import com.nifa.fuel_buddy.auth.presentation.dlverification.DLVerificationScreen
+import com.nifa.fuel_buddy.auth.presentation.dlverification.DLVerificationScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreen
 import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.signup.choosesingup.ChooseSignUpScreen
@@ -58,6 +59,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 uiState = uiState,
                 uiAction = viewModel::onUiAction,
                 uiEvent = viewModel.uiEvent,
+                navigateToCallback = navController::navigateTo,
                 navigateAndPopupBackStack = navController::navigateAndPopupAllBackStack
             )
         }
@@ -75,7 +77,15 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         }
 
         composable<AuthNavigation.DLVerificationScreen> {
-            DLVerificationScreen()
+            val viewModel = viewModel<DLVerificationScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            DLVerificationScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navController::navigateTo
+            )
         }
 
         composable<AuthNavigation.ForgotPasswordScreen> {

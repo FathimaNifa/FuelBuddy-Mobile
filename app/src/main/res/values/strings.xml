@@ -17,6 +17,10 @@
     <string name="email_not_blank">The email can\'t be blank</string>
     <string name="user_name_not_blank">The user name can\'t be blank</string>
     <string name="registration_number_not_blank">The Registration number can\'t be blank</string>
+    <string name="driving_license_number_not_blank">The Driving license number can\'t be blank</string>
+    <string name="date_not_blank">Date can\'t be blank</string>
+    <string name="error_date_follows_pattern">Date Should be in this Pattern\n dd/mm/yyyy</string>
+    <string name="invalid_date">Invalid Date</string>
     <string name="error_password_not_match">The passwords don\'t match</string>
     <string name="not_valid_email">That\'s not a valid email</string>
     <string name="error_password_min_length">The password needs to consist of at least 8 characters</string>
@@ -37,5 +41,9 @@
     <string name="next">Next</string>
     <string name="i_m_a_already_member">"I’m a already member "</string>
     <string name="registration_number">Registration Number</string>
+    <string name="dl_verification">DL Verification</string>
+    <string name="driving_license_number">Driving License Number</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="verify">Verify</string>
 
 </resources>

@@ -38,6 +38,7 @@ fun UserSignUpScreen(
     uiState: UserSignUpScreenUiState,
     uiAction: (UserSignUpScreenUiAction) -> Unit,
     uiEvent: Flow<UserSignUpScreenUiEvent>,
+    navigateToCallback : (NavigationScreen) -> Unit,
     navigateAndPopupBackStack: (NavigationScreen) -> Unit
 ) {
 
@@ -49,6 +50,10 @@ fun UserSignUpScreen(
                 navigateAndPopupBackStack.invoke(
                     event.navigationScreen
                 )
+            }
+
+            is UserSignUpScreenUiEvent.NavigateTo ->{
+                navigateToCallback.invoke(event.navigationScreen)
             }
         }
     }
@@ -163,6 +168,7 @@ private fun UserSignUpScreenPreview() {
         uiState = UserSignUpScreenUiState(),
         uiEvent = emptyFlow(),
         uiAction = {},
-        navigateAndPopupBackStack = {}
+        navigateAndPopupBackStack = {},
+        navigateToCallback = {}
     )
 }
