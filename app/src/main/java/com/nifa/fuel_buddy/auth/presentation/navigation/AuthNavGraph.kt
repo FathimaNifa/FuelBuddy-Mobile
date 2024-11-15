@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.fuelstation.presentation.navigation
+package com.nifa.fuel_buddy.auth.presentation.navigation
 
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -7,16 +7,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.nifa.fuel_buddy.auth.presentation.DLVerificationScreen
+import com.nifa.fuel_buddy.auth.presentation.ForgotPasswordScreen
+import com.nifa.fuel_buddy.auth.presentation.FuelStationSignUpScreen
+import com.nifa.fuel_buddy.auth.presentation.UserSignUpScreen
+import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreen
+import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreenViewModel
+import com.nifa.fuel_buddy.auth.presentation.signup.choosesingup.ChooseSignUpScreen
+import com.nifa.fuel_buddy.auth.presentation.signup.choosesingup.ChooseSignUpViewModel
 import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupAllBackStack
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
-import com.nifa.fuel_buddy.fuelstation.presentation.DLVerificationScreen
-import com.nifa.fuel_buddy.fuelstation.presentation.ForgotPasswordScreen
-import com.nifa.fuel_buddy.fuelstation.presentation.FuelStationSignUpScreen
-import com.nifa.fuel_buddy.fuelstation.presentation.UserSignUpScreen
-import com.nifa.fuel_buddy.fuelstation.presentation.signin.SignInScreen
-import com.nifa.fuel_buddy.fuelstation.presentation.signin.SignInScreenViewModel
-import com.nifa.fuel_buddy.fuelstation.presentation.signup.choosesingup.ChooseSignUpScreen
-import com.nifa.fuel_buddy.fuelstation.presentation.signup.choosesingup.ChooseSignUpViewModel
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation<AuthNavigation.AuthNavGraph>(

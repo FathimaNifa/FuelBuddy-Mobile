@@ -1,9 +1,9 @@
-package com.nifa.fuel_buddy.fuelstation.presentation.signup.choosesingup
+package com.nifa.fuel_buddy.auth.presentation.signup.choosesingup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
-import com.nifa.fuel_buddy.fuelstation.presentation.navigation.AuthNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

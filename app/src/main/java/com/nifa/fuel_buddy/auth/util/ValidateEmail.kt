@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.fuelstation.util
+package com.nifa.fuel_buddy.auth.util
 
 import android.util.Patterns
 import com.nifa.fuel_buddy.R

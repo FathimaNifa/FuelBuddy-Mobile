@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.fuelstation.presentation.signup.choosesingup
+package com.nifa.fuel_buddy.auth.presentation.signup.choosesingup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,11 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
+import com.nifa.fuel_buddy.auth.presentation.composable.AuthCTA
+import com.nifa.fuel_buddy.auth.presentation.composable.AuthRadioButton
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
-import com.nifa.fuel_buddy.fuelstation.presentation.composable.AuthCTA
-import com.nifa.fuel_buddy.fuelstation.presentation.composable.AuthRadioButton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
