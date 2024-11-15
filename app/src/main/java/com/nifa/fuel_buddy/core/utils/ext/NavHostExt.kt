@@ -13,7 +13,7 @@ fun NavHostController.navigateTo(navigationScreen: NavigationScreen) {
 
 fun NavHostController.navigateAndPopupAllBackStack(navigationScreen: NavigationScreen) {
     navigate(navigationScreen) {
-        popUpTo(currentBackStackEntry?.destination?.route.toString()) {
+        popUpTo(graph.id) {
             inclusive = true
         }
     }
