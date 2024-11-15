@@ -9,11 +9,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.nifa.fuel_buddy.auth.presentation.DLVerificationScreen
 import com.nifa.fuel_buddy.auth.presentation.ForgotPasswordScreen
-import com.nifa.fuel_buddy.auth.presentation.FuelStationSignUpScreen
 import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreen
 import com.nifa.fuel_buddy.auth.presentation.signin.SignInScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.signup.choosesingup.ChooseSignUpScreen
 import com.nifa.fuel_buddy.auth.presentation.signup.choosesingup.ChooseSignUpViewModel
+import com.nifa.fuel_buddy.auth.presentation.signup.fuelstation.FuelStationSignUpScreen
+import com.nifa.fuel_buddy.auth.presentation.signup.fuelstation.FuelStationSignUpScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.signup.user.UserSignUpScreen
 import com.nifa.fuel_buddy.auth.presentation.signup.user.UserSignUpScreenViewModel
 import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupAllBackStack
@@ -52,6 +53,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         composable<AuthNavigation.UserSignUpScreen> {
             val viewModel = viewModel<UserSignUpScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
             UserSignUpScreen(
                 uiState = uiState,
                 uiAction = viewModel::onUiAction,
@@ -61,7 +63,15 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         }
 
         composable<AuthNavigation.FuelStationSignUpScreen> {
-            FuelStationSignUpScreen()
+            val viewModel = viewModel<FuelStationSignUpScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            FuelStationSignUpScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateAndPopupBackStack = navController::navigateAndPopupAllBackStack
+            )
         }
 
         composable<AuthNavigation.DLVerificationScreen> {

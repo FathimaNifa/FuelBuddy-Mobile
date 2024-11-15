@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.signup.user
+package com.nifa.fuel_buddy.auth.presentation.signup.fuelstation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,16 +23,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class UserSignUpScreenViewModel : ViewModel() {
+class FuelStationSignUpScreenViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UserSignUpScreenUiState())
+    private val _uiState = MutableStateFlow(FuelStationSignUpScreenUiState())
     val uiState = _uiState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = UserSignUpScreenUiState()
+        initialValue = FuelStationSignUpScreenUiState()
     )
 
-    private val _uiEvent = Channel<UserSignUpScreenUiEvent>()
+    private val _uiEvent = Channel<FuelStationSignUpScreenUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
@@ -40,6 +40,93 @@ class UserSignUpScreenViewModel : ViewModel() {
         observeEmailSupportingTextAndUpdateShowEmailAsErrorUiState()
         observePasswordSupportingTextAndUpdateShowPasswordAsErrorUiState()
         observeConfirmPasswordSupportingTextAndUpdateShowConfirmPasswordAsErrorUiState()
+        observeRegisterNumberSupportingTextAndUpdateShowRegisterNumberAsErrorUiState()
+    }
+
+    fun onUiAction(action: FuelStationSignUpScreenUiAction) {
+        when (action) {
+
+            FuelStationSignUpScreenUiAction.OnPasswordVisibilityButtonClicked -> {
+                val maskPassword = uiState.value.maskPassword
+                updateMaskPasswordUiState(!maskPassword)
+            }
+
+            FuelStationSignUpScreenUiAction.OnConfirmPasswordVisibilityButtonClicked -> {
+                val maskConfirmPassword = uiState.value.maskConfirmPassword
+                updateMaskConfirmPasswordUiState(!maskConfirmPassword)
+            }
+
+            FuelStationSignUpScreenUiAction.OnSignInButtonClicked -> {
+                sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(AuthNavigation.AuthNavGraph))
+            }
+
+            FuelStationSignUpScreenUiAction.OnSignUpButtonClicked -> {
+                validate()
+            }
+
+            is FuelStationSignUpScreenUiAction.TypingUserName -> {
+                updateTypedUserNameUiState(action.userName)
+                updateUserNameSupportingTextUiState(null)
+            }
+
+            is FuelStationSignUpScreenUiAction.TypingEmail -> {
+                updateTypedEmailUiState(action.email)
+                updateEmailSupportingTextUiState(null)
+            }
+
+            is FuelStationSignUpScreenUiAction.TypingPassword -> {
+                updateTypedPasswordUiState(action.password)
+                updatePasswordSupportingTextUiState(null)
+            }
+
+            is FuelStationSignUpScreenUiAction.TypingConfirmPassword -> {
+                updateTypedConfirmPasswordUiState(action.confirmPassword)
+                updateConfirmPasswordSupportingTextUiState(null)
+            }
+
+            is FuelStationSignUpScreenUiAction.TypingRegisterNumber -> {
+                updateTypedRegisterNumberUiState(action.registerNumber)
+                updateRegisterNumberSupportingTextUiState(null)
+            }
+        }
+    }
+
+    private fun validate() {
+
+        val userName = uiState.value.typedUserName
+        val email = uiState.value.typedEmailId
+        val password = uiState.value.typedPassword
+        val confirmPassword = uiState.value.typedConfirmPassword
+        val registerNumber = uiState.value.typedRegisterNumber
+
+        val userNameResult = ValidateEmptyField.execute(userName, R.string.user_name_not_blank)
+        val emailResult = ValidateEmail.validate(email)
+        val passwordResult = ValidatePassword.validate(password)
+        val confirmPasswordResult = ValidateConfirmPassword.execute(
+            password = password,
+            confirmPassword = confirmPassword
+        )
+        val registerNumberResult = ValidateEmptyField.execute(registerNumber,R.string.registration_number_not_blank)
+
+        val hasError = listOf(
+            userNameResult,
+            emailResult,
+            passwordResult,
+            confirmPasswordResult,
+            registerNumberResult
+        ).any { !it.isSuccessful }
+
+        if (hasError) {
+            updateUserNameSupportingTextUiState(userNameResult.errorMessage)
+            updateEmailSupportingTextUiState(emailResult.errorMessage)
+            updatePasswordSupportingTextUiState(passwordResult.errorMessage)
+            updateConfirmPasswordSupportingTextUiState(confirmPasswordResult.errorMessage)
+            updateRegisterNumberSupportingTextUiState(registerNumberResult.errorMessage)
+            return
+        }
+
+        sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(UserNavigation.UserNavGraph))
+
     }
 
     private fun observeUserNameSupportingTextAndUpdateShowUserNameAsErrorUiState() {
@@ -78,85 +165,16 @@ class UserSignUpScreenViewModel : ViewModel() {
             }.launchIn(viewModelScope)
     }
 
-    fun onUiAction(action: UserSignUpScreenUiAction) {
-        when (action) {
-
-            UserSignUpScreenUiAction.OnPasswordVisibilityButtonClicked -> {
-                val maskPassword = uiState.value.maskPassword
-                updateMaskPasswordUiState(!maskPassword)
-            }
-
-            UserSignUpScreenUiAction.OnConfirmPasswordVisibilityButtonClicked -> {
-                val maskConfirmPassword = uiState.value.maskConfirmPassword
-                updateMaskConfirmPasswordUiState(!maskConfirmPassword)
-            }
-
-            UserSignUpScreenUiAction.OnNextButtonClicked -> {
-                validate()
-            }
-
-            UserSignUpScreenUiAction.OnSignInButtonClicked -> {
-                sendEvent(UserSignUpScreenUiEvent.NavigateAndPopupBackStack(AuthNavigation.AuthNavGraph))
-            }
-
-            is UserSignUpScreenUiAction.TypingUserName -> {
-                updateTypedUserNameUiState(action.userName)
-                updateUserNameSupportingTextUiState(null)
-            }
-
-            is UserSignUpScreenUiAction.TypingEmail -> {
-                updateTypedEmailUiState(action.email)
-                updateEmailSupportingTextUiState(null)
-            }
-
-            is UserSignUpScreenUiAction.TypingPassword -> {
-                updateTypedPasswordUiState(action.password)
-                updatePasswordSupportingTextUiState(null)
-            }
-
-            is UserSignUpScreenUiAction.TypingConfirmPassword -> {
-                updateTypedConfirmPasswordUiState(action.confirmPassword)
-                updateConfirmPasswordSupportingTextUiState(null)
-            }
-        }
+    private fun observeRegisterNumberSupportingTextAndUpdateShowRegisterNumberAsErrorUiState() {
+        uiState.map { it.registerNumberSupportingUiText }
+            .distinctUntilChanged()
+            .onEach {
+                val showRegisterNumberAsError = it != null
+                updateRegisterNumberAsErrorUiState(showRegisterNumberAsError)
+            }.launchIn(viewModelScope)
     }
 
-    private fun validate() {
-
-
-        val userName = uiState.value.typedUserName
-        val email = uiState.value.typedEmailId
-        val password = uiState.value.typedPassword
-        val confirmPassword = uiState.value.typedConfirmPassword
-
-        val userNameResult = ValidateEmptyField.execute(userName, R.string.user_name_not_blank)
-        val emailResult = ValidateEmail.validate(email)
-        val passwordResult = ValidatePassword.validate(password)
-        val confirmPasswordResult = ValidateConfirmPassword.execute(
-            password = password,
-            confirmPassword = confirmPassword
-        )
-
-        val hasError = listOf(
-            userNameResult,
-            emailResult,
-            passwordResult,
-            confirmPasswordResult
-        ).any { !it.isSuccessful }
-
-        if (hasError) {
-            updateUserNameSupportingTextUiState(userNameResult.errorMessage)
-            updateEmailSupportingTextUiState(emailResult.errorMessage)
-            updatePasswordSupportingTextUiState(passwordResult.errorMessage)
-            updateConfirmPasswordSupportingTextUiState(confirmPasswordResult.errorMessage)
-            return
-        }
-
-        sendEvent(UserSignUpScreenUiEvent.NavigateAndPopupBackStack(UserNavigation.UserNavGraph))
-
-    }
-
-    private fun sendEvent(event: UserSignUpScreenUiEvent) = viewModelScope.launch {
+    private fun sendEvent(event: FuelStationSignUpScreenUiEvent) = viewModelScope.launch {
         _uiEvent.send(event)
     }
 
@@ -188,6 +206,13 @@ class UserSignUpScreenViewModel : ViewModel() {
             )
         }
 
+    private fun updateTypedRegisterNumberUiState(typedRegisterNumber: String): Unit =
+        _uiState.update {
+            it.copy(
+                typedRegisterNumber = typedRegisterNumber
+            )
+        }
+
     private fun updateUserNameSupportingTextUiState(userNameSupportingText: UiText?): Unit =
         _uiState.update {
             it.copy(
@@ -213,6 +238,13 @@ class UserSignUpScreenViewModel : ViewModel() {
         _uiState.update {
             it.copy(
                 confirmPasswordSupportingText = confirmPasswordSupportingText
+            )
+        }
+
+    private fun updateRegisterNumberSupportingTextUiState(registerNumberSupportingUiText: UiText?): Unit =
+        _uiState.update {
+            it.copy(
+                registerNumberSupportingUiText = registerNumberSupportingUiText
             )
         }
 
@@ -244,6 +276,13 @@ class UserSignUpScreenViewModel : ViewModel() {
             )
         }
 
+    private fun updateRegisterNumberAsErrorUiState(showRegistrationNumberAsError: Boolean): Unit =
+        _uiState.update {
+            it.copy(
+                showRegistrationNumberAsError = showRegistrationNumberAsError
+            )
+        }
+
     private fun updateMaskPasswordUiState(maskPassword: Boolean): Unit =
         _uiState.update {
             it.copy(
@@ -257,38 +296,42 @@ class UserSignUpScreenViewModel : ViewModel() {
                 maskConfirmPassword = maskConfirmPassword
             )
         }
-
 }
 
-sealed interface UserSignUpScreenUiAction {
-    data class TypingUserName(val userName: String) : UserSignUpScreenUiAction
-    data class TypingEmail(val email: String) : UserSignUpScreenUiAction
-    data class TypingPassword(val password: String) : UserSignUpScreenUiAction
-    data class TypingConfirmPassword(val confirmPassword: String) : UserSignUpScreenUiAction
-    data object OnPasswordVisibilityButtonClicked : UserSignUpScreenUiAction
-    data object OnConfirmPasswordVisibilityButtonClicked : UserSignUpScreenUiAction
-    data object OnSignInButtonClicked : UserSignUpScreenUiAction
-    data object OnNextButtonClicked : UserSignUpScreenUiAction
-}
 
-data class UserSignUpScreenUiState(
+data class FuelStationSignUpScreenUiState(
     val typedUserName: String = "",
     val typedEmailId: String = "",
     val typedPassword: String = "",
     val typedConfirmPassword: String = "",
+    val typedRegisterNumber: String = "",
     val userNameSupportingText: UiText? = null,
     val emailIdSupportingText: UiText? = null,
     val passwordSupportingText: UiText? = null,
     val confirmPasswordSupportingText: UiText? = null,
+    val registerNumberSupportingUiText: UiText? = null,
     val showUserNameAsError: Boolean = false,
     val showEmailIdAsError: Boolean = false,
     val showPasswordAsError: Boolean = false,
     val showConfirmPasswordAsError: Boolean = false,
+    val showRegistrationNumberAsError: Boolean = false,
     val maskPassword: Boolean = true,
     val maskConfirmPassword: Boolean = true
 )
 
-sealed interface UserSignUpScreenUiEvent {
+sealed interface FuelStationSignUpScreenUiAction {
+    data class TypingUserName(val userName: String) : FuelStationSignUpScreenUiAction
+    data class TypingEmail(val email: String) : FuelStationSignUpScreenUiAction
+    data class TypingPassword(val password: String) : FuelStationSignUpScreenUiAction
+    data class TypingConfirmPassword(val confirmPassword: String) : FuelStationSignUpScreenUiAction
+    data class TypingRegisterNumber(val registerNumber: String) : FuelStationSignUpScreenUiAction
+    data object OnPasswordVisibilityButtonClicked : FuelStationSignUpScreenUiAction
+    data object OnConfirmPasswordVisibilityButtonClicked : FuelStationSignUpScreenUiAction
+    data object OnSignInButtonClicked : FuelStationSignUpScreenUiAction
+    data object OnSignUpButtonClicked : FuelStationSignUpScreenUiAction
+}
+
+sealed interface FuelStationSignUpScreenUiEvent {
     data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) :
-        UserSignUpScreenUiEvent
+        FuelStationSignUpScreenUiEvent
 }

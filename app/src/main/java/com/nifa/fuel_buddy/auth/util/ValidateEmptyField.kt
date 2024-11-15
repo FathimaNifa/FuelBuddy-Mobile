@@ -1,15 +1,15 @@
 package com.nifa.fuel_buddy.auth.util
 
-import com.nifa.fuel_buddy.R
+import androidx.annotation.StringRes
 import com.nifa.fuel_buddy.core.utils.UiText
 
-object ValidateUserName {
+object ValidateEmptyField {
 
-    fun execute(text: String?): ValidationResult {
+    fun execute(text: String?, @StringRes stringResId: Int): ValidationResult {
         if (text.isNullOrBlank()) {
             return ValidationResult(
                 isSuccessful = false,
-                errorMessage = UiText.StringResource(R.string.user_name_not_blank)
+                errorMessage = UiText.StringResource(stringResId)
             )
         }
 
