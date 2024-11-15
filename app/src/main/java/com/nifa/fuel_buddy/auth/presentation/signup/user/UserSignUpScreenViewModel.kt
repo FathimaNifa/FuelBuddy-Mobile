@@ -10,7 +10,6 @@ import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
-import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -152,7 +151,7 @@ class UserSignUpScreenViewModel : ViewModel() {
             return
         }
 
-        sendEvent(UserSignUpScreenUiEvent.NavigateAndPopupBackStack(UserNavigation.UserNavGraph))
+        sendEvent(UserSignUpScreenUiEvent.NavigateTo(AuthNavigation.DLVerificationScreen))
 
     }
 
@@ -289,6 +288,6 @@ data class UserSignUpScreenUiState(
 )
 
 sealed interface UserSignUpScreenUiEvent {
-    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) :
-        UserSignUpScreenUiEvent
+    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) : UserSignUpScreenUiEvent
+    data class NavigateTo(val navigationScreen: NavigationScreen) : UserSignUpScreenUiEvent
 }
