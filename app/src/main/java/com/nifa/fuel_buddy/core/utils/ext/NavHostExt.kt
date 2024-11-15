@@ -19,6 +19,14 @@ fun NavHostController.navigateTo(navigationScreen: NavigationScreen) {
     }
 }
 
+fun NavHostController.navigateAndPopupAllBackStack(navigationScreen: NavigationScreen) {
+    navigate(navigationScreen) {
+        popUpTo(currentBackStackEntry?.destination?.route.toString()) {
+            inclusive = true
+        }
+    }
+}
+
 fun NavHostController.navigateBottomBar(navigationScreen: NavigationScreen) {
     if (currentBackStackEntry?.destination?.route != navigationScreen::class.qualifiedName) {
         navigate(navigationScreen) {

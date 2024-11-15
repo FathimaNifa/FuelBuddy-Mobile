@@ -14,4 +14,14 @@
     <string name="your_order_is_accepted">Your Order is Accepted</string>
     <string name="track_order">Track Order</string>
     <string name="back_to_home">Back to Home</string>
+    <string name="email_not_blank">The email can\'t be blank</string>
+    <string name="not_valid_email">That\'s not a valid email</string>
+    <string name="error_password_min_length">The password needs to consist of at least 8 characters</string>
+    <string name="error_password_mix_characters">The password needs to contain at least one letter and digit</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email_id">Email Id</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="i_m_a_new_user">"I’m a new user "</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

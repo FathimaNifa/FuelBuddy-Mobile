@@ -38,7 +38,8 @@ fun AuthTextField(
     @DrawableRes
     trailingIconResId: Int? = null,
     onLeadingIconClick: (() -> Unit)? = null,
-    onTrailingIconClick: (() -> Unit)? = null
+    onTrailingIconClick: (() -> Unit)? = null,
+    supportingText: String? = null
 ) {
 
     OutlinedTextField(
@@ -69,8 +70,8 @@ fun AuthTextField(
             errorTextColor = Color.Red,
             errorLabelColor = Color.Red,
             errorBorderColor = Color.Red,
-            errorLeadingIconColor = Color.Red,
-            errorTrailingIconColor = Color.Red,
+            errorLeadingIconColor = colorResource(R.color.saffron),
+            errorTrailingIconColor = colorResource(R.color.saffron),
         ),
         label = {
             Text(
@@ -100,6 +101,13 @@ fun AuthTextField(
                         .size(22.dp)
                 )
             }
+        },
+        supportingText = supportingText?.let {
+            @Composable {
+                Text(
+                    text = it
+                )
+            }
         }
     )
 }
@@ -115,6 +123,6 @@ private fun AuthTextFieldPreview() {
         onValueChange = {},
         leadingIconResId = R.drawable.ic_mail,
         trailingIconResId = R.drawable.ic_key,
-        isError = false
+        isError = true
     )
 }
