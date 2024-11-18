@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.dlverification
+package com.nifa.fuel_buddy.auth.presentation.feature.dlverification
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

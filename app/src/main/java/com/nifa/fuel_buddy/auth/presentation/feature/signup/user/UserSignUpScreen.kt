@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.signup.fuelstation
+package com.nifa.fuel_buddy.auth.presentation.feature.signup.user
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,8 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
-import com.nifa.fuel_buddy.auth.presentation.composable.AuthCTA
-import com.nifa.fuel_buddy.auth.presentation.composable.AuthTextField
+import com.nifa.fuel_buddy.auth.presentation.feature.composable.AuthCTA
+import com.nifa.fuel_buddy.auth.presentation.feature.composable.AuthTextField
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
@@ -33,11 +33,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
-fun FuelStationSignUpScreen(
+fun UserSignUpScreen(
     modifier: Modifier = Modifier,
-    uiState: FuelStationSignUpScreenUiState,
-    uiAction: (FuelStationSignUpScreenUiAction) -> Unit,
-    uiEvent: Flow<FuelStationSignUpScreenUiEvent>,
+    uiState: UserSignUpScreenUiState,
+    uiAction: (UserSignUpScreenUiAction) -> Unit,
+    uiEvent: Flow<UserSignUpScreenUiEvent>,
+    navigateToCallback : (NavigationScreen) -> Unit,
     navigateAndPopupBackStack: (NavigationScreen) -> Unit
 ) {
 
@@ -45,8 +46,14 @@ fun FuelStationSignUpScreen(
 
     uiEvent.CollectAsEffect { event ->
         when (event) {
-            is FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack -> {
-                navigateAndPopupBackStack.invoke(event.navigationScreen)
+            is UserSignUpScreenUiEvent.NavigateAndPopupBackStack -> {
+                navigateAndPopupBackStack.invoke(
+                    event.navigationScreen
+                )
+            }
+
+            is UserSignUpScreenUiEvent.NavigateTo ->{
+                navigateToCallback.invoke(event.navigationScreen)
             }
         }
     }
@@ -58,7 +65,6 @@ fun FuelStationSignUpScreen(
             .background(color = colorResource(R.color.black))
             .padding(30.dp),
         verticalArrangement = Arrangement.SpaceAround
-
     ) {
 
         Text(
@@ -76,7 +82,7 @@ fun FuelStationSignUpScreen(
             isError = uiState.showUserNameAsError,
             label = stringResource(R.string.user_name),
             leadingIconResId = R.drawable.ic_account,
-            onValueChange = { uiAction.invoke(FuelStationSignUpScreenUiAction.TypingUserName(it)) },
+            onValueChange = { uiAction.invoke(UserSignUpScreenUiAction.TypingUserName(it)) },
             value = uiState.typedUserName,
             supportingText = uiState.userNameSupportingText?.asString(context)
         )
@@ -88,21 +94,9 @@ fun FuelStationSignUpScreen(
             label = stringResource(R.string.email_id),
             isError = uiState.showEmailIdAsError,
             leadingIconResId = R.drawable.ic_mail,
-            onValueChange = { uiAction.invoke(FuelStationSignUpScreenUiAction.TypingEmail(it)) },
+            onValueChange = { uiAction.invoke(UserSignUpScreenUiAction.TypingEmail(it)) },
             value = uiState.typedEmailId,
             supportingText = uiState.emailIdSupportingText?.asString(context)
-        )
-
-        AuthTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            label = stringResource(R.string.registration_number),
-            isError = uiState.showRegistrationNumberAsError,
-            leadingIconResId = R.drawable.ic_check,
-            onValueChange = { uiAction.invoke(FuelStationSignUpScreenUiAction.TypingRegisterNumber(it)) },
-            value = uiState.typedRegisterNumber,
-            supportingText = uiState.registerNumberSupportingUiText?.asString(context)
         )
 
         AuthTextField(
@@ -114,8 +108,8 @@ fun FuelStationSignUpScreen(
             label = stringResource(R.string.create_new_password),
             leadingIconResId = R.drawable.ic_lock,
             trailingIconResId = if (uiState.maskPassword) R.drawable.ic_visibility_on else R.drawable.ic_visibility_off,
-            onTrailingIconClick = { uiAction.invoke(FuelStationSignUpScreenUiAction.OnPasswordVisibilityButtonClicked) },
-            onValueChange = { uiAction.invoke(FuelStationSignUpScreenUiAction.TypingPassword(it)) },
+            onTrailingIconClick = { uiAction.invoke(UserSignUpScreenUiAction.OnPasswordVisibilityButtonClicked) },
+            onValueChange = { uiAction.invoke(UserSignUpScreenUiAction.TypingPassword(it)) },
             value = uiState.typedPassword,
             supportingText = uiState.passwordSupportingText?.asString(context)
         )
@@ -128,29 +122,23 @@ fun FuelStationSignUpScreen(
             isError = uiState.showConfirmPasswordAsError,
             label = stringResource(R.string.confirm_password),
             leadingIconResId = R.drawable.ic_lock,
-            onValueChange = {
-                uiAction.invoke(
-                    FuelStationSignUpScreenUiAction.TypingConfirmPassword(
-                        it
-                    )
-                )
-            },
+            onValueChange = { uiAction.invoke(UserSignUpScreenUiAction.TypingConfirmPassword(it)) },
             value = uiState.typedConfirmPassword,
             supportingText = uiState.confirmPasswordSupportingText?.asString(context),
             trailingIconResId = if (uiState.maskConfirmPassword) R.drawable.ic_visibility_on else R.drawable.ic_visibility_off,
-            onTrailingIconClick = { uiAction.invoke(FuelStationSignUpScreenUiAction.OnConfirmPasswordVisibilityButtonClicked) },
+            onTrailingIconClick = { uiAction.invoke(UserSignUpScreenUiAction.OnConfirmPasswordVisibilityButtonClicked) },
         )
 
 
         AuthCTA(
-            text = stringResource(R.string.sign_up),
-            onClick = { uiAction.invoke(FuelStationSignUpScreenUiAction.OnSignUpButtonClicked) }
+            text = stringResource(R.string.next),
+            onClick = { uiAction.invoke(UserSignUpScreenUiAction.OnNextButtonClicked) }
         )
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { uiAction.invoke(FuelStationSignUpScreenUiAction.OnSignInButtonClicked) },
+                .clickable { uiAction.invoke(UserSignUpScreenUiAction.OnSignInButtonClicked) },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -175,11 +163,12 @@ fun FuelStationSignUpScreen(
 
 @Preview
 @Composable
-private fun FuelStationSignUpScreenPreview() {
-    FuelStationSignUpScreen(
-        uiState = FuelStationSignUpScreenUiState(),
-        uiAction = {},
+private fun UserSignUpScreenPreview() {
+    UserSignUpScreen(
+        uiState = UserSignUpScreenUiState(),
         uiEvent = emptyFlow(),
-        navigateAndPopupBackStack = {}
+        uiAction = {},
+        navigateAndPopupBackStack = {},
+        navigateToCallback = {}
     )
 }

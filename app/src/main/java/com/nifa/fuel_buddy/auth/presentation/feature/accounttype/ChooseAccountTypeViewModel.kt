@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.signup.choosesingup
+package com.nifa.fuel_buddy.auth.presentation.feature.accounttype
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,16 +16,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ChooseSignUpViewModel : ViewModel() {
+class ChooseAccountTypeViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ChooseSignUpScreenUiState())
+    private val _uiState = MutableStateFlow(ChooseAccountTypeScreenUiState())
     val uiState = _uiState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = ChooseSignUpScreenUiState()
+        initialValue = ChooseAccountTypeScreenUiState()
     )
 
-    private val _uiEvent = Channel<ChooseSignUpScreenUiEvent>()
+    private val _uiEvent = Channel<ChooseAccountTypeScreenUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
@@ -41,20 +41,17 @@ class ChooseSignUpViewModel : ViewModel() {
             }.launchIn(viewModelScope)
     }
 
-    fun onUiAction(action: ChooseSignUpScreenUiAction) {
+    fun onUiAction(action: ChooseAccountTypeScreenUiAction) {
         when (action) {
-            is ChooseSignUpScreenUiAction.OnAccountTypeSelected -> updateSelectedAccountTypeUiState(
+            is ChooseAccountTypeScreenUiAction.OnAccountTypeSelected -> updateSelectedAccountTypeUiState(
                 action.accountType
             )
 
-            ChooseSignUpScreenUiAction.OnContinueCTAButtonClicked -> {
+            ChooseAccountTypeScreenUiAction.OnContinueCTAButtonClicked -> {
 
                 uiState.value.selectedAccountType?.let { selectedAccountType ->
-                    val navigationScreen = when (selectedAccountType) {
-                        AccountType.USER -> AuthNavigation.UserSignUpScreen
-                        AccountType.FUEL_STATION -> AuthNavigation.FuelStationSignUpScreen
-                    }
-                    sendEvent(ChooseSignUpScreenUiEvent.NavigateTo(navigationScreen))
+                    val navigationScreen = AuthNavigation.SignInScreen(selectedAccountType)
+                    sendEvent(ChooseAccountTypeScreenUiEvent.NavigateTo(navigationScreen))
                 }
             }
         }
@@ -74,21 +71,21 @@ class ChooseSignUpViewModel : ViewModel() {
             )
         }
 
-    private fun sendEvent(event: ChooseSignUpScreenUiEvent) = viewModelScope.launch {
+    private fun sendEvent(event: ChooseAccountTypeScreenUiEvent) = viewModelScope.launch {
         _uiEvent.send(event)
     }
 }
 
-data class ChooseSignUpScreenUiState(
+data class ChooseAccountTypeScreenUiState(
     val selectedAccountType: AccountType? = null,
     val enableContinueCTA: Boolean = false
 )
 
-sealed interface ChooseSignUpScreenUiAction {
-    data class OnAccountTypeSelected(val accountType: AccountType) : ChooseSignUpScreenUiAction
-    data object OnContinueCTAButtonClicked : ChooseSignUpScreenUiAction
+sealed interface ChooseAccountTypeScreenUiAction {
+    data class OnAccountTypeSelected(val accountType: AccountType) : ChooseAccountTypeScreenUiAction
+    data object OnContinueCTAButtonClicked : ChooseAccountTypeScreenUiAction
 }
 
-sealed interface ChooseSignUpScreenUiEvent {
-    data class NavigateTo(val navigationScreen: NavigationScreen) : ChooseSignUpScreenUiEvent
+sealed interface ChooseAccountTypeScreenUiEvent {
+    data class NavigateTo(val navigationScreen: NavigationScreen) : ChooseAccountTypeScreenUiEvent
 }

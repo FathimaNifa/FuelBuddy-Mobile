@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.dlverification
+package com.nifa.fuel_buddy.auth.presentation.feature.dlverification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
-import com.nifa.fuel_buddy.auth.presentation.composable.AuthCTA
-import com.nifa.fuel_buddy.auth.presentation.composable.AuthTextField
+import com.nifa.fuel_buddy.auth.presentation.feature.composable.AuthCTA
+import com.nifa.fuel_buddy.auth.presentation.feature.composable.AuthTextField
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect

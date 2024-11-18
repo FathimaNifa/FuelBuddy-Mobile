@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.composable
+package com.nifa.fuel_buddy.auth.presentation.feature.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
