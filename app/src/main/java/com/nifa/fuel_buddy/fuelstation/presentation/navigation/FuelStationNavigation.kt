@@ -6,8 +6,5 @@ import kotlinx.serialization.Serializable
 sealed interface FuelStationNavigation : NavigationScreen {
 
     @Serializable
-    data object FuelNavGraph : FuelStationNavigation
-
-    @Serializable
     data object Home : FuelStationNavigation
 }

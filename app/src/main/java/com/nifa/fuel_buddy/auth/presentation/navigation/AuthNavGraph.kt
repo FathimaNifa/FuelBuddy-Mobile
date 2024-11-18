@@ -1,6 +1,7 @@
 package com.nifa.fuel_buddy.auth.presentation.navigation
 
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -20,16 +21,17 @@ import com.nifa.fuel_buddy.auth.presentation.feature.signup.fuelstation.FuelStat
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.fuelstation.FuelStationSignUpScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.user.UserSignUpScreen
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.user.UserSignUpScreenViewModel
+import com.nifa.fuel_buddy.core.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupAllBackStack
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
-    navigation<AuthNavigation.AuthNavGraph>(
+    navigation<NavGraphs.AuthNavGraph>(
         startDestination = AuthNavigation.ChooseAccountTypeScreen
     ) {
 
         composable<AuthNavigation.SignInScreen> {
-            val viewModel = viewModel<SignInScreenViewModel>()
+            val viewModel = hiltViewModel<SignInScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             SignInScreen(

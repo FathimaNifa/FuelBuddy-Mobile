@@ -2,8 +2,8 @@ package com.nifa.fuel_buddy.auth.presentation.feature.dlverification
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.core.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
-import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +45,7 @@ class LoaderScreenViewModel : ViewModel() {
             .filter { it == LoaderScreenState.VERIFIED }
             .onEach {
                 delay(1500L)
-                sendEvent(LoaderScreenUiEvent.NavigateAndClearBackStack(UserNavigation.UserNavGraph))
+                sendEvent(LoaderScreenUiEvent.NavigateAndClearBackStack(NavGraphs.UserNavGraph))
             }.launchIn(viewModelScope)
     }
 

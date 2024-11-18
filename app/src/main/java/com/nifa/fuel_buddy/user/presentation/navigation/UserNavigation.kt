@@ -7,9 +7,6 @@ import kotlinx.serialization.Serializable
 sealed interface UserNavigation : NavigationScreen {
 
     @Serializable
-    data object UserNavGraph : UserNavigation
-
-    @Serializable
     data object HomeScreen : UserNavigation
 
     @Serializable

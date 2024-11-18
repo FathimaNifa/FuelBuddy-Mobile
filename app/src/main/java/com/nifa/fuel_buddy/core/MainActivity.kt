@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
-import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
+import com.nifa.fuel_buddy.core.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.navigation.SetupMainNavGraph
 import com.nifa.fuel_buddy.core.ui.theme.FuelBuddyMobileTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
                 SetupMainNavGraph(
                     navHostController = navHostController,
-                    startDestination = AuthNavigation.AuthNavGraph
+                    startDestination = NavGraphs.AuthNavGraph
                 )
             }
         }
