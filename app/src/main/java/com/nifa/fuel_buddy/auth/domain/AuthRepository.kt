@@ -12,4 +12,8 @@ interface AuthRepository {
     suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignIn>>
 
     suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignIn>>
+
+    suspend fun setUserPreferences(userSignIn: UserSignIn)
+
+    suspend fun setFuelStationPreferences(fuelStationSignIn: FuelStationSignIn)
 }
