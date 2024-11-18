@@ -1,11 +1,12 @@
 package com.nifa.fuel_buddy.user.data
 
-import com.nifa.fuel_buddy.user.domain.FuelBuddyRepository
+import com.nifa.fuel_buddy.user.domain.FuelBuddyUserRepository
 import com.nifa.fuel_buddy.user.domain.FuelOrderHistory
 import com.nifa.fuel_buddy.user.domain.FuelStation
 import com.nifa.fuel_buddy.user.domain.Product
+import javax.inject.Inject
 
-class FakeFuelBuddyRepositoryImpl : FuelBuddyRepository {
+class FakeFuelBuddyUserRepositoryImpl @Inject constructor() : FuelBuddyUserRepository {
     override suspend fun getNearbyFuelStation(): List<FuelStation> {
         return dummyFuelStationList
     }

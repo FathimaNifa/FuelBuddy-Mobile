@@ -3,11 +3,11 @@ package com.nifa.fuel_buddy.user.presentation.feature.activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
-import com.nifa.fuel_buddy.user.data.FakeFuelBuddyRepositoryImpl
-import com.nifa.fuel_buddy.user.domain.FuelBuddyRepository
+import com.nifa.fuel_buddy.user.domain.FuelBuddyUserRepository
 import com.nifa.fuel_buddy.user.domain.FuelOrderHistory
 import com.nifa.fuel_buddy.user.domain.FuelStation
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,8 +15,12 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ActivityScreenViewModel : ViewModel() {
+@HiltViewModel
+class ActivityScreenViewModel @Inject constructor(
+    private val fuelBuddyUserRepository: FuelBuddyUserRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ActivityScreenUiState())
     val uiState = _uiState.stateIn(
@@ -28,15 +32,13 @@ class ActivityScreenViewModel : ViewModel() {
     private val _uiEvent = Channel<ActivityScreenUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val repo : FuelBuddyRepository = FakeFuelBuddyRepositoryImpl()
-
 
     init {
         getFuelOrderHistoryListAndUpdateInUiState()
     }
 
     private fun getFuelOrderHistoryListAndUpdateInUiState() = viewModelScope.launch {
-        val fuelOrderHistoryList = repo.getFuelOrderHistory()
+        val fuelOrderHistoryList = fuelBuddyUserRepository.getFuelOrderHistory()
         updateFuelOrderHistoryListUiState(fuelOrderHistoryList)
     }
 

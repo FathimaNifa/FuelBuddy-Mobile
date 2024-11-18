@@ -8,7 +8,9 @@ import androidx.navigation.compose.rememberNavController
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.core.navigation.SetupMainNavGraph
 import com.nifa.fuel_buddy.core.ui.theme.FuelBuddyMobileTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
