@@ -16,6 +16,7 @@ serialization = "1.9.25"
 coilCompose = "2.6.0"
 ksp = "2.0.21-1.0.26"
 timber = "5.0.1"
+datastore = "1.0.0"
 
 
 
@@ -41,6 +42,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+data-store = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 
 

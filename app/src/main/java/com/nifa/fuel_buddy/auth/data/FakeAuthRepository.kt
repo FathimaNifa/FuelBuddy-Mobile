@@ -5,18 +5,24 @@ import com.nifa.fuel_buddy.auth.domain.model.FuelStationSignIn
 import com.nifa.fuel_buddy.auth.domain.model.UserSignIn
 import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
+import com.nifa.fuel_buddy.core.datastore.fuelstation.FuelStationPreferenceDataSource
+import com.nifa.fuel_buddy.core.datastore.user.UserPreferenceDataSource
 import com.nifa.fuel_buddy.core.utils.Result
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeAuthRepository @Inject constructor() : AuthRepository {
+class FakeAuthRepository @Inject constructor(
+    private val userPreferenceDataSource: UserPreferenceDataSource,
+    private val fuelStationPreferenceDataSource: FuelStationPreferenceDataSource
+) : AuthRepository {
 
     override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignIn>> {
         return flow {
             emit(Result.Loading)
             delay(500L)
+
             emit(
                 Result.Success(
                     UserSignIn(
@@ -44,6 +50,24 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
                     )
                 )
             )
+        }
+    }
+
+    override suspend fun setUserPreferences(userSignIn: UserSignIn) {
+        with(userPreferenceDataSource) {
+            setUserId(userSignIn.userId)
+            setUserEmail(userSignIn.userEmail)
+            setUserName(userSignIn.userName)
+            setUserToken(userSignIn.userToken)
+        }
+    }
+
+    override suspend fun setFuelStationPreferences(fuelStationSignIn: FuelStationSignIn) {
+        with(fuelStationPreferenceDataSource) {
+            setFuelStationId(fuelStationSignIn.bunkId)
+            setFuelStationEmail(fuelStationSignIn.bunkEmail)
+            setFuelStationName(fuelStationSignIn.bunkName)
+            setFuelStationToken(fuelStationSignIn.bunkToken)
         }
     }
 }
