@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.dlverification
+package com.nifa.fuel_buddy.auth.presentation.feature.dlverification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

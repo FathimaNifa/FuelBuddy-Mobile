@@ -1,7 +1,10 @@
-package com.nifa.fuel_buddy.auth.presentation.signin
+package com.nifa.fuel_buddy.auth.presentation.feature.signin
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
@@ -19,8 +22,16 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class SignInScreenViewModel : ViewModel() {
+class SignInScreenViewModel(
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    init {
+        val data = savedStateHandle.toRoute<AuthNavigation.SignInScreen>()
+        Timber.d("Checking Data : ${data.accountType}")
+    }
 
     private val _uiState = MutableStateFlow(SignInScreenUiState())
     val uiState = _uiState.stateIn(
@@ -33,8 +44,14 @@ class SignInScreenViewModel : ViewModel() {
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
+        getAccountTypeAndUpdateUiState()
         observeEmailSupportingTextAndUpdateShowEmailAsErrorUiState()
         observePasswordSupportingTextAndUpdateShowPasswordAsErrorUiState()
+    }
+
+    private fun getAccountTypeAndUpdateUiState() {
+        val data = savedStateHandle.toRoute<AuthNavigation.SignInScreen>()
+        updateAccountTypeUiState(data.accountType)
     }
 
     private fun observePasswordSupportingTextAndUpdateShowPasswordAsErrorUiState() {
@@ -63,7 +80,11 @@ class SignInScreenViewModel : ViewModel() {
             }
 
             SignInScreenUiAction.OnSignUpClicked -> {
-                sendEvent(SignInScreenUiEvent.NavigateTo(AuthNavigation.ChooseSignUpScreen))
+                val navigationScreen = when (uiState.value.accountType) {
+                    AccountType.USER -> AuthNavigation.UserSignUpScreen
+                    AccountType.FUEL_STATION -> AuthNavigation.FuelStationSignUpScreen
+                }
+                sendEvent(SignInScreenUiEvent.NavigateTo(navigationScreen))
             }
 
             SignInScreenUiAction.OnPasswordVisibilityButtonClicked -> {
@@ -158,11 +179,19 @@ class SignInScreenViewModel : ViewModel() {
                 maskPassword = maskPassword
             )
         }
+
+    private fun updateAccountTypeUiState(accountType: AccountType): Unit =
+        _uiState.update {
+            it.copy(
+                accountType = accountType
+            )
+        }
 }
 
 sealed interface SignInScreenUiEvent {
     data class NavigateTo(val navigationScreen: NavigationScreen) : SignInScreenUiEvent
-    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) : SignInScreenUiEvent
+    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) :
+        SignInScreenUiEvent
 }
 
 sealed interface SignInScreenUiAction {
@@ -181,5 +210,6 @@ data class SignInScreenUiState(
     val passwordSupportingText: UiText? = null,
     val showEmailAsError: Boolean = false,
     val showPasswordAsError: Boolean = false,
-    val maskPassword: Boolean = true
+    val maskPassword: Boolean = true,
+    val accountType: AccountType = AccountType.USER
 )

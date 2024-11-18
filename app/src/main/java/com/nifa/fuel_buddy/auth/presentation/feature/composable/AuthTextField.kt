@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.presentation.composable
+package com.nifa.fuel_buddy.auth.presentation.feature.composable
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
