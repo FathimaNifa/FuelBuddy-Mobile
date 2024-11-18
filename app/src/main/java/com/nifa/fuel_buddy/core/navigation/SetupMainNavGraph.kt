@@ -12,7 +12,6 @@ import com.nifa.fuel_buddy.auth.presentation.navigation.authNavGraph
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.fuelNavGraph
 import com.nifa.fuel_buddy.user.presentation.feature.main.UserNavMainScreen
 import com.nifa.fuel_buddy.user.presentation.feature.main.UserNavMainScreenViewModel
-import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 
 @Composable
 fun SetupMainNavGraph(
@@ -31,7 +30,7 @@ fun SetupMainNavGraph(
 
         fuelNavGraph(navHostController)
 
-        composable<UserNavigation.UserNavGraph> {
+        composable<NavGraphs.UserNavGraph> {
             val viewModel = viewModel<UserNavMainScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

@@ -3,14 +3,13 @@ package com.nifa.fuel_buddy.auth.presentation.feature.signup.fuelstation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.R
-import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.auth.util.ValidateConfirmPassword
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
+import com.nifa.fuel_buddy.core.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
-import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -57,7 +56,7 @@ class FuelStationSignUpScreenViewModel : ViewModel() {
             }
 
             FuelStationSignUpScreenUiAction.OnSignInButtonClicked -> {
-                sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(AuthNavigation.AuthNavGraph))
+                sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.AuthNavGraph))
             }
 
             FuelStationSignUpScreenUiAction.OnSignUpButtonClicked -> {
@@ -126,7 +125,7 @@ class FuelStationSignUpScreenViewModel : ViewModel() {
             return
         }
 
-        sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(FuelStationNavigation.FuelNavGraph))
+        sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.FuelStationNavGraph))
 
     }
 

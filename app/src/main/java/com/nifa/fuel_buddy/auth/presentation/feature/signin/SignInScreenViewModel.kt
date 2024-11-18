@@ -4,16 +4,22 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.nifa.fuel_buddy.auth.domain.AuthRepository
+import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
+import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
+import com.nifa.fuel_buddy.core.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.utils.Result
 import com.nifa.fuel_buddy.core.utils.UiText
-import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -23,15 +29,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class SignInScreenViewModel(
+@HiltViewModel
+class SignInScreenViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    init {
-        val data = savedStateHandle.toRoute<AuthNavigation.SignInScreen>()
-        Timber.d("Checking Data : ${data.accountType}")
-    }
 
     private val _uiState = MutableStateFlow(SignInScreenUiState())
     val uiState = _uiState.stateIn(
@@ -124,8 +128,58 @@ class SignInScreenViewModel(
             return
         }
 
-        sendEvent(SignInScreenUiEvent.NavigateAndPopupBackStack(UserNavigation.UserNavGraph))
+        val accountType = uiState.value.accountType
+
+        when (accountType) {
+            AccountType.USER -> signInUser(
+                userEmail = email,
+                password = password
+            )
+
+            AccountType.FUEL_STATION -> signInFuelStation(
+                fuelStationEmail = email,
+                password = password
+            )
+        }
     }
+
+    private fun signInUser(userEmail: String, password: String) = viewModelScope.launch {
+
+        val request = UserSignInRequest(
+            userEmail = userEmail,
+            password = password
+        )
+        authRepository.userSignIn(request).collectLatest { result ->
+            when (result) {
+                is Result.Error -> Timber.d("${result.exception.message}")
+                Result.Loading -> Timber.d("Loading..")
+                is Result.Success -> {
+                    sendEvent(
+                        SignInScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.UserNavGraph)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun signInFuelStation(fuelStationEmail: String, password: String) =
+        viewModelScope.launch {
+            val request = FuelStationSignInRequest(
+                fuelStationEmail = fuelStationEmail,
+                password = password
+            )
+            authRepository.fuelStationSignIn(request).collectLatest { result ->
+                when (result) {
+                    is Result.Error -> Timber.d("${result.exception.message}")
+                    Result.Loading -> Timber.d("Loading..")
+                    is Result.Success -> {
+                        sendEvent(
+                            SignInScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.FuelStationNavGraph)
+                        )
+                    }
+                }
+            }
+        }
 
     private fun sendEvent(event: SignInScreenUiEvent) = viewModelScope.launch {
         _uiEvent.send(event)

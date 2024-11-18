@@ -7,9 +7,6 @@ import kotlinx.serialization.Serializable
 sealed interface AuthNavigation : NavigationScreen {
 
     @Serializable
-    data object AuthNavGraph : AuthNavigation
-
-    @Serializable
     data class SignInScreen(val accountType: AccountType) : AuthNavigation
 
     @Serializable

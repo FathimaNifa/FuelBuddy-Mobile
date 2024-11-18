@@ -1,0 +1,49 @@
+package com.nifa.fuel_buddy.auth.data
+
+import com.nifa.fuel_buddy.auth.domain.AuthRepository
+import com.nifa.fuel_buddy.auth.domain.model.FuelStationSignIn
+import com.nifa.fuel_buddy.auth.domain.model.UserSignIn
+import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
+import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
+import com.nifa.fuel_buddy.core.utils.Result
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+
+class FakeAuthRepository @Inject constructor() : AuthRepository {
+
+    override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignIn>> {
+        return flow {
+            emit(Result.Loading)
+            delay(500L)
+            emit(
+                Result.Success(
+                    UserSignIn(
+                        userId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
+                        userName = "userName",
+                        userEmail = userSignInRequest.userEmail,
+                        userToken = ""
+                    )
+                )
+            )
+        }
+    }
+
+    override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignIn>> {
+        return flow {
+            emit(Result.Loading)
+            delay(500L)
+            emit(
+                Result.Success(
+                    FuelStationSignIn(
+                        bunkId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
+                        bunkName = "userName",
+                        bunkEmail = fuelStationSignInRequest.fuelStationEmail,
+                        bunkToken = ""
+                    )
+                )
+            )
+        }
+    }
+}
