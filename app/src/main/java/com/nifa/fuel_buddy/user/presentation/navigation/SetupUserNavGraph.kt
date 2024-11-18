@@ -3,6 +3,7 @@ package com.nifa.fuel_buddy.user.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -40,7 +41,7 @@ fun SetupUserNavGraph(
     ) {
 
         composable<UserNavigation.HomeScreen> {
-            val viewModel = viewModel<HomeScreenViewModel>()
+            val viewModel = hiltViewModel<HomeScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             HomeScreen(
@@ -84,7 +85,7 @@ fun SetupUserNavGraph(
 
         composable<UserNavigation.ActivityScreen> {
 
-            val viewModel = viewModel<ActivityScreenViewModel>()
+            val viewModel = hiltViewModel<ActivityScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             ActivityScreen(

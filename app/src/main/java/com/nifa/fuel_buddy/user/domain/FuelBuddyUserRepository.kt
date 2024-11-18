@@ -1,6 +1,6 @@
 package com.nifa.fuel_buddy.user.domain
 
-interface FuelBuddyRepository {
+interface FuelBuddyUserRepository {
 
     suspend fun getNearbyFuelStation(): List<FuelStation>
 
