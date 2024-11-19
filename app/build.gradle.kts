@@ -77,4 +77,7 @@ dependencies {
     //Data Store
     implementation(libs.data.store)
 
+    implementation(libs.splash)
+
+
 }

@@ -154,6 +154,7 @@ class SignInScreenViewModel @Inject constructor(
                 is Result.Error -> Timber.d("${result.exception.message}")
                 Result.Loading -> Timber.d("Loading..")
                 is Result.Success -> {
+                    authRepository.setUserPreferences(result.data)
                     sendEvent(
                         SignInScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.UserNavGraph)
                     )
@@ -173,6 +174,7 @@ class SignInScreenViewModel @Inject constructor(
                     is Result.Error -> Timber.d("${result.exception.message}")
                     Result.Loading -> Timber.d("Loading..")
                     is Result.Success -> {
+                        authRepository.setFuelStationPreferences(result.data)
                         sendEvent(
                             SignInScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.FuelStationNavGraph)
                         )
