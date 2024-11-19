@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.auth.presentation.feature.ForgotPasswordScreen
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.ChooseAccountTypeScreen
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.ChooseAccountTypeViewModel
@@ -22,8 +23,10 @@ import com.nifa.fuel_buddy.auth.presentation.feature.signup.fuelstation.FuelStat
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.user.UserSignUpScreen
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.user.UserSignUpScreenViewModel
 import com.nifa.fuel_buddy.core.navigation.NavGraphs
+import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupAllBackStack
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
+import kotlin.reflect.typeOf
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation<NavGraphs.AuthNavGraph>(
@@ -96,14 +99,16 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             ForgotPasswordScreen()
         }
 
-        composable<AuthNavigation.LoaderScreen> {
-            val viewModel = viewModel<LoaderScreenViewModel>()
+        composable<AuthNavigation.LoaderScreen>(
+            typeMap = mapOf(
+                typeOf<UserSignUpRequest>() to CustomNavType.UserSignUpRequestType,
+            )
+        ) {
+            val viewModel = hiltViewModel<LoaderScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LoaderScreen(
-                uiEvent = viewModel.uiEvent,
-                uiState = uiState,
-                navigateAndClearBackStack = navController::navigateAndPopupAllBackStack
+                uiState = uiState
             )
         }
     }
