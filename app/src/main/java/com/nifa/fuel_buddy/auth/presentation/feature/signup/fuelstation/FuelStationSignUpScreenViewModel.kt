@@ -3,16 +3,21 @@ package com.nifa.fuel_buddy.auth.presentation.feature.signup.fuelstation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.R
+import com.nifa.fuel_buddy.auth.domain.AuthRepository
+import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignUpRequest
 import com.nifa.fuel_buddy.auth.util.ValidateConfirmPassword
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
 import com.nifa.fuel_buddy.core.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.utils.Result
 import com.nifa.fuel_buddy.core.utils.UiText
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -21,8 +26,12 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FuelStationSignUpScreenViewModel : ViewModel() {
+@HiltViewModel
+class FuelStationSignUpScreenViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FuelStationSignUpScreenUiState())
     val uiState = _uiState.stateIn(
@@ -125,8 +134,29 @@ class FuelStationSignUpScreenViewModel : ViewModel() {
             return
         }
 
-        sendEvent(FuelStationSignUpScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.FuelStationNavGraph))
+        val fuelStationSignUpRequest = FuelStationSignUpRequest(
+            bunkName = userName,
+            bunkEmail = email,
+            registrationNumber = registerNumber,
+            password = password
+        )
 
+        signUp(fuelStationSignUpRequest)
+    }
+
+    private fun signUp(fuelStationSignUpRequest: FuelStationSignUpRequest) = viewModelScope.launch {
+        with(authRepository) {
+            fuelStationSignUp(fuelStationSignUpRequest).collectLatest { result ->
+                when (result) {
+                    is Result.Error -> Unit
+                    Result.Loading -> Unit
+                    is Result.Success -> {
+                        val data = result.data
+                        setFuelStationPreferences(data)
+                    }
+                }
+            }
+        }
     }
 
     private fun observeUserNameSupportingTextAndUpdateShowUserNameAsErrorUiState() {

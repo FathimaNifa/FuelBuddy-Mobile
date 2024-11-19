@@ -72,7 +72,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         }
 
         composable<AuthNavigation.FuelStationSignUpScreen> {
-            val viewModel = viewModel<FuelStationSignUpScreenViewModel>()
+            val viewModel = hiltViewModel<FuelStationSignUpScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             FuelStationSignUpScreen(
