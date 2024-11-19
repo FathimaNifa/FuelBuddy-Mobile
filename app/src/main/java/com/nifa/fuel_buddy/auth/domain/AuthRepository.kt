@@ -3,7 +3,9 @@ package com.nifa.fuel_buddy.auth.domain
 import com.nifa.fuel_buddy.auth.domain.model.FuelStationSignIn
 import com.nifa.fuel_buddy.auth.domain.model.UserSignIn
 import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
+import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignUpRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
+import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.core.utils.Result
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +18,8 @@ interface AuthRepository {
     suspend fun setUserPreferences(userSignIn: UserSignIn)
 
     suspend fun setFuelStationPreferences(fuelStationSignIn: FuelStationSignIn)
+
+    suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignIn>>
+
+    suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignIn>>
 }
