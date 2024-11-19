@@ -15,6 +15,7 @@ import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import com.nifa.fuel_buddy.user.domain.FuelStation
 import com.nifa.fuel_buddy.user.domain.Product
 import com.nifa.fuel_buddy.user.presentation.feature.account.AccountScreen
+import com.nifa.fuel_buddy.user.presentation.feature.account.AccountScreenViewModel
 import com.nifa.fuel_buddy.user.presentation.feature.activity.ActivityDetailScreen
 import com.nifa.fuel_buddy.user.presentation.feature.activity.ActivityDetailScreenViewModel
 import com.nifa.fuel_buddy.user.presentation.feature.activity.ActivityScreen
@@ -115,7 +116,14 @@ fun SetupUserNavGraph(
         }
 
         composable<UserNavigation.AccountScreen> {
-            AccountScreen(Modifier)
+
+            val viewModel = hiltViewModel<AccountScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            AccountScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction
+            )
         }
     }
 }
