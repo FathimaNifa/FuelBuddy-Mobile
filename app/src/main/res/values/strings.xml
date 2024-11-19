@@ -47,5 +47,8 @@
     <string name="driving_license_number">Driving License Number</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="verify">Verify</string>
+    <string name="change_password">Change Password</string>
+    <string name="support_and_feedback">Support and Feedback</string>
+    <string name="logout">Logout</string>
 
 </resources>

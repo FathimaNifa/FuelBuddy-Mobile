@@ -13,13 +13,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.user.presentation.feature.account.components.ActionButton
 
 @Composable
-fun AccountScreen(modifier: Modifier = Modifier) {
+fun AccountScreen(
+    modifier: Modifier = Modifier,
+    uiState: AccountScreenUiState,
+    uiAction: (AccountScreenUiAction) -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -41,28 +46,27 @@ fun AccountScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f)
-                .padding(start = 10.dp, end = 10.dp)
-            ,
+                .padding(start = 10.dp, end = 10.dp),
             verticalArrangement = Arrangement.spacedBy(30.dp)
         ) {
             ActionButton(
-                text = "xyz@gmail.com",
+                text = uiState.userEmail,
                 iconResId = R.drawable.ic_mail,
                 onClick = {}
             )
             ActionButton(
-                text = "Change Password",
+                text = stringResource(R.string.change_password),
                 iconResId = R.drawable.ic_key,
-                onClick = {}
+                onClick = { uiAction.invoke(AccountScreenUiAction.OnChangePasswordClicked) }
             )
-            ActionButton(text = "Support and Feedback",
+            ActionButton(text = stringResource(R.string.support_and_feedback),
                 iconResId = R.drawable.ic_support,
-                onClick = {}
+                onClick = { uiAction.invoke(AccountScreenUiAction.OnSupportAndFeedBackClicked) }
             )
             ActionButton(
-                text = "Logout",
+                text = stringResource(R.string.logout),
                 iconResId = R.drawable.ic_logout,
-                onClick = {}
+                onClick = { uiAction.invoke(AccountScreenUiAction.OnLogoutButtonClicked) }
             )
         }
     }
@@ -72,5 +76,10 @@ fun AccountScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun AccountScreenPreview() {
-    AccountScreen(Modifier)
+    AccountScreen(
+        uiState = AccountScreenUiState(
+            userEmail = "xyz@gmail.com"
+        ),
+        uiAction = {}
+    )
 }
