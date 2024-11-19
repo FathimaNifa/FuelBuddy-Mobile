@@ -152,7 +152,13 @@ class UserSignUpScreenViewModel : ViewModel() {
             return
         }
 
-        sendEvent(UserSignUpScreenUiEvent.NavigateTo(AuthNavigation.DLVerificationScreen))
+        val navigationScreen = AuthNavigation.DLVerificationScreen(
+            userName = userName,
+            userEmail = email,
+            password = password
+        )
+
+        sendEvent(UserSignUpScreenUiEvent.NavigateTo(navigationScreen))
 
     }
 
@@ -291,5 +297,6 @@ data class UserSignUpScreenUiState(
 sealed interface UserSignUpScreenUiEvent {
     data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) :
         UserSignUpScreenUiEvent
+
     data class NavigateTo(val navigationScreen: NavigationScreen) : UserSignUpScreenUiEvent
 }

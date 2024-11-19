@@ -1,24 +1,30 @@
 package com.nifa.fuel_buddy.auth.presentation.feature.dlverification
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nifa.fuel_buddy.core.navigation.NavGraphs
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
-import kotlinx.coroutines.channels.Channel
+import androidx.navigation.toRoute
+import com.nifa.fuel_buddy.auth.domain.AuthRepository
+import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
+import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
+import com.nifa.fuel_buddy.core.utils.CustomNavType
+import com.nifa.fuel_buddy.core.utils.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.reflect.typeOf
 
-class LoaderScreenViewModel : ViewModel() {
+@HiltViewModel
+class LoaderScreenViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoaderScreenUiState())
     val uiState = _uiState.stateIn(
@@ -27,26 +33,30 @@ class LoaderScreenViewModel : ViewModel() {
         initialValue = LoaderScreenUiState()
     )
 
-
-    private val _uiEvent = Channel<LoaderScreenUiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
-
     init {
-        uiState.map { it.screenState }
-            .distinctUntilChanged()
-            .filter { it == LoaderScreenState.LOADING }
-            .onEach {
-                delay(2000L)
-                updateScreenStateUiState(LoaderScreenState.VERIFIED)
-            }.launchIn(viewModelScope)
 
-        uiState.map { it.screenState }
-            .distinctUntilChanged()
-            .filter { it == LoaderScreenState.VERIFIED }
-            .onEach {
-                delay(1500L)
-                sendEvent(LoaderScreenUiEvent.NavigateAndClearBackStack(NavGraphs.UserNavGraph))
-            }.launchIn(viewModelScope)
+        val data = savedStateHandle.toRoute<AuthNavigation.LoaderScreen>(
+            typeMap = mapOf(
+                typeOf<UserSignUpRequest>() to CustomNavType.UserSignUpRequestType,
+            )
+        )
+
+        singUp(data.userSingUpRequest)
+    }
+
+    private fun singUp(signUpRequest: UserSignUpRequest) = viewModelScope.launch {
+        authRepository.userSignUp(signUpRequest).collectLatest { result ->
+            when (result) {
+                is Result.Error -> Unit
+                Result.Loading -> Unit
+                is Result.Success -> {
+                    updateScreenStateUiState(LoaderScreenState.VERIFIED)
+                    delay(1500L)
+                    val data = result.data
+                    authRepository.setUserPreferences(data)
+                }
+            }
+        }
     }
 
 
@@ -57,15 +67,6 @@ class LoaderScreenViewModel : ViewModel() {
             )
         }
 
-    private fun sendEvent(event: LoaderScreenUiEvent) = viewModelScope.launch {
-        _uiEvent.send(event)
-    }
-
-}
-
-sealed interface LoaderScreenUiEvent {
-    data class NavigateAndClearBackStack(val navigationScreen: NavigationScreen) :
-        LoaderScreenUiEvent
 }
 
 data class LoaderScreenUiState(

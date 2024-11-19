@@ -1,8 +1,11 @@
 package com.nifa.fuel_buddy.auth.presentation.feature.dlverification
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.R
+import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.auth.util.ValidateDateField
 import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
@@ -20,7 +23,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DLVerificationScreenViewModel : ViewModel() {
+class DLVerificationScreenViewModel(
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DLVerificationScreenUiState())
     val uiState = _uiState.stateIn(
@@ -35,6 +40,14 @@ class DLVerificationScreenViewModel : ViewModel() {
     init {
         observeDLNumberSupportingTextAndUpdateShowDLNumberAsErrorUiState()
         observeDOBSupportingTextAndUpdateShowDOBErrorUiState()
+        getUserData()
+    }
+
+    private fun getUserData() {
+        val data = savedStateHandle.toRoute<AuthNavigation.DLVerificationScreen>()
+        updateUserNameUiState(data.userName)
+        updateUserEmailUiState(data.userEmail)
+        updatePasswordUiState(data.password)
     }
 
     fun onUiAction(action: DLVerificationScreenUiAction) {
@@ -76,7 +89,17 @@ class DLVerificationScreenViewModel : ViewModel() {
             return
         }
 
-        sendEvent(DLVerificationScreenUiEvent.NavigateTo(AuthNavigation.LoaderScreen))
+        val userSignUpRequest = UserSignUpRequest(
+            userName = uiState.value.userName,
+            userEmail = uiState.value.userEmail,
+            password = uiState.value.password,
+            dlNumber = dlNumber,
+            dob = dob
+        )
+
+        val navigationScreen = AuthNavigation.LoaderScreen(userSignUpRequest)
+
+        sendEvent(DLVerificationScreenUiEvent.NavigateTo(navigationScreen))
     }
 
     private fun observeDOBSupportingTextAndUpdateShowDOBErrorUiState() {
@@ -143,6 +166,27 @@ class DLVerificationScreenViewModel : ViewModel() {
                 showDOBAsError = showDOBAsError
             )
         }
+
+    private fun updateUserNameUiState(userName: String): Unit =
+        _uiState.update {
+            it.copy(
+                userName = userName
+            )
+        }
+
+    private fun updateUserEmailUiState(userEmail: String): Unit =
+        _uiState.update {
+            it.copy(
+                userEmail = userEmail
+            )
+        }
+
+    private fun updatePasswordUiState(password: String): Unit =
+        _uiState.update {
+            it.copy(
+                password = password
+            )
+        }
 }
 
 sealed interface DLVerificationScreenUiEvent {
@@ -163,4 +207,7 @@ data class DLVerificationScreenUiState(
     val dobSupportingText: UiText? = null,
     val showDLNumberAsError: Boolean = false,
     val showDOBAsError: Boolean = false,
+    val userName: String = "",
+    val userEmail: String = "",
+    val password: String = ""
 )

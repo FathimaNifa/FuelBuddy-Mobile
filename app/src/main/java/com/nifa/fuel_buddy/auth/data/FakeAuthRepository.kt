@@ -77,12 +77,14 @@ class FakeAuthRepository @Inject constructor(
         return flow {
             emit(Result.Loading)
             delay(2000L)
-            Result.Success(
-                UserSignIn(
-                    userId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
-                    userName = userSignUpRequest.userName,
-                    userEmail = userSignUpRequest.userEmail,
-                    userToken = ""
+            emit(
+                Result.Success(
+                    UserSignIn(
+                        userId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
+                        userName = userSignUpRequest.userName,
+                        userEmail = userSignUpRequest.userEmail,
+                        userToken = ""
+                    )
                 )
             )
         }
@@ -92,12 +94,14 @@ class FakeAuthRepository @Inject constructor(
         return flow {
             emit(Result.Loading)
             delay(500L)
-            Result.Success(
-                FuelStationSignIn(
-                    bunkId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
-                    bunkName = fuelStationSignUpRequest.bunkName,
-                    bunkEmail = fuelStationSignUpRequest.bunkEmail,
-                    bunkToken = ""
+            emit(
+                Result.Success(
+                    FuelStationSignIn(
+                        bunkId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
+                        bunkName = fuelStationSignUpRequest.bunkName,
+                        bunkEmail = fuelStationSignUpRequest.bunkEmail,
+                        bunkToken = ""
+                    )
                 )
             )
         }
