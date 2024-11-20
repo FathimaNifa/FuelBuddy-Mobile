@@ -1,6 +1,6 @@
 package com.nifa.fuel_buddy.user.presentation.navigation
 
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.user.domain.FuelStation
 import kotlinx.serialization.Serializable
 

@@ -2,7 +2,7 @@ package com.nifa.fuel_buddy.user.presentation.feature.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.user.domain.FuelBuddyUserRepository
 import com.nifa.fuel_buddy.user.domain.FuelOrderHistory
 import com.nifa.fuel_buddy.user.domain.FuelStation

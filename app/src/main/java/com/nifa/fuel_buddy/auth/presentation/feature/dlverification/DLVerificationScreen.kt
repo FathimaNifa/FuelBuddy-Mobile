@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.auth.presentation.feature.composable.AuthCTA
 import com.nifa.fuel_buddy.auth.presentation.feature.composable.AuthTextField
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
 import kotlinx.coroutines.flow.Flow

@@ -2,7 +2,7 @@ package com.nifa.fuel_buddy.auth.presentation.navigation
 
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import kotlinx.serialization.Serializable
 
 sealed interface AuthNavigation : NavigationScreen {

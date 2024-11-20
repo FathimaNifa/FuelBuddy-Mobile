@@ -2,7 +2,7 @@ package com.nifa.fuel_buddy.user.presentation.feature.account
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nifa.fuel_buddy.core.datastore.user.UserPreferenceDataSource
+import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

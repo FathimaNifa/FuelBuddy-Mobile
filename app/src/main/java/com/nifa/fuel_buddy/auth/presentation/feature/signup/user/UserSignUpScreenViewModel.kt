@@ -8,8 +8,8 @@ import com.nifa.fuel_buddy.auth.util.ValidateConfirmPassword
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
-import com.nifa.fuel_buddy.core.navigation.NavGraphs
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

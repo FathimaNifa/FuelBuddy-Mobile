@@ -9,9 +9,9 @@ import com.nifa.fuel_buddy.auth.util.ValidateConfirmPassword
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidateEmptyField
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
-import com.nifa.fuel_buddy.core.navigation.NavGraphs
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
-import com.nifa.fuel_buddy.core.utils.Result
+import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -149,7 +149,7 @@ class FuelStationSignUpScreenViewModel @Inject constructor(
             fuelStationSignUp(fuelStationSignUpRequest).collectLatest { result ->
                 when (result) {
                     is Result.Error -> Unit
-                    Result.Loading -> Unit
+                    is Result.Loading -> Unit
                     is Result.Success -> {
                         val data = result.data
                         setFuelStationPreferences(data)
