@@ -1,25 +1,26 @@
 package com.nifa.fuel_buddy.auth.domain
 
-import com.nifa.fuel_buddy.auth.domain.model.FuelStationSignIn
-import com.nifa.fuel_buddy.auth.domain.model.UserSignIn
+import com.nifa.fuel_buddy.auth.domain.model.FuelStation
+import com.nifa.fuel_buddy.auth.domain.model.User
 import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignUpRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
-import com.nifa.fuel_buddy.core.utils.Result
+import com.nifa.fuel_buddy.core.domain.Error
+import com.nifa.fuel_buddy.core.domain.Result
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
-    suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignIn>>
+    suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<User, Error>>
 
-    suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignIn>>
+    suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStation, Error>>
 
-    suspend fun setUserPreferences(userSignIn: UserSignIn)
+    suspend fun setUserPreferences(user: User)
 
-    suspend fun setFuelStationPreferences(fuelStationSignIn: FuelStationSignIn)
+    suspend fun setFuelStationPreferences(fuelStation: FuelStation)
 
-    suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignIn>>
+    suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<User, Error>>
 
-    suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignIn>>
+    suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStation, Error>>
 }

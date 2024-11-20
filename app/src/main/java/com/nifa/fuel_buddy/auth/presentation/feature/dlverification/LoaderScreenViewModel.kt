@@ -7,8 +7,8 @@ import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.auth.domain.AuthRepository
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
+import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.utils.CustomNavType
-import com.nifa.fuel_buddy.core.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +48,7 @@ class LoaderScreenViewModel @Inject constructor(
         authRepository.userSignUp(signUpRequest).collectLatest { result ->
             when (result) {
                 is Result.Error -> Unit
-                Result.Loading -> Unit
+                is Result.Loading -> Unit
                 is Result.Success -> {
                     updateScreenStateUiState(LoaderScreenState.VERIFIED)
                     delay(1500L)

@@ -3,7 +3,7 @@ package com.nifa.fuel_buddy.user.presentation.navigation.bottomnavigation
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.nifa.fuel_buddy.R
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 
 enum class BottomNavigationItem(

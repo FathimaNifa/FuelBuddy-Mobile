@@ -9,7 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.nifa.fuel_buddy.core.navigation.NavGraphs
+import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
 
 fun NavGraphBuilder.fuelNavGraph(navController: NavHostController) {
     navigation<NavGraphs.FuelStationNavGraph>(

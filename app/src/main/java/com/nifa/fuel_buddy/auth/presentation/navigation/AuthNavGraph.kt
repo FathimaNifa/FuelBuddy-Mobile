@@ -22,7 +22,7 @@ import com.nifa.fuel_buddy.auth.presentation.feature.signup.fuelstation.FuelStat
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.fuelstation.FuelStationSignUpScreenViewModel
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.user.UserSignUpScreen
 import com.nifa.fuel_buddy.auth.presentation.feature.signup.user.UserSignUpScreenViewModel
-import com.nifa.fuel_buddy.core.navigation.NavGraphs
+import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupAllBackStack
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo

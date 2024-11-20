@@ -3,7 +3,7 @@ package com.nifa.fuel_buddy.user.presentation.feature.home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
 import com.nifa.fuel_buddy.user.data.dummyFuelStationList
 import com.nifa.fuel_buddy.user.data.dummyProductList

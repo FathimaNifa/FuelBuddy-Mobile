@@ -11,9 +11,9 @@ import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
-import com.nifa.fuel_buddy.core.navigation.NavGraphs
-import com.nifa.fuel_buddy.core.navigation.NavigationScreen
-import com.nifa.fuel_buddy.core.utils.Result
+import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -151,8 +151,8 @@ class SignInScreenViewModel @Inject constructor(
         )
         authRepository.userSignIn(request).collectLatest { result ->
             when (result) {
-                is Result.Error -> Timber.d("${result.exception.message}")
-                Result.Loading -> Timber.d("Loading..")
+                is Result.Error -> Timber.d("${result.error}")
+                is Result.Loading -> Timber.d("Loading..")
                 is Result.Success -> {
                     authRepository.setUserPreferences(result.data)
                     sendEvent(
@@ -171,8 +171,8 @@ class SignInScreenViewModel @Inject constructor(
             )
             authRepository.fuelStationSignIn(request).collectLatest { result ->
                 when (result) {
-                    is Result.Error -> Timber.d("${result.exception.message}")
-                    Result.Loading -> Timber.d("Loading..")
+                    is Result.Error -> Timber.d("${result.error}")
+                    is Result.Loading -> Timber.d("Loading..")
                     is Result.Success -> {
                         authRepository.setFuelStationPreferences(result.data)
                         sendEvent(

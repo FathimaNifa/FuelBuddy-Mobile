@@ -90,4 +90,9 @@ dependencies {
 
     implementation(libs.splash)
 
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+//Okhttp
+    implementation(libs.okhttp)
 }
