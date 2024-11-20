@@ -19,7 +19,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -149,10 +148,13 @@ class SignInScreenViewModel @Inject constructor(
             userEmail = userEmail,
             password = password
         )
-        authRepository.userSignIn(request).collectLatest { result ->
+        authRepository.userSignIn(request).collect { result ->
             when (result) {
                 is Result.Error -> Timber.d("${result.error}")
-                is Result.Loading -> Timber.d("Loading..")
+                is Result.Loading -> {
+                    updateIsLoadingUiState(result.isLoading)
+                }
+
                 is Result.Success -> {
                     authRepository.setUserPreferences(result.data)
                     sendEvent(
@@ -169,10 +171,14 @@ class SignInScreenViewModel @Inject constructor(
                 fuelStationEmail = fuelStationEmail,
                 password = password
             )
-            authRepository.fuelStationSignIn(request).collectLatest { result ->
+            authRepository.fuelStationSignIn(request).collect { result ->
                 when (result) {
                     is Result.Error -> Timber.d("${result.error}")
-                    is Result.Loading -> Timber.d("Loading..")
+
+                    is Result.Loading -> {
+                        updateIsLoadingUiState(isLoading = result.isLoading)
+                    }
+
                     is Result.Success -> {
                         authRepository.setFuelStationPreferences(result.data)
                         sendEvent(
@@ -242,6 +248,13 @@ class SignInScreenViewModel @Inject constructor(
                 accountType = accountType
             )
         }
+
+    private fun updateIsLoadingUiState(isLoading: Boolean): Unit =
+        _uiState.update {
+            it.copy(
+                isLoading = isLoading
+            )
+        }
 }
 
 sealed interface SignInScreenUiEvent {
@@ -267,5 +280,6 @@ data class SignInScreenUiState(
     val showEmailAsError: Boolean = false,
     val showPasswordAsError: Boolean = false,
     val maskPassword: Boolean = true,
-    val accountType: AccountType = AccountType.USER
+    val accountType: AccountType = AccountType.USER,
+    val isLoading: Boolean = false
 )

@@ -30,7 +30,7 @@ class AuthRepositoryImpl @Inject constructor(
         return authNetworkSource.userSignIn(userSignInRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
-                is Result.Loading -> Result.Loading()
+                is Result.Loading -> Result.Loading(result.isLoading)
                 is Result.Success -> Result.Success(result.data.toUser())
             }
         }
@@ -40,7 +40,7 @@ class AuthRepositoryImpl @Inject constructor(
         return authNetworkSource.fuelStationSignIn(fuelStationSignInRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
-                is Result.Loading -> Result.Loading()
+                is Result.Loading -> Result.Loading(result.isLoading)
                 is Result.Success -> Result.Success(result.data.toFuelStation())
             }
         }
@@ -58,7 +58,7 @@ class AuthRepositoryImpl @Inject constructor(
         return authNetworkSource.userSignUp(userSignUpRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
-                is Result.Loading -> Result.Loading()
+                is Result.Loading -> Result.Loading(result.isLoading)
                 is Result.Success -> Result.Success(result.data.toUser())
             }
         }
@@ -68,7 +68,7 @@ class AuthRepositoryImpl @Inject constructor(
         return authNetworkSource.fuelStationSignUp(fuelStationSignUpRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
-                is Result.Loading -> Result.Loading()
+                is Result.Loading -> Result.Loading(result.isLoading)
                 is Result.Success -> Result.Success(result.data.toFuelStation())
             }
         }

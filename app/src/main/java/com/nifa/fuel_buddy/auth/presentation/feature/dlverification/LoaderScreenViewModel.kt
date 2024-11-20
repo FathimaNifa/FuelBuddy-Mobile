@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -45,13 +44,17 @@ class LoaderScreenViewModel @Inject constructor(
     }
 
     private fun singUp(signUpRequest: UserSignUpRequest) = viewModelScope.launch {
-        authRepository.userSignUp(signUpRequest).collectLatest { result ->
+        authRepository.userSignUp(signUpRequest).collect { result ->
             when (result) {
                 is Result.Error -> Unit
-                is Result.Loading -> Unit
+                is Result.Loading -> {
+                    if (result.isLoading)
+                        updateScreenStateUiState(LoaderScreenState.LOADING)
+                }
+
                 is Result.Success -> {
                     updateScreenStateUiState(LoaderScreenState.VERIFIED)
-                    delay(1500L)
+                    delay(1000L)
                     val data = result.data
                     authRepository.setUserPreferences(data)
                 }

@@ -121,6 +121,7 @@ fun SignInScreen(
             )
 
             AuthCTA(
+                isLoading = uiState.isLoading,
                 text = stringResource(R.string.sign_in),
                 onClick = { uiAction.invoke(SignInScreenUiAction.OnSignInButtonClicked) }
             )

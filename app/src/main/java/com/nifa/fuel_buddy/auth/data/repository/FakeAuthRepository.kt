@@ -23,7 +23,7 @@ class FakeAuthRepository @Inject constructor(
 
     override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<User, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(500L)
 
             emit(
@@ -36,12 +36,13 @@ class FakeAuthRepository @Inject constructor(
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 
     override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStation, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(500L)
             emit(
                 Result.Success(
@@ -53,6 +54,7 @@ class FakeAuthRepository @Inject constructor(
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 
@@ -76,7 +78,7 @@ class FakeAuthRepository @Inject constructor(
 
     override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<User, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(2000L)
             emit(
                 Result.Success(
@@ -88,12 +90,13 @@ class FakeAuthRepository @Inject constructor(
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 
     override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStation, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(500L)
             emit(
                 Result.Success(
@@ -105,6 +108,7 @@ class FakeAuthRepository @Inject constructor(
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 }

@@ -21,5 +21,5 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindAuthNetworkSource(authNetworkSourceImpl: AuthNetworkSourceImpl) : AuthNetworkSource
+    fun bindAuthNetworkSource(authNetworkSourceImpl: AuthNetworkSourceImpl): AuthNetworkSource
 }
