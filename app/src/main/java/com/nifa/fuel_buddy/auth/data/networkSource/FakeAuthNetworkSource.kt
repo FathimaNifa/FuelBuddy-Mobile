@@ -22,7 +22,7 @@ import javax.inject.Inject
 class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
     override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignInDto, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(500L)
             emit(
                 Result.Success(
@@ -38,12 +38,13 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 
     override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignInDto, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(500L)
             emit(
                 Result.Success(
@@ -59,12 +60,13 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 
     override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignupDto, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(2000L)
             emit(
                 Result.Success(
@@ -80,12 +82,13 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 
     override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignUpDto, Error>> {
         return flow {
-            emit(Result.Loading())
+            emit(Result.Loading(true))
             delay(500L)
             emit(
                 Result.Success(
@@ -101,6 +104,7 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                     )
                 )
             )
+            emit(Result.Loading(false))
         }
     }
 }

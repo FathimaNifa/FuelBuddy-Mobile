@@ -15,7 +15,6 @@ import com.nifa.fuel_buddy.core.domain.Error
 import com.nifa.fuel_buddy.core.domain.Result
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AuthNetworkSourceImpl @Inject constructor(
@@ -23,46 +22,18 @@ class AuthNetworkSourceImpl @Inject constructor(
     @ApplicationContext context: Context
 ) : BaseApiResponse(context), AuthNetworkSource {
     override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignInDto, Error>> {
-        return flow {
-            emit(Result.Loading())
-            emit(
-                safeApiCall {
-                    authApi.userSignIn(userSignInRequest)
-                }
-            )
-        }
+        return safeApiCall { authApi.userSignIn(userSignInRequest) }
     }
 
     override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignInDto, Error>> {
-        return flow {
-            emit(Result.Loading())
-            emit(
-                safeApiCall {
-                    authApi.fuelStationSignIn(fuelStationSignInRequest)
-                }
-            )
-        }
+        return safeApiCall { authApi.fuelStationSignIn(fuelStationSignInRequest) }
     }
 
     override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignupDto, Error>> {
-        return flow {
-            emit(Result.Loading())
-            emit(
-                safeApiCall {
-                    authApi.userSignup(userSignUpRequest)
-                }
-            )
-        }
+        return safeApiCall { authApi.userSignup(userSignUpRequest) }
     }
 
     override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignUpDto, Error>> {
-        return flow {
-            emit(Result.Loading())
-            emit(
-                safeApiCall {
-                    authApi.fuelStationSignup(fuelStationSignUpRequest)
-                }
-            )
-        }
+        return safeApiCall { authApi.fuelStationSignup(fuelStationSignUpRequest) }
     }
 }

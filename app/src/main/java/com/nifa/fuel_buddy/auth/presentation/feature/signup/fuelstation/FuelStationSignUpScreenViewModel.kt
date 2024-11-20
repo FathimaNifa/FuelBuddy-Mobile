@@ -17,7 +17,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -146,14 +145,15 @@ class FuelStationSignUpScreenViewModel @Inject constructor(
 
     private fun signUp(fuelStationSignUpRequest: FuelStationSignUpRequest) = viewModelScope.launch {
         with(authRepository) {
-            fuelStationSignUp(fuelStationSignUpRequest).collectLatest { result ->
+            fuelStationSignUp(fuelStationSignUpRequest).collect { result ->
                 when (result) {
                     is Result.Error -> Unit
-                    is Result.Loading -> Unit
+                    is Result.Loading -> updateIsLoadingUiState(result.isLoading)
                     is Result.Success -> {
                         val data = result.data
                         setFuelStationPreferences(data)
                     }
+
                 }
             }
         }
@@ -326,6 +326,13 @@ class FuelStationSignUpScreenViewModel @Inject constructor(
                 maskConfirmPassword = maskConfirmPassword
             )
         }
+
+    private fun updateIsLoadingUiState(isLoading: Boolean): Unit =
+        _uiState.update {
+            it.copy(
+                isLoading = isLoading
+            )
+        }
 }
 
 
@@ -346,7 +353,8 @@ data class FuelStationSignUpScreenUiState(
     val showConfirmPasswordAsError: Boolean = false,
     val showRegistrationNumberAsError: Boolean = false,
     val maskPassword: Boolean = true,
-    val maskConfirmPassword: Boolean = true
+    val maskConfirmPassword: Boolean = true,
+    val isLoading: Boolean = false
 )
 
 sealed interface FuelStationSignUpScreenUiAction {

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +21,8 @@ fun AuthCTA(
     modifier: Modifier = Modifier,
     text: String,
     enabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isLoading: Boolean = false
 ) {
 
     Button(
@@ -33,12 +35,22 @@ fun AuthCTA(
         ),
         onClick = onClick
     ) {
-        Text(
-            modifier = Modifier.padding(8.dp),
-            text = text,
-            color = Color.Black,
-            fontSize = 16.sp
-        )
+
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.padding(5.dp),
+                color = colorResource(R.color.black)
+            )
+        }
+
+        if (!isLoading) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = text,
+                color = Color.Black,
+                fontSize = 16.sp
+            )
+        }
     }
 }
 
@@ -48,6 +60,7 @@ private fun AuthCTAPreview() {
     AuthCTA(
         text = "Sign In",
         onClick = {},
-        enabled = true
+        enabled = true,
+        isLoading = false
     )
 }

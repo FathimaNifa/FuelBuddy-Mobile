@@ -143,6 +143,7 @@ fun FuelStationSignUpScreen(
 
 
         AuthCTA(
+            isLoading = uiState.isLoading,
             text = stringResource(R.string.sign_up),
             onClick = { uiAction.invoke(FuelStationSignUpScreenUiAction.OnSignUpButtonClicked) }
         )
