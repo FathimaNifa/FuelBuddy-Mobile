@@ -8,11 +8,14 @@ import com.nifa.fuel_buddy.auth.domain.AuthRepository
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.CustomNavType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -32,6 +35,9 @@ class LoaderScreenViewModel @Inject constructor(
         initialValue = LoaderScreenUiState()
     )
 
+    private val _uiEvent = Channel<LoaderScreenUiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     init {
 
         val data = savedStateHandle.toRoute<AuthNavigation.LoaderScreen>(
@@ -43,10 +49,30 @@ class LoaderScreenViewModel @Inject constructor(
         singUp(data.userSingUpRequest)
     }
 
+    fun onUiAction(action: LoaderScreenUiAction) {
+        when (action) {
+            LoaderScreenUiAction.OnGoBackButtonClicked -> sendEvent(
+                LoaderScreenUiEvent.NavigateTo(
+                    AuthNavigation.UserSignUpScreen
+                )
+            )
+
+            LoaderScreenUiAction.OnBackPressed -> Unit
+        }
+    }
+
+    private fun sendEvent(event: LoaderScreenUiEvent) = viewModelScope.launch {
+        _uiEvent.send(event)
+    }
+
     private fun singUp(signUpRequest: UserSignUpRequest) = viewModelScope.launch {
         authRepository.userSignUp(signUpRequest).collect { result ->
             when (result) {
-                is Result.Error -> Unit
+                is Result.Error -> {
+                    updateErrorMessageUiState(result.error.message)
+                    updateScreenStateUiState(LoaderScreenState.ERROR)
+                }
+
                 is Result.Loading -> {
                     if (result.isLoading)
                         updateScreenStateUiState(LoaderScreenState.LOADING)
@@ -70,13 +96,32 @@ class LoaderScreenViewModel @Inject constructor(
             )
         }
 
+
+    private fun updateErrorMessageUiState(errorMessage: String): Unit =
+        _uiState.update {
+            it.copy(
+                errorMessage = errorMessage
+            )
+        }
+
 }
 
 data class LoaderScreenUiState(
-    val screenState: LoaderScreenState = LoaderScreenState.LOADING
+    val screenState: LoaderScreenState = LoaderScreenState.LOADING,
+    val errorMessage: String = ""
 )
+
+sealed interface LoaderScreenUiAction {
+    data object OnGoBackButtonClicked : LoaderScreenUiAction
+    data object OnBackPressed : LoaderScreenUiAction
+}
+
+sealed interface LoaderScreenUiEvent {
+    data class NavigateTo(val navigationScreen: NavigationScreen) : LoaderScreenUiEvent
+}
 
 enum class LoaderScreenState {
     LOADING,
-    VERIFIED
+    VERIFIED,
+    ERROR
 }

@@ -13,6 +13,7 @@
     <string name="your_order_is_sent_to_petrol_station_waiting_for_the_confirmation">Your Order is sent to Petrol station, Waiting for the Confirmation</string>
     <string name="verifying_your_driving_license">Verifying Your Driving License</string>
     <string name="your_license_is_verified">Your License is verified</string>
+    <string name="error">Error</string>
     <string name="your_order_is_accepted">Your Order is Accepted</string>
     <string name="track_order">Track Order</string>
     <string name="back_to_home">Back to Home</string>
@@ -50,5 +51,6 @@
     <string name="change_password">Change Password</string>
     <string name="support_and_feedback">Support and Feedback</string>
     <string name="logout">Logout</string>
+    <string name="go_back">Go back</string>
 
 </resources>
