@@ -8,17 +8,17 @@ import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignUpRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
-import com.nifa.fuel_buddy.core.domain.Error
+import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import kotlinx.coroutines.flow.Flow
 
 interface AuthNetworkSource {
 
-    suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignInDto, Error>>
+    suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignInDto, NetworkError>>
 
-    suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignInDto, Error>>
+    suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignInDto, NetworkError>>
 
-    suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignupDto, Error>>
+    suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignupDto, NetworkError>>
 
-    suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignUpDto, Error>>
+    suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignUpDto, NetworkError>>
 }

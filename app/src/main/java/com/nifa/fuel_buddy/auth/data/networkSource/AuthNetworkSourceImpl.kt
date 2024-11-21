@@ -11,7 +11,7 @@ import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignUpRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.core.domain.BaseApiResponse
-import com.nifa.fuel_buddy.core.domain.Error
+import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -21,19 +21,19 @@ class AuthNetworkSourceImpl @Inject constructor(
     private val authApi: AuthApi,
     @ApplicationContext context: Context
 ) : BaseApiResponse(context), AuthNetworkSource {
-    override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignInDto, Error>> {
+    override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<UserSignInDto, NetworkError>> {
         return safeApiCall { authApi.userSignIn(userSignInRequest) }
     }
 
-    override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignInDto, Error>> {
+    override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStationSignInDto, NetworkError>> {
         return safeApiCall { authApi.fuelStationSignIn(fuelStationSignInRequest) }
     }
 
-    override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignupDto, Error>> {
+    override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<UserSignupDto, NetworkError>> {
         return safeApiCall { authApi.userSignup(userSignUpRequest) }
     }
 
-    override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignUpDto, Error>> {
+    override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStationSignUpDto, NetworkError>> {
         return safeApiCall { authApi.fuelStationSignup(fuelStationSignUpRequest) }
     }
 }

@@ -14,7 +14,7 @@ import com.nifa.fuel_buddy.auth.domain.model.toFuelStationPreferences
 import com.nifa.fuel_buddy.auth.domain.model.toUserPreferences
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
-import com.nifa.fuel_buddy.core.domain.Error
+import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,7 +26,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val authNetworkSource: AuthNetworkSource
 ) : AuthRepository {
 
-    override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<User, Error>> {
+    override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<User, NetworkError>> {
         return authNetworkSource.userSignIn(userSignInRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
@@ -36,7 +36,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStation, Error>> {
+    override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStation, NetworkError>> {
         return authNetworkSource.fuelStationSignIn(fuelStationSignInRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
@@ -54,7 +54,7 @@ class AuthRepositoryImpl @Inject constructor(
         fuelStationPreferenceDataSource.setFuelStationPreferences(fuelStation.toFuelStationPreferences())
     }
 
-    override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<User, Error>> {
+    override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<User, NetworkError>> {
         return authNetworkSource.userSignUp(userSignUpRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
@@ -64,7 +64,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStation, Error>> {
+    override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStation, NetworkError>> {
         return authNetworkSource.fuelStationSignUp(fuelStationSignUpRequest).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)

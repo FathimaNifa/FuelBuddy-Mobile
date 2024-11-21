@@ -150,7 +150,10 @@ class SignInScreenViewModel @Inject constructor(
         )
         authRepository.userSignIn(request).collect { result ->
             when (result) {
-                is Result.Error -> Timber.d("${result.error}")
+                is Result.Error -> {
+                    Timber.d("${result.error}")
+                    sendEvent(SignInScreenUiEvent.ShowErrorSnackBar(result.error.message))
+                }
                 is Result.Loading -> {
                     updateIsLoadingUiState(result.isLoading)
                 }
@@ -173,7 +176,10 @@ class SignInScreenViewModel @Inject constructor(
             )
             authRepository.fuelStationSignIn(request).collect { result ->
                 when (result) {
-                    is Result.Error -> Timber.d("${result.error}")
+                    is Result.Error -> {
+                        Timber.d("${result.error}")
+                        sendEvent(SignInScreenUiEvent.ShowErrorSnackBar(result.error.message))
+                    }
 
                     is Result.Loading -> {
                         updateIsLoadingUiState(isLoading = result.isLoading)
@@ -259,8 +265,8 @@ class SignInScreenViewModel @Inject constructor(
 
 sealed interface SignInScreenUiEvent {
     data class NavigateTo(val navigationScreen: NavigationScreen) : SignInScreenUiEvent
-    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) :
-        SignInScreenUiEvent
+    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) : SignInScreenUiEvent
+    data class ShowErrorSnackBar(val errorMessage: String) : SignInScreenUiEvent
 }
 
 sealed interface SignInScreenUiAction {

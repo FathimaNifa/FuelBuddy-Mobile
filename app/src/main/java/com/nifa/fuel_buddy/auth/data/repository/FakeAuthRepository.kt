@@ -9,7 +9,7 @@ import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
-import com.nifa.fuel_buddy.core.domain.Error
+import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ class FakeAuthRepository @Inject constructor(
     private val fuelStationPreferenceDataSource: FuelStationPreferenceDataSource
 ) : AuthRepository {
 
-    override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<User, Error>> {
+    override suspend fun userSignIn(userSignInRequest: UserSignInRequest): Flow<Result<User, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
             delay(500L)
@@ -40,7 +40,7 @@ class FakeAuthRepository @Inject constructor(
         }
     }
 
-    override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStation, Error>> {
+    override suspend fun fuelStationSignIn(fuelStationSignInRequest: FuelStationSignInRequest): Flow<Result<FuelStation, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
             delay(500L)
@@ -76,7 +76,7 @@ class FakeAuthRepository @Inject constructor(
         }
     }
 
-    override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<User, Error>> {
+    override suspend fun userSignUp(userSignUpRequest: UserSignUpRequest): Flow<Result<User, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
             delay(2000L)
@@ -94,7 +94,7 @@ class FakeAuthRepository @Inject constructor(
         }
     }
 
-    override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStation, Error>> {
+    override suspend fun fuelStationSignUp(fuelStationSignUpRequest: FuelStationSignUpRequest): Flow<Result<FuelStation, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
             delay(500L)
