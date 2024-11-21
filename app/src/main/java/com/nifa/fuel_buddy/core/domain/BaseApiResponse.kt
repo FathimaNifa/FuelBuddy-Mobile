@@ -1,6 +1,7 @@
 package com.nifa.fuel_buddy.core.domain
 
 import android.content.Context
+import com.google.gson.Gson
 import com.nifa.fuel_buddy.core.utils.ext.isConnectedToNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,19 +19,29 @@ open class BaseApiResponse(private val context: Context) {
                         if (response.isSuccessful) {
                             response.body()?.let { data ->
                                 emit(Result.Success(data))
-                            } ?: emit(Result.Error(NetworkError.BAD_RESPONSE))
+                            } ?: emit(Result.Error(NetworkError("Success But No data")))
                         } else {
-                            emit(Result.Error(NetworkError.BAD_RESPONSE))
+                            response.errorBody()?.let { errorBody ->
+                                try {
+                                    val errorResponse = Gson().fromJson(
+                                        errorBody.string(),
+                                        ErrorResponse::class.java
+                                    )
+                                    emit(Result.Error(NetworkError(errorResponse.message)))
+                                } catch (e: Exception) {
+                                    emit(Result.Error(NetworkError(e.message.toString())))
+                                }
+                            } ?: emit(Result.Error(NetworkError("Error But No Error Body")))
                         }
 
                     } catch (e: Exception) {
-                        emit(Result.Error(NetworkError.UNKNOWN))
+                        emit(Result.Error(NetworkError(e.message.toString())))
                     }
 
                 }
 
                 else -> {
-                    emit(Result.Error(NetworkError.NO_INTERNET))
+                    emit(Result.Error(NetworkError("No Internet")))
                 }
             }
             emit(Result.Loading(false))
@@ -38,8 +49,4 @@ open class BaseApiResponse(private val context: Context) {
     }
 }
 
-enum class NetworkError : RootError {
-    NO_INTERNET,
-    BAD_RESPONSE,
-    UNKNOWN
-}
+data class NetworkError(val message: String) : Error

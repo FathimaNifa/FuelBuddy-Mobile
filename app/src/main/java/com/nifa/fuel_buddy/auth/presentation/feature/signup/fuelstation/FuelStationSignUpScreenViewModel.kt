@@ -147,13 +147,15 @@ class FuelStationSignUpScreenViewModel @Inject constructor(
         with(authRepository) {
             fuelStationSignUp(fuelStationSignUpRequest).collect { result ->
                 when (result) {
-                    is Result.Error -> Unit
+                    is Result.Error -> {
+                        sendEvent(FuelStationSignUpScreenUiEvent.ShowErrorSnackBar(result.error.message))
+                    }
+
                     is Result.Loading -> updateIsLoadingUiState(result.isLoading)
                     is Result.Success -> {
                         val data = result.data
                         setFuelStationPreferences(data)
                     }
-
                 }
             }
         }
@@ -372,4 +374,7 @@ sealed interface FuelStationSignUpScreenUiAction {
 sealed interface FuelStationSignUpScreenUiEvent {
     data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) :
         FuelStationSignUpScreenUiEvent
+
+    data class ShowErrorSnackBar(val errorMessage: String) : FuelStationSignUpScreenUiEvent
+
 }
