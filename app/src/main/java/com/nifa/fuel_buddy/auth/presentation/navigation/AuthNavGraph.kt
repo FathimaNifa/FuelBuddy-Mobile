@@ -108,7 +108,9 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LoaderScreen(
-                uiState = uiState
+                uiState = uiState,
+                uiEvent = viewModel.uiEvent,
+                uiAction = viewModel::onUiAction
             )
         }
     }
