@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
-import com.nifa.fuel_buddy.user.data.dummyFuelOrderHistory
+import com.nifa.fuel_buddy.user.data.networkSource.dummyFuelOrderHistory
 import com.nifa.fuel_buddy.user.presentation.feature.activity.components.ActivityCard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -48,7 +48,10 @@ fun ActivityScreen(
                 datetime = data.orderDateTime,
                 imageUrl = data.fuelStation.imageUrl,
                 onClick = {
-                    uiAction.invoke(ActivityScreenUiAction.OnActivityCardClicked(data.fuelStation))
+                    uiAction.invoke(ActivityScreenUiAction.OnActivityCardClicked(
+                        fuelStation = data.fuelStation,
+                        orderId = data.orderId
+                    ))
                 }
             )
         }

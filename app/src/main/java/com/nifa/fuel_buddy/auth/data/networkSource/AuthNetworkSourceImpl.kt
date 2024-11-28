@@ -1,7 +1,6 @@
 package com.nifa.fuel_buddy.auth.data.networkSource
 
 import android.content.Context
-import com.nifa.fuel_buddy.auth.data.AuthApi
 import com.nifa.fuel_buddy.auth.data.model.FuelStationSignInDto
 import com.nifa.fuel_buddy.auth.data.model.FuelStationSignUpDto
 import com.nifa.fuel_buddy.auth.data.model.UserSignInDto

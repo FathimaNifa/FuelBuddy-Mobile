@@ -4,8 +4,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
-import com.nifa.fuel_buddy.user.domain.FuelStation
-import com.nifa.fuel_buddy.user.domain.Product
+import com.nifa.fuel_buddy.user.domain.model.FuelStation
+import com.nifa.fuel_buddy.user.domain.model.Product
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

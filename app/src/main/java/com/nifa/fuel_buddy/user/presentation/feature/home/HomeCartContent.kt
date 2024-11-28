@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.core.utils.ext.prependRupees
-import com.nifa.fuel_buddy.user.data.dummyProductListWithAddedQuantity
-import com.nifa.fuel_buddy.user.data.quantityAddedFuelStationList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyFuelStationList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyProductListWithAddedQuantity
 import com.nifa.fuel_buddy.user.presentation.feature.home.components.AddQuantityComponent
 import com.nifa.fuel_buddy.user.presentation.feature.home.components.OrderNowBottomCTA
 
@@ -178,7 +178,7 @@ private fun HomeCartContentPreview() {
     HomeCartContent(
         uiAction = { },
         uiState = HomeDetailScreenUiState(
-            fuelStation = quantityAddedFuelStationList[0],
+            fuelStation = dummyFuelStationList[0],
             productList = dummyProductListWithAddedQuantity,
             productListAddedInTheCart = dummyProductListWithAddedQuantity,
             addedItemCount = 3,

@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.core.utils.imagePainter
-import com.nifa.fuel_buddy.user.data.dummyFuelStationList
-import com.nifa.fuel_buddy.user.data.dummyProductList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyFuelStationList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyProductList
 import com.nifa.fuel_buddy.user.presentation.feature.home.components.ProductCard
 import com.nifa.fuel_buddy.user.presentation.feature.home.components.ViewCartBottomCTA
 

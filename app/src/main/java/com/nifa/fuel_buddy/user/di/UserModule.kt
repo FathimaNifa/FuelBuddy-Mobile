@@ -1,6 +1,6 @@
-package com.nifa.fuel_buddy.auth.di
+package com.nifa.fuel_buddy.user.di
 
-import com.nifa.fuel_buddy.auth.data.networkSource.AuthApi
+import com.nifa.fuel_buddy.user.data.networkSource.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,10 +11,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AuthModule {
+object UserModule {
 
     @Provides
     @Singleton
-    fun provideAuthApi(retrofit: Retrofit): AuthApi =
+    fun provideUserApi(retrofit: Retrofit): UserApi =
         retrofit.create()
 }

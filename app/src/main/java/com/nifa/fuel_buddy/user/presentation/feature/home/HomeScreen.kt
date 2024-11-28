@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
-import com.nifa.fuel_buddy.user.data.dummyFuelStationList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyFuelStationList
 import com.nifa.fuel_buddy.user.presentation.feature.home.components.HomeScreenCard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
