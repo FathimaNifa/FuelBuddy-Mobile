@@ -12,8 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
-import com.nifa.fuel_buddy.user.domain.FuelStation
-import com.nifa.fuel_buddy.user.domain.Product
+import com.nifa.fuel_buddy.user.domain.model.FuelStation
+import com.nifa.fuel_buddy.user.domain.model.Product
 import com.nifa.fuel_buddy.user.presentation.feature.account.AccountScreen
 import com.nifa.fuel_buddy.user.presentation.feature.account.AccountScreenViewModel
 import com.nifa.fuel_buddy.user.presentation.feature.activity.ActivityDetailScreen
@@ -62,7 +62,7 @@ fun SetupUserNavGraph(
 
             val fuelStation = it.toRoute<UserNavigation.HomeDetailScreen>().fuelStation
 
-            val viewModel = viewModel<HomeDetailScreenViewModel>()
+            val viewModel = hiltViewModel<HomeDetailScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             viewModel.updateFuelStationUiState(fuelStation)
@@ -97,18 +97,9 @@ fun SetupUserNavGraph(
             )
         }
 
-        composable<UserNavigation.ActivityDetailScreen>(
-            typeMap = mapOf(
-                typeOf<FuelStation>() to CustomNavType.FuelStationType,
-                typeOf<Product>() to CustomNavType.ProductType
-            )
-        ) {
-            val fuelStation = it.toRoute<UserNavigation.HomeDetailScreen>().fuelStation
-
-            val viewModel = viewModel<ActivityDetailScreenViewModel>()
+        composable<UserNavigation.ActivityDetailScreen>{
+            val viewModel = hiltViewModel<ActivityDetailScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-            viewModel.updateFuelStationUiState(fuelStation)
 
             ActivityDetailScreen(
                 uiState = uiState

@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.auth.data
+package com.nifa.fuel_buddy.auth.data.networkSource
 
 import com.nifa.fuel_buddy.auth.data.model.FuelStationSignInDto
 import com.nifa.fuel_buddy.auth.data.model.FuelStationSignUpDto

@@ -2,10 +2,11 @@ package com.nifa.fuel_buddy.user.presentation.feature.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
-import com.nifa.fuel_buddy.user.domain.FuelBuddyUserRepository
-import com.nifa.fuel_buddy.user.domain.FuelOrderHistory
-import com.nifa.fuel_buddy.user.domain.FuelStation
+import com.nifa.fuel_buddy.user.domain.UserRepository
+import com.nifa.fuel_buddy.user.domain.model.FuelOrderHistory
+import com.nifa.fuel_buddy.user.domain.model.FuelStation
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActivityScreenViewModel @Inject constructor(
-    private val fuelBuddyUserRepository: FuelBuddyUserRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ActivityScreenUiState())
@@ -38,16 +39,29 @@ class ActivityScreenViewModel @Inject constructor(
     }
 
     private fun getFuelOrderHistoryListAndUpdateInUiState() = viewModelScope.launch {
-        val fuelOrderHistoryList = fuelBuddyUserRepository.getFuelOrderHistory()
-        updateFuelOrderHistoryListUiState(fuelOrderHistoryList)
+        userRepository.getFuelOrderHistory().collect { result ->
+            when (result) {
+                is Result.Error -> Unit
+                is Result.Loading -> Unit
+                is Result.Success -> {
+                    updateFuelOrderHistoryListUiState(result.data)
+                }
+            }
+        }
+
     }
 
     fun onUiAction(action: ActivityScreenUiAction) {
         when (action) {
             is ActivityScreenUiAction.OnActivityCardClicked -> {
+                val navigation = UserNavigation.ActivityDetailScreen(
+                    fuelStationName = action.fuelStation.name,
+                    orderId = action.orderId,
+                    deliveryCharge = action.fuelStation.deliveryCharge
+                )
                 sendEvent(
                     ActivityScreenUiEvent.NavigateTo(
-                        UserNavigation.ActivityDetailScreen(action.fuelStation)
+                        navigation
                     )
                 )
             }
@@ -72,7 +86,10 @@ data class ActivityScreenUiState(
 )
 
 sealed interface ActivityScreenUiAction {
-    data class OnActivityCardClicked(val fuelStation: FuelStation) : ActivityScreenUiAction
+    data class OnActivityCardClicked(
+        val fuelStation: FuelStation,
+        val orderId: String
+    ) : ActivityScreenUiAction
 }
 
 sealed interface ActivityScreenUiEvent {

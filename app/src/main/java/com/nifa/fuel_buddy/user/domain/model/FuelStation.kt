@@ -1,13 +1,15 @@
-package com.nifa.fuel_buddy.user.domain
+package com.nifa.fuel_buddy.user.domain.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class FuelStation(
+    val id : String,
     val name: String,
     val imageUrl: String,
     val distance: String,
-    val deliveryCharge: Long,
-    val productList: List<Product>
+    val rating : Int,
+    val ratedUserCount : Int,
+    val deliveryCharge: Int,
 )
 

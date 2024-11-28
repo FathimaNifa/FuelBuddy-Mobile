@@ -1,0 +1,241 @@
+package com.nifa.fuel_buddy.user.data.networkSource
+
+import com.nifa.fuel_buddy.core.domain.NetworkError
+import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.user.data.model.GetAllProductsDto
+import com.nifa.fuel_buddy.user.data.model.GetFuelOrderHistoryDto
+import com.nifa.fuel_buddy.user.data.model.GetNearbyFuelStationDto
+import com.nifa.fuel_buddy.user.data.model.GetOrderedProductsDto
+import com.nifa.fuel_buddy.user.data.model.toFuelOrderHistoryDto
+import com.nifa.fuel_buddy.user.data.model.toFuelStationDto
+import com.nifa.fuel_buddy.user.data.model.toOrderedProductsDto
+import com.nifa.fuel_buddy.user.data.model.toProductDto
+import com.nifa.fuel_buddy.user.domain.model.FuelOrderHistory
+import com.nifa.fuel_buddy.user.domain.model.FuelStation
+import com.nifa.fuel_buddy.user.domain.model.Product
+import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
+import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
+import com.nifa.fuel_buddy.user.domain.request.GetOrderedProductRequest
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+
+class FakeUserNetworkSource @Inject constructor() : UserNetworkSource {
+    override suspend fun getNearbyFuelStation(request: GetNearbyFuelStationRequest): Flow<Result<GetNearbyFuelStationDto, NetworkError>> {
+        return flow {
+            emit(Result.Loading(true))
+            emit(
+                Result.Success(
+                    GetNearbyFuelStationDto(
+                        statusCode = 200,
+                        message = "Success",
+                        data = dummyFuelStationList.map(FuelStation::toFuelStationDto)
+                    )
+                )
+            )
+            emit(Result.Loading(false))
+        }
+    }
+
+    override suspend fun getFuelOrderHistory(): Flow<Result<GetFuelOrderHistoryDto, NetworkError>> {
+        return flow {
+            emit(Result.Loading(true))
+            emit(
+                Result.Success(
+                    GetFuelOrderHistoryDto(
+                        statusCode = 200,
+                        message = "Success",
+                        data = dummyFuelOrderHistory.map(FuelOrderHistory::toFuelOrderHistoryDto)
+                    )
+                )
+            )
+            emit(Result.Loading(false))
+        }
+    }
+
+    override suspend fun getAllProducts(request: GetAllProductRequest): Flow<Result<GetAllProductsDto, NetworkError>> {
+        return flow {
+            emit(Result.Loading(true))
+            emit(
+                Result.Success(
+                    GetAllProductsDto(
+                        statusCode = 200,
+                        message = "Success",
+                        data = dummyProductList.map(Product::toProductDto)
+                    )
+                )
+            )
+            emit(Result.Loading(false))
+        }
+    }
+
+    override suspend fun getOrderedProducts(request: GetOrderedProductRequest): Flow<Result<GetOrderedProductsDto, NetworkError>> {
+        return flow {
+            emit(Result.Loading(true))
+            emit(
+                Result.Success(
+                    GetOrderedProductsDto(
+                        statusCode = 200,
+                        message = "Success",
+                        data = dummyProductListWithAddedQuantity.map(Product::toOrderedProductsDto)
+                    )
+                )
+            )
+            emit(Result.Loading(false))
+        }
+    }
+}
+
+val dummyProductList = listOf(
+    Product(
+        productId = "0",
+        name = "Petrol",
+        imageUrl = "https://fuel-buddy-backend.vercel.app/assets/petrol_1.png",
+        price = 102,
+        quantityAdded = 0
+    ),
+    Product(
+        productId = "1",
+        name = "Diesel",
+        imageUrl = "https://fuel-buddy-backend.vercel.app/assets/diesel_1.png",
+        price = 95,
+        quantityAdded = 0
+    ),
+    Product(
+        productId = "3",
+        name = "Engine Oil",
+        imageUrl = "https://fuel-buddy-backend.vercel.app/assets/engine_oil_1.png",
+        price = 500,
+        quantityAdded = 0
+    ),
+    Product(
+        productId = "4",
+        name = "Shell Engine Oil",
+        imageUrl = "https://fuel-buddy-backend.vercel.app/assets/shell_engine_oil_1.png",
+        price = 500,
+        quantityAdded = 0
+    )
+)
+
+val dummyProductListWithAddedQuantity =
+    dummyProductList.mapIndexed { index, product ->
+        product.copy(
+            quantityAdded = dummyProductList.size - index
+        )
+    }
+
+val hpFuelStation = FuelStation(
+    id = "0",
+    name = "HP Petrol",
+    imageUrl = "https://fuel-buddy-backend.vercel.app/assets/hp_16.png",
+    distance = "1.2 Km away",
+    deliveryCharge = 50,
+    rating = 4,
+    ratedUserCount = 23
+)
+
+val bharathFuelStation = FuelStation(
+    id = "1",
+    name = "Bharath Petroleum",
+    imageUrl = "https://fuel-buddy-backend.vercel.app/assets/bharat_16.png",
+    distance = "2.2 Km away",
+    deliveryCharge = 70,
+    rating = 3,
+    ratedUserCount = 35
+)
+
+val indianFuelStation = FuelStation(
+    id = "2",
+    name = "Indian Oil",
+    imageUrl = "https://fuel-buddy-backend.vercel.app/assets/indian-oil_16.png",
+    distance = "500 m away",
+    deliveryCharge = 20,
+    rating = 4,
+    ratedUserCount = 45
+)
+
+val nayara = FuelStation(
+    id = "3",
+    name = "Nayara",
+    imageUrl = "https://fuel-buddy-backend.vercel.app/assets/nayara_16.png",
+    distance = "3.3 Km away",
+    deliveryCharge = 90,
+    rating = 5,
+    ratedUserCount = 2
+)
+
+val reliance = FuelStation(
+    id = "4",
+    name = "Reliance",
+    imageUrl = "https://fuel-buddy-backend.vercel.app/assets/reliance_16.png",
+    distance = "1 Km away",
+    deliveryCharge = 40,
+    rating = 5,
+    ratedUserCount = 21
+)
+
+val shell = FuelStation(
+    id = "5",
+    name = "Shell",
+    imageUrl = "https://fuel-buddy-backend.vercel.app/assets/shell_16.png",
+    distance = "5 Km away",
+    deliveryCharge = 110,
+    rating = 4,
+    ratedUserCount = 50
+)
+
+val dummyFuelStationList = listOf(
+    hpFuelStation,
+    bharathFuelStation,
+    indianFuelStation,
+    reliance,
+    shell,
+    nayara
+)
+
+val quantityAddedFuelStationList = dummyProductListWithAddedQuantity
+
+val dummyFuelOrderHistory = listOf(
+    FuelOrderHistory(
+        orderId = "1",
+        orderDateTime = "20 Oct | 1.41 PM",
+        totalPrice = "2243",
+        fuelStation = hpFuelStation,
+//        productList = dummyProductListWithAddedQuantity
+    ),
+    FuelOrderHistory(
+        orderId = "2",
+        orderDateTime = "1 Oct | 10.03 PM",
+        totalPrice = "2263",
+        fuelStation = bharathFuelStation,
+//        productList = dummyProductListWithAddedQuantity
+    ),
+    FuelOrderHistory(
+        orderId = "3",
+        orderDateTime = "12 Sept | 12.41 PM",
+        totalPrice = "2213",
+        fuelStation = indianFuelStation,
+//        productList = dummyProductListWithAddedQuantity
+    ),
+    FuelOrderHistory(
+        orderId = "4",
+        orderDateTime = "9 Nov | 6.39 AM",
+        totalPrice = "2303",
+        fuelStation = shell,
+//        productList = dummyProductListWithAddedQuantity
+    ),
+    FuelOrderHistory(
+        orderId = "5",
+        orderDateTime = "1 Feb | 9.41 PM",
+        totalPrice = "2233",
+        fuelStation = reliance,
+//        productList = dummyProductListWithAddedQuantity
+    ),
+    FuelOrderHistory(
+        orderId = "6",
+        orderDateTime = "9 Mar | 2.05 PM",
+        totalPrice = "2283",
+        fuelStation = nayara,
+//        productList = dummyProductListWithAddedQuantity
+    ),
+)

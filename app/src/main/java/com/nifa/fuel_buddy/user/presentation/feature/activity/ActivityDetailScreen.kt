@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.core.utils.ext.prependRupees
-import com.nifa.fuel_buddy.user.data.quantityAddedFuelStationList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyProductListWithAddedQuantity
 import com.nifa.fuel_buddy.user.presentation.feature.activity.components.PriceDetailsBottomBar
 
 @Composable
@@ -36,130 +36,126 @@ fun ActivityDetailScreen(
     uiState: ActivityDetailScreenUiState
 ) {
 
-    uiState.fuelStation?.let { fuelStation ->
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize(),
+        containerColor = Color.Black,
+        contentColor = colorResource(R.color.white),
+        bottomBar = {
+            PriceDetailsBottomBar(totalPrice = uiState.totalPrice)
+        }
+    ) { contentPadding ->
+
+        val bottomPadding = contentPadding.calculateBottomPadding()
+
+        Column(
+            modifier = Modifier.padding(bottom = bottomPadding),
+
+            ) {
+            Text(
+                text = uiState.fuelStationName,
+                color = colorResource(R.color.white),
+                fontSize = 22.sp,
+                fontFamily = Font.JosefinBold,
+                modifier = Modifier.padding(30.dp)
+            )
 
 
-        Scaffold(
-            modifier = modifier
-                .fillMaxSize(),
-            containerColor = Color.Black,
-            contentColor = colorResource(R.color.white),
-            bottomBar = {
-                PriceDetailsBottomBar(totalPrice = uiState.totalPrice)
-            }
-        ) { contentPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp)
+                    .border(
+                        width = 0.5.dp,
+                        color = colorResource(R.color.saffron).copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .background(colorResource(R.color.raisin_black)),
+                contentPadding = PaddingValues(30.dp),
+                verticalArrangement = Arrangement.spacedBy(30.dp)
+            ) {
 
-            val bottomPadding = contentPadding.calculateBottomPadding()
+                items(uiState.productList.size) { index ->
 
-            Column(
-                modifier = Modifier.padding(bottom = bottomPadding),
+                    val data = uiState.productList[index]
 
-                ) {
-                Text(
-                    text = fuelStation.name,
-                    color = colorResource(R.color.white),
-                    fontSize = 22.sp,
-                    fontFamily = Font.JosefinBold,
-                    modifier = Modifier.padding(30.dp)
-                )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
 
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(10.dp)
-                        .border(
-                            width = 0.5.dp,
-                            color = colorResource(R.color.saffron).copy(alpha = 0.5f),
-                            shape = RoundedCornerShape(8.dp)
+                        Text(
+                            text = data.name,
+                            fontSize = 12.sp,
+                            fontFamily = Font.JosefinRegular,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.weight(1f)
                         )
-                        .background(colorResource(R.color.raisin_black)),
-                    contentPadding = PaddingValues(30.dp),
-                    verticalArrangement = Arrangement.spacedBy(30.dp)
-                ) {
 
-                    items(fuelStation.productList.size) { index ->
-
-                        val data = fuelStation.productList[index]
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-
-                            Text(
-                                text = data.name,
-                                fontSize = 12.sp,
-                                fontFamily = Font.JosefinRegular,
-                                color = Color.White,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.weight(1f)
-                            )
-
-                            Box(
-                                modifier = Modifier
-
-                                    .weight(1f),
-                                contentAlignment = Alignment.Center
-                            ) {
-
-                                Text(
-                                    text = data.quantityAdded.toString(),
-                                    fontSize = 10.sp,
-                                    fontFamily = Font.JosefinRegular,
-                                    color = Color.White,
-                                    modifier = Modifier
-                                        .border(
-                                            width = 0.5.dp,
-                                            color = colorResource(R.color.saffron).copy(alpha = 0.5f),
-                                            shape = RoundedCornerShape(8.dp)
-                                        )
-                                        .padding(
-                                            horizontal = 20.dp,
-                                            vertical = 10.dp
-                                        )
-                                )
-                            }
-
-
-                            Text(
-                                text = (data.quantityAdded * data.price).toString().prependRupees(),
-                                fontSize = 12.sp,
-                                fontFamily = Font.JosefinRegular,
-                                color = Color.White,
-                                textAlign = TextAlign.Right,
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-                    }
-
-                    item {
-                        Row(
+                        Box(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 20.dp)
+
+                                .weight(1f),
+                            contentAlignment = Alignment.Center
                         ) {
 
-                            Box(modifier = Modifier.weight(1f))
-
                             Text(
-                                text = stringResource(R.string.delivery_charge),
-                                fontSize = 12.sp,
-                                fontFamily = Font.JosefinRegular,
-                                color = colorResource(R.color.saffron),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.weight(3f)
-                            )
-
-                            Text(
-                                text = fuelStation.deliveryCharge.toString().prependRupees(),
-                                fontSize = 12.sp,
+                                text = data.quantityAdded.toString(),
+                                fontSize = 10.sp,
                                 fontFamily = Font.JosefinRegular,
                                 color = Color.White,
-                                textAlign = TextAlign.Right,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier
+                                    .border(
+                                        width = 0.5.dp,
+                                        color = colorResource(R.color.saffron).copy(alpha = 0.5f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(
+                                        horizontal = 20.dp,
+                                        vertical = 10.dp
+                                    )
                             )
                         }
+
+
+                        Text(
+                            text = (data.quantityAdded * data.price).toString().prependRupees(),
+                            fontSize = 12.sp,
+                            fontFamily = Font.JosefinRegular,
+                            color = Color.White,
+                            textAlign = TextAlign.Right,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 20.dp)
+                    ) {
+
+                        Box(modifier = Modifier.weight(1f))
+
+                        Text(
+                            text = stringResource(R.string.delivery_charge),
+                            fontSize = 12.sp,
+                            fontFamily = Font.JosefinRegular,
+                            color = colorResource(R.color.saffron),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.weight(3f)
+                        )
+
+                        Text(
+                            text = uiState.deliveryCharge.toString().prependRupees(),
+                            fontSize = 12.sp,
+                            fontFamily = Font.JosefinRegular,
+                            color = Color.White,
+                            textAlign = TextAlign.Right,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
             }
@@ -172,7 +168,9 @@ fun ActivityDetailScreen(
 private fun ActivityDetailScreenPreview() {
     ActivityDetailScreen(
         uiState = ActivityDetailScreenUiState(
-            fuelStation = quantityAddedFuelStationList[0]
+            fuelStationName = "HP",
+            deliveryCharge = 50,
+            productList = dummyProductListWithAddedQuantity
         )
     )
 }

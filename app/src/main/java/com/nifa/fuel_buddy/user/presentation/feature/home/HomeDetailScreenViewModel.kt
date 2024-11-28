@@ -2,15 +2,21 @@ package com.nifa.fuel_buddy.user.presentation.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
-import com.nifa.fuel_buddy.user.domain.FuelStation
-import com.nifa.fuel_buddy.user.domain.Product
+import com.nifa.fuel_buddy.user.domain.UserRepository
+import com.nifa.fuel_buddy.user.domain.model.FuelStation
+import com.nifa.fuel_buddy.user.domain.model.Product
+import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -18,8 +24,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeDetailScreenViewModel : ViewModel() {
+@HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
+class HomeDetailScreenViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeDetailScreenUiState())
     val uiState = _uiState.stateIn(
@@ -33,13 +44,16 @@ class HomeDetailScreenViewModel : ViewModel() {
 
 
     init {
+
+        getProductList()
+
         uiState.map { it.fuelStation }
             .distinctUntilChanged()
             .filterNotNull()
             .onEach {
                 updateImageUrlUiState(it.imageUrl)
                 updateTitleUiState(it.name)
-                updateProductListUiState(it.productList)
+//                updateProductListUiState(it.productList)
             }.launchIn(viewModelScope)
 
 
@@ -67,11 +81,28 @@ class HomeDetailScreenViewModel : ViewModel() {
                 updateTotalPriceUiState(totalPrice)
                 if (products.isEmpty()) {
                     val screenState = uiState.value.homeDetailScreenState
-                    if(screenState == HomeDetailScreenState.CART)
+                    if (screenState == HomeDetailScreenState.CART)
                         updateHomeDetailScreenStateUiState(HomeDetailScreenState.DETAIL)
                 }
             }.launchIn(viewModelScope)
+    }
 
+    private fun getProductList() {
+        uiState.map { it.fuelStation }
+            .filterNotNull()
+            .distinctUntilChanged()
+            .flatMapLatest { fuelStation ->
+                val request = GetAllProductRequest(fuelStation.id)
+                userRepository.getAllProducts(request)
+            }.onEach { result ->
+                when (result) {
+                    is Result.Error -> Unit
+                    is Result.Loading -> Unit
+                    is Result.Success -> {
+                        updateProductListUiState(result.data)
+                    }
+                }
+            }.launchIn(viewModelScope)
     }
 
 
@@ -113,7 +144,7 @@ class HomeDetailScreenViewModel : ViewModel() {
         }
     }
 
-    private fun updateProductQuantity(productId: Long, action: (Int) -> Int) {
+    private fun updateProductQuantity(productId: String, action: (Int) -> Int) {
 
         val newList = _uiState.value.productList.map {
             if (it.productId == productId) {
@@ -189,7 +220,7 @@ class HomeDetailScreenViewModel : ViewModel() {
             )
         }
 
-    private fun updateImageUrlUiState(imageUrl : String) : Unit =
+    private fun updateImageUrlUiState(imageUrl: String): Unit =
         _uiState.update {
             it.copy(
                 imageUrl = imageUrl
@@ -201,7 +232,7 @@ class HomeDetailScreenViewModel : ViewModel() {
 data class HomeDetailScreenUiState(
     val fuelStation: FuelStation? = null,
     val title: String = "",
-    val imageUrl : String = "",
+    val imageUrl: String = "",
     val productList: List<Product> = emptyList(),
     val addedItemCount: Int = 0,
     val shouldShowCartCTABottomSheet: Boolean = false,
@@ -212,9 +243,9 @@ data class HomeDetailScreenUiState(
 
 sealed interface HomeDetailUiAction {
 
-    data class AddButtonClicked(val productId: Long) : HomeDetailUiAction
+    data class AddButtonClicked(val productId: String) : HomeDetailUiAction
 
-    data class ReduceButtonClicked(val productId: Long) : HomeDetailUiAction
+    data class ReduceButtonClicked(val productId: String) : HomeDetailUiAction
 
     data object ViewCartButtonClicked : HomeDetailUiAction
 

@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
-import com.nifa.fuel_buddy.user.data.dummyFuelStationList
-import com.nifa.fuel_buddy.user.data.dummyProductList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyFuelStationList
+import com.nifa.fuel_buddy.user.data.networkSource.dummyProductList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
