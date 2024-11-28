@@ -45,6 +45,8 @@ fun HomeScreen(
                 title = data.name,
                 distance = data.distance,
                 imageUrl = data.imageUrl,
+                ratings = data.rating,
+                ratingCount = data.ratedUserCount,
                 onClick = {
                     uiAction.invoke(HomeScreenUiAction.OnFuelStationCardClicked(data))
                 }
