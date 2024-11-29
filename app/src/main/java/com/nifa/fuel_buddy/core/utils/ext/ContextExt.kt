@@ -1,6 +1,8 @@
 package com.nifa.fuel_buddy.core.utils.ext
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 
 fun Context.isConnectedToNetwork(): Boolean {
@@ -32,3 +35,14 @@ fun PaddingValues.add(extraPadding: Dp) = PaddingValues(
     top = calculateTopPadding() + extraPadding,
     bottom = calculateBottomPadding() + extraPadding
 )
+
+fun Context.hasLocationPermission(): Boolean {
+    return ContextCompat.checkSelfPermission(
+        this,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+}

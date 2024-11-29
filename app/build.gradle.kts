@@ -95,4 +95,7 @@ dependencies {
 
 //Okhttp
     implementation(libs.okhttp)
+
+    // Location Services
+    implementation(libs.play.services.location)
 }
