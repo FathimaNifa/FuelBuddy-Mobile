@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.gradle.secrets)
 }
 
 android {
@@ -98,4 +99,10 @@ dependencies {
 
     // Location Services
     implementation(libs.play.services.location)
+
+    // Maps SDK for Android
+    implementation(libs.play.services.maps)
+
+    // Google maps for compose
+    implementation(libs.maps.compose)
 }
