@@ -1,6 +1,7 @@
 package com.nifa.fuel_buddy.user.data.networkSource
 
 import android.content.Context
+import com.google.android.gms.maps.model.LatLng
 import com.nifa.fuel_buddy.core.domain.BaseApiResponse
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
@@ -11,6 +12,7 @@ import com.nifa.fuel_buddy.user.data.model.GetOrderedProductsDto
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
 import com.nifa.fuel_buddy.user.domain.request.GetOrderedProductRequest
+import com.nifa.fuel_buddy.user.domain.request.TrackOrderRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -33,5 +35,9 @@ class UserNetworkSourceImpl @Inject constructor(
 
     override suspend fun getOrderedProducts(request: GetOrderedProductRequest): Flow<Result<GetOrderedProductsDto, NetworkError>> {
         return safeApiCall { userApi.getOrderedProducts(request) }
+    }
+
+    override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLng, NetworkError>> {
+        return safeApiCall { userApi.trackOrder(request) }
     }
 }

@@ -54,7 +54,7 @@ fun UserNavMainScreen(
 
         SetupUserNavGraph(
             navHostController = navHostController,
-            startDestination = UserNavigation.HomeScreen,
+            startDestination = UserNavigation.OrderTrackingScreen(""),
             modifier = Modifier.padding(bottom = bottomPadding, top = topPadding)
         )
     }

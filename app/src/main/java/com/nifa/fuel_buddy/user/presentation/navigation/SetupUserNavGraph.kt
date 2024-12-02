@@ -26,6 +26,8 @@ import com.nifa.fuel_buddy.user.presentation.feature.home.HomeScreen
 import com.nifa.fuel_buddy.user.presentation.feature.home.HomeScreenViewModel
 import com.nifa.fuel_buddy.user.presentation.feature.home.OrderStatusScreen
 import com.nifa.fuel_buddy.user.presentation.feature.home.OrderStatusScreenViewModel
+import com.nifa.fuel_buddy.user.presentation.feature.home.OrderTrackingScreen
+import com.nifa.fuel_buddy.user.presentation.feature.home.OrderTrackingViewModel
 import kotlin.reflect.typeOf
 
 @Composable
@@ -97,7 +99,7 @@ fun SetupUserNavGraph(
             )
         }
 
-        composable<UserNavigation.ActivityDetailScreen>{
+        composable<UserNavigation.ActivityDetailScreen> {
             val viewModel = hiltViewModel<ActivityDetailScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -114,6 +116,16 @@ fun SetupUserNavGraph(
             AccountScreen(
                 uiState = uiState,
                 uiAction = viewModel::onUiAction
+            )
+        }
+
+        composable<UserNavigation.OrderTrackingScreen> {
+
+            val viewModel = hiltViewModel<OrderTrackingViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            OrderTrackingScreen(
+                uiState = uiState
             )
         }
     }

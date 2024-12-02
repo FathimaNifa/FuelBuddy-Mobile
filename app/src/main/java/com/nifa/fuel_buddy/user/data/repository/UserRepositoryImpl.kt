@@ -1,5 +1,6 @@
 package com.nifa.fuel_buddy.user.data.repository
 
+import com.google.android.gms.maps.model.LatLng
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.user.data.model.FuelOrderHistoryDto
@@ -17,6 +18,7 @@ import com.nifa.fuel_buddy.user.domain.model.Product
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
 import com.nifa.fuel_buddy.user.domain.request.GetOrderedProductRequest
+import com.nifa.fuel_buddy.user.domain.request.TrackOrderRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -62,5 +64,9 @@ class UserRepositoryImpl @Inject constructor(
                 is Result.Success -> Result.Success(result.data.data.map(OrderedProductsDto::toProduct))
             }
         }
+    }
+
+    override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLng, NetworkError>> {
+        return userNetworkSource.trackOrder(request)
     }
 }
