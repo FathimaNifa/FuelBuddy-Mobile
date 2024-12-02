@@ -1,5 +1,6 @@
 package com.nifa.fuel_buddy.user.data.networkSource
 
+import com.google.android.gms.maps.model.LatLng
 import com.nifa.fuel_buddy.user.data.model.GetAllProductsDto
 import com.nifa.fuel_buddy.user.data.model.GetFuelOrderHistoryDto
 import com.nifa.fuel_buddy.user.data.model.GetNearbyFuelStationDto
@@ -7,6 +8,7 @@ import com.nifa.fuel_buddy.user.data.model.GetOrderedProductsDto
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
 import com.nifa.fuel_buddy.user.domain.request.GetOrderedProductRequest
+import com.nifa.fuel_buddy.user.domain.request.TrackOrderRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -24,4 +26,6 @@ interface UserApi {
 
     @POST("products/getOrderedProducts")
     suspend fun getOrderedProducts(@Body request: GetOrderedProductRequest): Response<GetOrderedProductsDto>
+
+    suspend fun trackOrder(@Body request: TrackOrderRequest): Response<LatLng>
 }

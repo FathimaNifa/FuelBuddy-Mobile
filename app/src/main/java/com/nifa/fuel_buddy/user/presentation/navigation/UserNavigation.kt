@@ -23,4 +23,7 @@ sealed interface UserNavigation : NavigationScreen {
 
     @Serializable
     data object AccountScreen : UserNavigation
+
+    @Serializable
+    data class OrderTrackingScreen(val orderId : String) : UserNavigation
 }
