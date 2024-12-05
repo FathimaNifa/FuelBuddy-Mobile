@@ -35,7 +35,8 @@ class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
                 location = "Sakthi Vinayakar Nagar, Injambakkam Chennai, Tamil Nadu 600115",
                 awayFrom = "5.5km away",
                 userName = "Kannan G",
-                totalPrice = "650"
+                totalPrice = "650",
+                deliveryCharge = "20"
             )
         )
 
