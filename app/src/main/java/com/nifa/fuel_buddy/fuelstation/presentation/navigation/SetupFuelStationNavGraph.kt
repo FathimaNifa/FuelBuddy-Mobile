@@ -1,13 +1,18 @@
 package com.nifa.fuel_buddy.fuelstation.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.account.AccountScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderScreenViewModel
 
 @Composable
 fun SetupFuelStationNavGraph(
@@ -23,7 +28,15 @@ fun SetupFuelStationNavGraph(
     ) {
 
         composable<FuelStationNavigation.LiveOrderScreen> {
-            LiveOrderScreen()
+            val viewModel = hiltViewModel<LiveOrderScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LiveOrderScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navHostController::navigateTo
+            )
         }
 
         composable<FuelStationNavigation.HistoryScreen> {
