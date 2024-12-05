@@ -49,7 +49,15 @@ class HistoryScreenViewModel @Inject constructor() : ViewModel() {
 
     fun onUiAction(action: HistoryScreenUiAction) {
         when (action) {
-            is HistoryScreenUiAction.OnCardClicked -> Unit
+            is HistoryScreenUiAction.OnCardClicked -> {
+                sendEvent(
+                    HistoryScreenUiEvent.NavigateTo(
+                        FuelStationNavigation.HistoryDetailScreen(
+                            action.orderDetails
+                        )
+                    )
+                )
+            }
         }
     }
 
