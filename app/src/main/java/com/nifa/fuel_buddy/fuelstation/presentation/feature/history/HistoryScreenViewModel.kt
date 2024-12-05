@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder
+package com.nifa.fuel_buddy.fuelstation.presentation.feature.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,17 +16,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
+class HistoryScreenViewModel @Inject constructor() : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LiveOrderScreenUiState())
+    private val _uiState = MutableStateFlow(HistoryScreenUiState())
     val uiState = _uiState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = LiveOrderScreenUiState()
+        initialValue = HistoryScreenUiState()
     )
 
-    private val _uiEvent = Channel<LiveOrderScreenUiEvent>()
+    private val _uiEvent = Channel<HistoryScreenUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
 
     init {
         val orderList = listOf(
@@ -38,31 +39,21 @@ class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
                 userName = "Kannan G",
                 totalPrice = "650",
                 deliveryCharge = "20",
-                orderStatus = OrderStatus.New
+                orderStatus = OrderStatus.DELIVERED,
+                dateAndTime = "20 Oct | 1.41 pm"
             )
         )
 
         updateOrderDetails(orderList)
     }
 
-    fun onUiAction(action: LiveOrderScreenUiAction) {
+    fun onUiAction(action: HistoryScreenUiAction) {
         when (action) {
-            LiveOrderScreenUiAction.OnAcceptButtonClicked -> Unit
-            is LiveOrderScreenUiAction.OnCardClicked -> {
-                sendEvent(
-                    LiveOrderScreenUiEvent.NavigateTo(
-                        FuelStationNavigation.LiveOrderDetailScreen(
-                            orderDetails = action.orderDetails
-                        )
-                    )
-                )
-            }
-
-            LiveOrderScreenUiAction.OnDeclineButtonClicked -> Unit
+            is HistoryScreenUiAction.OnCardClicked -> Unit
         }
     }
 
-    private fun sendEvent(event: LiveOrderScreenUiEvent) = viewModelScope.launch {
+    private fun sendEvent(event: HistoryScreenUiEvent) = viewModelScope.launch {
         _uiEvent.send(event)
     }
 
@@ -72,19 +63,16 @@ class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
                 orderList = orderList
             )
         }
-
 }
 
-data class LiveOrderScreenUiState(
+data class HistoryScreenUiState(
     val orderList: List<OrderDetails> = emptyList()
 )
 
-sealed interface LiveOrderScreenUiAction {
-    data class OnCardClicked(val orderDetails: OrderDetails) : LiveOrderScreenUiAction
-    data object OnAcceptButtonClicked : LiveOrderScreenUiAction
-    data object OnDeclineButtonClicked : LiveOrderScreenUiAction
+sealed interface HistoryScreenUiAction {
+    data class OnCardClicked(val orderDetails: OrderDetails) : HistoryScreenUiAction
 }
 
-sealed interface LiveOrderScreenUiEvent {
-    data class NavigateTo(val screen: FuelStationNavigation) : LiveOrderScreenUiEvent
+sealed interface HistoryScreenUiEvent {
+    data class NavigateTo(val screen: FuelStationNavigation) : HistoryScreenUiEvent
 }

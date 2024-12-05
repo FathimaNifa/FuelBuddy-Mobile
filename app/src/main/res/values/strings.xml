@@ -56,5 +56,9 @@
     <string name="go_back">Go back</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
+    <string name="delivered">Delivered</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="new_order">New</string>
+    <string name="pending">Pending</string>
 
 </resources>

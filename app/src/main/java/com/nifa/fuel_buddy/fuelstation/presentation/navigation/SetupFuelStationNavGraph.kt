@@ -13,6 +13,7 @@ import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.account.AccountScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryScreenViewModel
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderDetailScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderDetailScreenViewModel
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderScreen
@@ -60,7 +61,15 @@ fun SetupFuelStationNavGraph(
         }
 
         composable<FuelStationNavigation.HistoryScreen> {
-            HistoryScreen()
+            val viewModel = hiltViewModel<HistoryScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            HistoryScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navHostController::navigateTo
+            )
         }
 
         composable<FuelStationNavigation.AccountScreen> {

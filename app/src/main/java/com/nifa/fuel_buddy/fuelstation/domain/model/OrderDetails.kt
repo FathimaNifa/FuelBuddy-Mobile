@@ -10,5 +10,7 @@ data class OrderDetails(
     val totalPrice: String,
     val awayFrom: String,
     val userName: String,
-    val deliveryCharge: String
+    val deliveryCharge: String,
+    val orderStatus: OrderStatus,
+    val dateAndTime : String = ""
 )
