@@ -10,13 +10,13 @@ sealed interface FuelStationNavigation : NavigationScreen {
     data object LiveOrderScreen : FuelStationNavigation
 
     @Serializable
-    data class LiveOrderDetailScreen(val orderDetails: OrderDetails ) : FuelStationNavigation
+    data class LiveOrderDetailScreen(val orderDetails: OrderDetails) : FuelStationNavigation
 
     @Serializable
     data object HistoryScreen : FuelStationNavigation
 
     @Serializable
-    data object HistoryDetailScreen : FuelStationNavigation
+    data class HistoryDetailScreen(val orderDetails: OrderDetails) : FuelStationNavigation
 
     @Serializable
     data object AccountScreen : FuelStationNavigation

@@ -12,6 +12,8 @@ import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.account.AccountScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryDetailScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryDetailViewModel
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryScreenViewModel
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderDetailScreen
@@ -70,6 +72,17 @@ fun SetupFuelStationNavGraph(
                 uiEvent = viewModel.uiEvent,
                 navigateToCallback = navHostController::navigateTo
             )
+        }
+
+        composable<FuelStationNavigation.HistoryDetailScreen>(
+            typeMap = mapOf(
+                typeOf<OrderDetails>() to CustomNavType.OrderDetailsType,
+            )
+        ) {
+
+            val viewModel = hiltViewModel<HistoryDetailViewModel>()
+
+            HistoryDetailScreen()
         }
 
         composable<FuelStationNavigation.AccountScreen> {
