@@ -12,4 +12,6 @@
     <color name="gray">#808080</color>
     <color name="jet">#363636</color>
     <color name="raisin_black">#1D1B20</color>
+    <color name="pigment_green">#34A853</color>
+    <color name="dark_red">#8F0000</color>
 </resources>
