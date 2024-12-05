@@ -51,8 +51,12 @@ fun SetupFuelStationNavGraph(
         ) {
 
             val viewModel = hiltViewModel<LiveOrderDetailScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            LiveOrderDetailScreen()
+            LiveOrderDetailScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction
+            )
         }
 
         composable<FuelStationNavigation.HistoryScreen> {
