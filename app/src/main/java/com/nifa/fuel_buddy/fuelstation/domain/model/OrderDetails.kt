@@ -1,5 +1,8 @@
 package com.nifa.fuel_buddy.fuelstation.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class OrderDetails(
     val orderId: String,
     val orderNumber: String,

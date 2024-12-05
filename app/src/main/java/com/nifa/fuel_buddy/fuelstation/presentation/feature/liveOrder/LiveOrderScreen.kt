@@ -46,7 +46,7 @@ fun LiveOrderScreen(
                 awayFrom = data.awayFrom,
                 totalPrice = data.totalPrice,
                 onAcceptButtonClicked = { uiAction.invoke(LiveOrderScreenUiAction.OnAcceptButtonClicked) },
-                onClick = { uiAction.invoke(LiveOrderScreenUiAction.OnCardClicked) },
+                onClick = { uiAction.invoke(LiveOrderScreenUiAction.OnCardClicked(data)) },
                 onDeclineButtonClicked = { uiAction.invoke(LiveOrderScreenUiAction.OnDeclineButtonClicked) }
             )
         }

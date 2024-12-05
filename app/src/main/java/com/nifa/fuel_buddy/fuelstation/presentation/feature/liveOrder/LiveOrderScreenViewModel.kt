@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,8 +12,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LiveOrderScreenViewModel : ViewModel() {
+@HiltViewModel
+class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(LiveOrderScreenUiState())
     val uiState = _uiState.stateIn(
@@ -42,7 +45,16 @@ class LiveOrderScreenViewModel : ViewModel() {
     fun onUiAction(action: LiveOrderScreenUiAction) {
         when (action) {
             LiveOrderScreenUiAction.OnAcceptButtonClicked -> Unit
-            LiveOrderScreenUiAction.OnCardClicked -> Unit
+            is LiveOrderScreenUiAction.OnCardClicked -> {
+                sendEvent(
+                    LiveOrderScreenUiEvent.NavigateTo(
+                        FuelStationNavigation.LiveOrderDetailScreen(
+                            orderDetails = action.orderDetails
+                        )
+                    )
+                )
+            }
+
             LiveOrderScreenUiAction.OnDeclineButtonClicked -> Unit
         }
     }
@@ -65,7 +77,7 @@ data class LiveOrderScreenUiState(
 )
 
 sealed interface LiveOrderScreenUiAction {
-    data object OnCardClicked : LiveOrderScreenUiAction
+    data class OnCardClicked(val orderDetails: OrderDetails) : LiveOrderScreenUiAction
     data object OnAcceptButtonClicked : LiveOrderScreenUiAction
     data object OnDeclineButtonClicked : LiveOrderScreenUiAction
 }

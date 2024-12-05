@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.user.domain.model.FuelStation
 import com.nifa.fuel_buddy.user.domain.model.Product
 import kotlinx.serialization.encodeToString
@@ -54,6 +55,21 @@ object CustomNavType {
             Uri.encode(Json.encodeToString(value))
 
         override fun put(bundle: Bundle, key: String, value: UserSignUpRequest) =
+            bundle.putString(key, Json.encodeToString(value))
+    }
+
+    val OrderDetailsType = object : NavType<OrderDetails>(isNullableAllowed = false) {
+        override fun get(bundle: Bundle, key: String): OrderDetails? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+
+        override fun parseValue(value: String): OrderDetails =
+            Json.decodeFromString(Uri.decode(value))
+
+        override fun serializeAsValue(value: OrderDetails): String =
+            Uri.encode(Json.encodeToString(value))
+
+        override fun put(bundle: Bundle, key: String, value: OrderDetails) =
             bundle.putString(key, Json.encodeToString(value))
     }
 }

@@ -1,6 +1,7 @@
 package com.nifa.fuel_buddy.fuelstation.presentation.navigation
 
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import kotlinx.serialization.Serializable
 
 sealed interface FuelStationNavigation : NavigationScreen {
@@ -9,7 +10,7 @@ sealed interface FuelStationNavigation : NavigationScreen {
     data object LiveOrderScreen : FuelStationNavigation
 
     @Serializable
-    data object LiveOrderDetailScreen : FuelStationNavigation
+    data class LiveOrderDetailScreen(val orderDetails: OrderDetails ) : FuelStationNavigation
 
     @Serializable
     data object HistoryScreen : FuelStationNavigation
