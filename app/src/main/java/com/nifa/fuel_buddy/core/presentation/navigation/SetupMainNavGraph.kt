@@ -9,7 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nifa.fuel_buddy.auth.presentation.navigation.authNavGraph
-import com.nifa.fuel_buddy.fuelstation.presentation.navigation.fuelNavGraph
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.main.FuelStationMainScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.main.FuelStationMainViewModel
 import com.nifa.fuel_buddy.user.presentation.feature.main.UserNavMainScreen
 import com.nifa.fuel_buddy.user.presentation.feature.main.UserNavMainScreenViewModel
 
@@ -28,7 +29,16 @@ fun SetupMainNavGraph(
 
         authNavGraph(navHostController)
 
-        fuelNavGraph(navHostController)
+        composable<NavGraphs.FuelStationNavGraph> {
+            val viewModel = viewModel<FuelStationMainViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            FuelStationMainScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction
+            )
+        }
+
 
         composable<NavGraphs.UserNavGraph> {
             val viewModel = viewModel<UserNavMainScreenViewModel>()
