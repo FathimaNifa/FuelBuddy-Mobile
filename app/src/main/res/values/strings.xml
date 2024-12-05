@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">FuelBuddy-Mobile</string>
     <string name="home">Home</string>
+    <string name="live_order">Live Order</string>
+    <string name="history">History</string>
     <string name="activity">Activity</string>
     <string name="account">Account</string>
     <string name="add">Add</string>

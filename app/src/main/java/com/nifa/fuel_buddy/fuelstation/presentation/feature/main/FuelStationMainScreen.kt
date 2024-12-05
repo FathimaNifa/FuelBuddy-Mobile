@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.user.presentation.feature.main
+package com.nifa.fuel_buddy.fuelstation.presentation.feature.main
 
 import android.os.Bundle
 import androidx.compose.animation.core.animateDpAsState
@@ -16,22 +16,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nifa.fuel_buddy.core.utils.ext.navigateBottomBar
-import com.nifa.fuel_buddy.user.presentation.navigation.SetupUserNavGraph
-import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
-import com.nifa.fuel_buddy.user.presentation.navigation.bottomnavigation.SetupBottomNavigation
+import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
+import com.nifa.fuel_buddy.fuelstation.presentation.navigation.SetupFuelStationNavGraph
+import com.nifa.fuel_buddy.fuelstation.presentation.navigation.bottomNavigation.SetupBottomNavigation
 
 @Composable
-fun UserNavMainScreen(
-    uiState: UserNavMainScreenViewModelUiState,
-    uiAction: (UserNavMainScreenViewModelUiAction) -> Unit,
+fun FuelStationMainScreen(
+    uiState: FuelStationMainScreenViewModelUiState,
+    uiAction: (FuelStationMainScreenViewModelUiAction) -> Unit,
     navHostController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
+
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
 
     navHostController.addOnDestinationChangedListener { _: NavController, destination: NavDestination, _: Bundle? ->
         destination.route?.let { route ->
-            uiAction.invoke(UserNavMainScreenViewModelUiAction.OnNavDestinationChanged(route))
+            uiAction.invoke(FuelStationMainScreenViewModelUiAction.OnNavDestinationChanged(route))
         }
     }
 
@@ -52,20 +53,19 @@ fun UserNavMainScreen(
         )
         val topPadding = innerPadding.calculateTopPadding()
 
-        SetupUserNavGraph(
+        SetupFuelStationNavGraph(
             navHostController = navHostController,
-            startDestination = UserNavigation.HomeScreen,
+            startDestination = FuelStationNavigation.LiveOrderScreen,
             modifier = Modifier.padding(bottom = bottomPadding, top = topPadding)
         )
     }
-
 }
 
 @Preview
 @Composable
-private fun UserNavMainScreenPreview() {
-    UserNavMainScreen(
-        uiState = UserNavMainScreenViewModelUiState(),
-        uiAction = {}
+private fun FuelStationMainScreenPreview() {
+    FuelStationMainScreen(
+        uiState = FuelStationMainScreenViewModelUiState(),
+        uiAction = {},
     )
 }
