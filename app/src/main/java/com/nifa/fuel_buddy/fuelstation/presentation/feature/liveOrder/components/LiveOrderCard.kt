@@ -40,14 +40,14 @@ fun LiveOrderCard(
 ) {
     Column(
         modifier = modifier
+            .clickable(onClick = onClick)
             .border(
                 width = 0.5.dp,
                 color = colorResource(R.color.saffron).copy(alpha = 0.5f),
                 shape = RoundedCornerShape(8.dp)
             )
             .background(colorResource(R.color.raisin_black))
-            .padding(20.dp)
-            .clickable(onClick = onClick),
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Row {

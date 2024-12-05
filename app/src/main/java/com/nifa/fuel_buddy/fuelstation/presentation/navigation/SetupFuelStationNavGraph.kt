@@ -8,11 +8,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.account.AccountScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.history.HistoryScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderDetailScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderDetailScreenViewModel
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderScreenViewModel
+import kotlin.reflect.typeOf
 
 @Composable
 fun SetupFuelStationNavGraph(
@@ -37,6 +42,17 @@ fun SetupFuelStationNavGraph(
                 uiEvent = viewModel.uiEvent,
                 navigateToCallback = navHostController::navigateTo
             )
+        }
+
+        composable<FuelStationNavigation.LiveOrderDetailScreen>(
+            typeMap = mapOf(
+                typeOf<OrderDetails>() to CustomNavType.OrderDetailsType,
+            )
+        ) {
+
+            val viewModel = hiltViewModel<LiveOrderDetailScreenViewModel>()
+
+            LiveOrderDetailScreen()
         }
 
         composable<FuelStationNavigation.HistoryScreen> {
