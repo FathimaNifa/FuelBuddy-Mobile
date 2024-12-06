@@ -9,8 +9,10 @@ data class OrderDetails(
     val location: String,
     val totalPrice: String,
     val awayFrom: String,
+    val latitude: Double,
+    val longitude: Double,
     val userName: String,
     val deliveryCharge: String,
     val orderStatus: OrderStatus,
-    val dateAndTime : String = ""
+    val dateAndTime: String
 )

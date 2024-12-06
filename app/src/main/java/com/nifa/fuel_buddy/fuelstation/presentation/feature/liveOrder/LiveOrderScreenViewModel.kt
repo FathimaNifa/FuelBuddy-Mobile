@@ -38,7 +38,10 @@ class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
                 userName = "Kannan G",
                 totalPrice = "650",
                 deliveryCharge = "20",
-                orderStatus = OrderStatus.New
+                orderStatus = OrderStatus.New,
+                latitude = 0.0,
+                longitude = 0.0,
+                dateAndTime = ""
             )
         )
 
