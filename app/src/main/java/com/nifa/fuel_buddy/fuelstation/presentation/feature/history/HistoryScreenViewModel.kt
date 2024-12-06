@@ -2,13 +2,17 @@ package com.nifa.fuel_buddy.fuelstation.presentation.feature.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
+import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
-import com.nifa.fuel_buddy.fuelstation.domain.model.OrderStatus
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -16,7 +20,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoryScreenViewModel @Inject constructor() : ViewModel() {
+class HistoryScreenViewModel @Inject constructor(
+    private val repository: FuelStationRepository,
+    private val preferences: FuelStationPreferenceDataSource
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HistoryScreenUiState())
     val uiState = _uiState.stateIn(
@@ -30,23 +37,27 @@ class HistoryScreenViewModel @Inject constructor() : ViewModel() {
 
 
     init {
-        val orderList = listOf(
-            OrderDetails(
-                orderNumber = "22",
-                orderId = "1",
-                location = "Sakthi Vinayakar Nagar, Injambakkam Chennai, Tamil Nadu 600115",
-                awayFrom = "5.5km away",
-                userName = "Kannan G",
-                totalPrice = "650",
-                deliveryCharge = "20",
-                orderStatus = OrderStatus.DELIVERED,
-                dateAndTime = "20 Oct | 1.41 pm",
-                latitude = 0.0,
-                longitude = 0.0
-            )
-        )
 
-        updateOrderDetails(orderList)
+        viewModelScope.launch {
+
+            val bunkId = preferences.fuelStationPreferencesData.first().bunkId
+            val bunkToken = preferences.fuelStationPreferencesData.first().bunkToken
+
+            val request = GetOrderHistoryRequest(
+                bunkId = bunkId,
+                bunkToken = bunkToken
+            )
+
+            repository.getOrderHistory(request).collect { result ->
+                when (result) {
+                    is Result.Error -> Unit
+                    is Result.Loading -> Unit
+                    is Result.Success -> {
+                        updateOrderDetails(result.data)
+                    }
+                }
+            }
+        }
     }
 
     fun onUiAction(action: HistoryScreenUiAction) {
