@@ -41,6 +41,7 @@
     <string name="fuel_station">Fuel Station</string>
     <string name="continue_cta">Continue</string>
     <string name="user_name">User Name</string>
+    <string name="fuel_station_name">Fuel Station Name</string>
     <string name="create_new_password">Create New Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="next">Next</string>
