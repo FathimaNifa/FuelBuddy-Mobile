@@ -99,7 +99,7 @@ fun FuelStationSignUpScreen(
                     .fillMaxWidth()
                     .padding(10.dp),
                 isError = uiState.showUserNameAsError,
-                label = stringResource(R.string.user_name),
+                label = stringResource(R.string.fuel_station_name),
                 leadingIconResId = R.drawable.ic_account,
                 onValueChange = { uiAction.invoke(FuelStationSignUpScreenUiAction.TypingUserName(it)) },
                 value = uiState.typedUserName,
