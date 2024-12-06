@@ -40,7 +40,9 @@ class HistoryScreenViewModel @Inject constructor() : ViewModel() {
                 totalPrice = "650",
                 deliveryCharge = "20",
                 orderStatus = OrderStatus.DELIVERED,
-                dateAndTime = "20 Oct | 1.41 pm"
+                dateAndTime = "20 Oct | 1.41 pm",
+                latitude = 0.0,
+                longitude = 0.0
             )
         )
 
