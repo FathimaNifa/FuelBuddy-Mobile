@@ -2,13 +2,17 @@ package com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
+import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
-import com.nifa.fuel_buddy.fuelstation.domain.model.OrderStatus
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -16,7 +20,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
+class LiveOrderScreenViewModel @Inject constructor(
+    private val repository: FuelStationRepository,
+    private val preferences: FuelStationPreferenceDataSource
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LiveOrderScreenUiState())
     val uiState = _uiState.stateIn(
@@ -29,23 +36,27 @@ class LiveOrderScreenViewModel @Inject constructor() : ViewModel() {
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val orderList = listOf(
-            OrderDetails(
-                orderNumber = "22",
-                orderId = "1",
-                location = "Sakthi Vinayakar Nagar, Injambakkam Chennai, Tamil Nadu 600115",
-                awayFrom = "5.5km away",
-                userName = "Kannan G",
-                totalPrice = "650",
-                deliveryCharge = "20",
-                orderStatus = OrderStatus.New,
-                latitude = 0.0,
-                longitude = 0.0,
-                dateAndTime = ""
-            )
-        )
 
-        updateOrderDetails(orderList)
+        viewModelScope.launch {
+
+            val bunkId = preferences.fuelStationPreferencesData.first().bunkId
+            val bunkToken = preferences.fuelStationPreferencesData.first().bunkToken
+
+            val request = GetCustomerOrdersRequest(
+                bunkId = bunkId,
+                bunkToken = bunkToken
+            )
+
+            repository.getCustomerOrders(request).collect { result ->
+                when (result) {
+                    is Result.Error -> Unit
+                    is Result.Loading -> Unit
+                    is Result.Success -> {
+                        updateOrderDetails(result.data)
+                    }
+                }
+            }
+        }
     }
 
     fun onUiAction(action: LiveOrderScreenUiAction) {

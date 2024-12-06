@@ -4,17 +4,21 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.utils.CustomNavType
+import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderStatus
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedHistoryProductsRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
-import com.nifa.fuel_buddy.user.data.networkSource.dummyProductListWithAddedQuantity
 import com.nifa.fuel_buddy.user.domain.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +28,9 @@ import javax.inject.Inject
 import kotlin.reflect.typeOf
 
 @HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 class HistoryDetailViewModel @Inject constructor(
+    private val repository: FuelStationRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -53,9 +59,16 @@ class HistoryDetailViewModel @Inject constructor(
         uiState.map { it.orderId }
             .distinctUntilChanged()
             .filter { it.isNotBlank() }
-            .onEach {
-                val data = dummyProductListWithAddedQuantity
-                updateProductListUiState(data)
+            .flatMapLatest {
+                val request = GetOrderedHistoryProductsRequest(it)
+                repository.getOrderHistoryProducts(request)
+            }
+            .onEach { result ->
+                when (result) {
+                    is Result.Error -> Unit
+                    is Result.Loading -> Unit
+                    is Result.Success -> { updateProductListUiState(result.data) }
+                }
             }.launchIn(viewModelScope)
     }
 

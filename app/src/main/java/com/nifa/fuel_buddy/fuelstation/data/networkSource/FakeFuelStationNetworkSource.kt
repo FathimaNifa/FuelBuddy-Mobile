@@ -14,8 +14,9 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class FakeFuelStationNetworkSource : FuelStationNetworkSource {
+class FakeFuelStationNetworkSource @Inject constructor(): FuelStationNetworkSource {
     override suspend fun getCustomerOrders(request: GetCustomerOrdersRequest): Flow<Result<GetCustomerOrderDto, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
