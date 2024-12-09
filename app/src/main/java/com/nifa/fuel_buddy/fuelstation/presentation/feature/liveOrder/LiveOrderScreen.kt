@@ -8,9 +8,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
+import com.nifa.fuel_buddy.core.utils.ext.openGoogleMaps
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.components.LiveOrderCard
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import kotlinx.coroutines.flow.Flow
@@ -24,9 +26,18 @@ fun LiveOrderScreen(
     uiEvent: Flow<LiveOrderScreenUiEvent>,
     navigateToCallback: (FuelStationNavigation) -> Unit
 ) {
+
+    val context = LocalContext.current
+
     uiEvent.CollectAsEffect { event ->
         when (event) {
             is LiveOrderScreenUiEvent.NavigateTo -> navigateToCallback.invoke(event.screen)
+            is LiveOrderScreenUiEvent.OpenGoogleMapApp -> {
+                context.openGoogleMaps(
+                    latitude = event.latitude,
+                    longitude = event.longitude
+                )
+            }
         }
     }
 
@@ -45,9 +56,23 @@ fun LiveOrderScreen(
                 location = data.location,
                 awayFrom = data.awayFrom,
                 totalPrice = data.totalPrice,
-                onAcceptButtonClicked = { uiAction.invoke(LiveOrderScreenUiAction.OnAcceptButtonClicked) },
+                onAcceptButtonClicked = {
+                    uiAction.invoke(
+                        LiveOrderScreenUiAction.OnAcceptButtonClicked(
+                            orderId = data.orderId,
+                            latitude = data.latitude,
+                            longitude = data.longitude
+                        )
+                    )
+                },
                 onClick = { uiAction.invoke(LiveOrderScreenUiAction.OnCardClicked(data)) },
-                onDeclineButtonClicked = { uiAction.invoke(LiveOrderScreenUiAction.OnDeclineButtonClicked) }
+                onDeclineButtonClicked = {
+                    uiAction.invoke(
+                        LiveOrderScreenUiAction.OnDeclineButtonClicked(
+                            data.orderId
+                        )
+                    )
+                }
             )
         }
     }

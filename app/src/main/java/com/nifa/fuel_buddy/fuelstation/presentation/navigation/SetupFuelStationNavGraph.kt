@@ -59,7 +59,8 @@ fun SetupFuelStationNavGraph(
 
             LiveOrderDetailScreen(
                 uiState = uiState,
-                uiAction = viewModel::onUiAction
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent
             )
         }
 

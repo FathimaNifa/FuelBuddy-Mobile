@@ -13,6 +13,7 @@ import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNaviga
 import com.nifa.fuel_buddy.user.domain.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -21,8 +22,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.reflect.typeOf
 
@@ -40,6 +43,9 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
         initialValue = LiveOrderDetailScreenUiState()
     )
 
+    private val _uiEvent = Channel<LiveOrderDetailScreenUiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     init {
         val data = savedStateHandle.toRoute<FuelStationNavigation.LiveOrderDetailScreen>(
             typeMap = mapOf(
@@ -53,6 +59,8 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
         updateDeliveryChargeUiState(data.orderDetails.deliveryCharge)
         updateTotalPriceUiState(data.orderDetails.totalPrice)
         updateUserNameUiState(data.orderDetails.userName)
+        updateLatitudeUiState(data.orderDetails.latitude)
+        updateLongitudeUiState(data.orderDetails.longitude)
 
         uiState.map { it.orderId }
             .distinctUntilChanged()
@@ -65,7 +73,9 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
                 when (result) {
                     is Result.Error -> Unit
                     is Result.Loading -> Unit
-                    is Result.Success -> { updateProductListUiState(result.data) }
+                    is Result.Success -> {
+                        updateProductListUiState(result.data)
+                    }
                 }
             }.launchIn(viewModelScope)
     }
@@ -73,9 +83,22 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
 
     fun onUiAction(action: LiveOrderDetailUiAction) {
         when (action) {
-            LiveOrderDetailUiAction.OnAcceptButtonClicked -> Unit
+            LiveOrderDetailUiAction.OnAcceptButtonClicked -> {
+                // TODO: Add api call here
+                sendEvent(
+                    LiveOrderDetailScreenUiEvent.OpenGoogleMapApp(
+                        latitude = uiState.value.latitude,
+                        longitude = uiState.value.longitude
+                    )
+                )
+            }
+
             LiveOrderDetailUiAction.OnDeclineButtonClicked -> Unit
         }
+    }
+
+    private fun sendEvent(event: LiveOrderDetailScreenUiEvent) = viewModelScope.launch {
+        _uiEvent.send(event)
     }
 
     private fun updateOrderNumberUiState(orderNumber: String) =
@@ -126,6 +149,20 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
                 productList = productList
             )
         }
+
+    private fun updateLatitudeUiState(latitude: Double) =
+        _uiState.update {
+            it.copy(
+                latitude = latitude
+            )
+        }
+
+    private fun updateLongitudeUiState(longitude: Double) =
+        _uiState.update {
+            it.copy(
+                longitude = longitude
+            )
+        }
 }
 
 data class LiveOrderDetailScreenUiState(
@@ -135,10 +172,17 @@ data class LiveOrderDetailScreenUiState(
     val totalPrice: String = "",
     val deliveryCharge: String = "",
     val userName: String = "",
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
     val productList: List<Product> = emptyList()
 )
 
 sealed interface LiveOrderDetailUiAction {
     data object OnAcceptButtonClicked : LiveOrderDetailUiAction
     data object OnDeclineButtonClicked : LiveOrderDetailUiAction
+}
+
+sealed interface LiveOrderDetailScreenUiEvent {
+    data class OpenGoogleMapApp(val latitude: Double, val longitude: Double) :
+        LiveOrderDetailScreenUiEvent
 }
