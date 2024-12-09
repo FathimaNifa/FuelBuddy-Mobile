@@ -92,7 +92,7 @@ class FakeFuelStationNetworkSource @Inject constructor(): FuelStationNetworkSour
                                 totalPrice = "650",
                                 deliveryCharge = "20",
                                 orderStatus = OrderStatus.New.name,
-                                dateAndTime = "",
+                                dateAndTime = "20 Oct | 1.41 pm",
                                 latitude = 13.0437639,
                                 longitude = 80.2632539
                             )
