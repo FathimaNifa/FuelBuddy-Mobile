@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.user.presentation.feature.home
+package com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -25,10 +26,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.core.utils.Font
+import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
+import com.nifa.fuel_buddy.core.utils.ext.openGoogleMaps
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.OutForDeliveryScreenViewModel.UiAction
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.OutForDeliveryScreenViewModel.UiEvent
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.OutForDeliveryScreenViewModel.UiState
+import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import com.nifa.fuel_buddy.user.presentation.feature.home.components.ActionButton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
-fun OrderApprovedScreenContent(modifier: Modifier = Modifier) {
+fun OutForDeliveryScreen(
+    modifier: Modifier = Modifier,
+    uiState: UiState,
+    uiAction: (UiAction) -> Unit,
+    uiEvent: Flow<UiEvent>,
+    navigateToCallback: (FuelStationNavigation) -> Unit
+) {
+
+    val context = LocalContext.current
+
+    uiEvent.CollectAsEffect { event ->
+        when (event) {
+            is UiEvent.NavigateTo -> {
+                navigateToCallback.invoke(event.screen)
+            }
+
+            is UiEvent.OpenGoogleMapApp -> {
+                context.openGoogleMaps(
+                    latitude = event.latitude,
+                    longitude = event.longitude
+                )
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -40,9 +73,10 @@ fun OrderApprovedScreenContent(modifier: Modifier = Modifier) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = stringResource(R.string.your_order_is_accepted),
+                text = stringResource(R.string.out_for_deliver_title),
                 color = Color.White,
                 fontSize = 16.sp,
+                lineHeight = 24.sp,
                 fontFamily = Font.JosefinBold,
                 textAlign = TextAlign.Center,
                 modifier = modifier
@@ -56,7 +90,7 @@ fun OrderApprovedScreenContent(modifier: Modifier = Modifier) {
             contentAlignment = Alignment.Center
         ) {
             Image(
-                imageVector = ImageVector.vectorResource(R.drawable.approved),
+                imageVector = ImageVector.vectorResource(R.drawable.ic_clock),
                 contentDescription = "Profile Image",
                 modifier = modifier
                     .padding(30.dp)
@@ -73,34 +107,35 @@ fun OrderApprovedScreenContent(modifier: Modifier = Modifier) {
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ActionButton(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.track_order),
+                    text = stringResource(R.string.take_me_to_map),
                     backgroundColor = colorResource(R.color.saffron),
                     textColor = colorResource(R.color.black),
-                    onClick = {}
+                    onClick = { uiAction.invoke(UiAction.OnTakeMeToMapButtonClicked) }
                 )
                 ActionButton(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.back_to_home),
+                    text = stringResource(R.string.delivered_order),
                     backgroundColor = colorResource(R.color.raisin_black),
                     textColor = colorResource(R.color.saffron),
-                    onClick = {}
+                    onClick = { uiAction.invoke(UiAction.OnDeliveredOrderButtonClicked) }
                 )
             }
         }
     }
 }
 
-
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun OrderApprovedScreenContentPreview() {
-    OrderApprovedScreenContent(
-        modifier = Modifier,
+private fun OutForDeliveryScreenPreview() {
+    OutForDeliveryScreen(
+        uiState = UiState(),
+        uiAction = {},
+        uiEvent = emptyFlow(),
+        navigateToCallback = {}
     )
 }

@@ -13,6 +13,9 @@ sealed interface FuelStationNavigation : NavigationScreen {
     data class LiveOrderDetailScreen(val orderDetails: OrderDetails) : FuelStationNavigation
 
     @Serializable
+    data class OutForDeliveryScreen(val latitude : Double, val longitude : Double, val orderId : String) : FuelStationNavigation
+
+    @Serializable
     data object HistoryScreen : FuelStationNavigation
 
     @Serializable
