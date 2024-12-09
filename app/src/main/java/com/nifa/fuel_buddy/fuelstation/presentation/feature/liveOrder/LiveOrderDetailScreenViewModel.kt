@@ -85,12 +85,13 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
         when (action) {
             LiveOrderDetailUiAction.OnAcceptButtonClicked -> {
                 // TODO: Add api call here
-                sendEvent(
-                    LiveOrderDetailScreenUiEvent.OpenGoogleMapApp(
-                        latitude = uiState.value.latitude,
-                        longitude = uiState.value.longitude
-                    )
+
+                val screen = FuelStationNavigation.OutForDeliveryScreen(
+                    latitude = uiState.value.latitude,
+                    longitude = uiState.value.longitude,
+                    orderId = uiState.value.orderId
                 )
+                sendEvent(LiveOrderDetailScreenUiEvent.NavigateTo(screen))
             }
 
             LiveOrderDetailUiAction.OnDeclineButtonClicked -> Unit
@@ -183,6 +184,5 @@ sealed interface LiveOrderDetailUiAction {
 }
 
 sealed interface LiveOrderDetailScreenUiEvent {
-    data class OpenGoogleMapApp(val latitude: Double, val longitude: Double) :
-        LiveOrderDetailScreenUiEvent
+    data class NavigateTo(val screen: FuelStationNavigation) : LiveOrderDetailScreenUiEvent
 }

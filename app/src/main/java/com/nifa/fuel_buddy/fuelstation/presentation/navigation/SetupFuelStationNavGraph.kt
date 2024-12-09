@@ -21,6 +21,8 @@ import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderD
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderDetailScreenViewModel
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.LiveOrderScreenViewModel
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.OutForDeliveryScreen
+import com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder.OutForDeliveryScreenViewModel
 import kotlin.reflect.typeOf
 
 @Composable
@@ -60,7 +62,20 @@ fun SetupFuelStationNavGraph(
             LiveOrderDetailScreen(
                 uiState = uiState,
                 uiAction = viewModel::onUiAction,
-                uiEvent = viewModel.uiEvent
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navHostController::navigateTo
+            )
+        }
+
+        composable<FuelStationNavigation.OutForDeliveryScreen> {
+            val viewModel = hiltViewModel<OutForDeliveryScreenViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            OutForDeliveryScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navHostController::navigateTo
             )
         }
 
