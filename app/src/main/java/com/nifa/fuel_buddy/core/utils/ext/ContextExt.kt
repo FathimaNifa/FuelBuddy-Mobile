@@ -2,9 +2,11 @@ package com.nifa.fuel_buddy.core.utils.ext
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -45,4 +47,12 @@ fun Context.hasLocationPermission(): Boolean {
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.openGoogleMaps(latitude: Double, longitude: Double) {
+    val query = "google.navigation:q=$latitude,$longitude"
+    val gmmIntentUri = Uri.parse(query)
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.setPackage("com.google.android.apps.maps")
+    startActivity(mapIntent)
 }
