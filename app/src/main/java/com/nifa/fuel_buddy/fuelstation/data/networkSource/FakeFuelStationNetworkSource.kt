@@ -2,6 +2,7 @@ package com.nifa.fuel_buddy.fuelstation.data.networkSource
 
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.SuccessResponse
 import com.nifa.fuel_buddy.fuelstation.data.model.GetCustomerOrderDto
 import com.nifa.fuel_buddy.fuelstation.data.model.GetOrderedProductDetailsDto
 import com.nifa.fuel_buddy.fuelstation.data.model.OrderDetailsDto
@@ -11,12 +12,14 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersReq
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedHistoryProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
-class FakeFuelStationNetworkSource @Inject constructor(): FuelStationNetworkSource {
+class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSource {
     override suspend fun getCustomerOrders(request: GetCustomerOrdersRequest): Flow<Result<GetCustomerOrderDto, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
@@ -126,6 +129,20 @@ class FakeFuelStationNetworkSource @Inject constructor(): FuelStationNetworkSour
                 )
             )
             emit(Result.Loading(false))
+        }
+    }
+
+    override suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<SuccessResponse, NetworkError>> {
+        return flow {
+            Timber.d("updateDriverLocation : $request")
+            emit(
+                Result.Success(
+                    SuccessResponse(
+                        statusCode = 200,
+                        message = "Success"
+                    )
+                )
+            )
         }
     }
 }

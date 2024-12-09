@@ -13,6 +13,7 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersReq
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedHistoryProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import com.nifa.fuel_buddy.user.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -57,6 +58,16 @@ class FuelStationRepositoryImpl @Inject constructor(
                 is Result.Error -> Result.Error(result.error)
                 is Result.Loading -> Result.Loading(result.isLoading)
                 is Result.Success -> Result.Success(result.data.data.map(ProductDetailsDto::toProduct))
+            }
+        }
+    }
+
+    override suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<Unit, NetworkError>> {
+        return networkSource.updateDriverLocation(request).map { result ->
+            when (result) {
+                is Result.Error -> Result.Error(result.error)
+                is Result.Loading -> Result.Loading(result.isLoading)
+                is Result.Success -> Result.Success(Unit)
             }
         }
     }

@@ -7,6 +7,7 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersReq
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedHistoryProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import com.nifa.fuel_buddy.user.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 
@@ -19,4 +20,6 @@ interface FuelStationRepository {
     suspend fun getOrderHistory(request: GetOrderHistoryRequest): Flow<Result<List<OrderDetails>, NetworkError>>
 
     suspend fun getOrderHistoryProducts(request: GetOrderedHistoryProductsRequest): Flow<Result<List<Product>, NetworkError>>
+
+    suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<Unit, NetworkError>>
 }
