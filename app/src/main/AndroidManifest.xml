@@ -30,6 +30,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <data android:scheme="https" />
+                <data android:host="fuel-buddy.com" />
+                <data android:host="www.fuel-buddy.com" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
         </activity>
         <service
             android:name=".fuelstation.presentation.service.LocationUpdateService"

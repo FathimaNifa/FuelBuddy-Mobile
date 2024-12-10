@@ -1,12 +1,16 @@
 package com.nifa.fuel_buddy.fuelstation.presentation.notification
 
+import android.app.PendingIntent
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.core.presentation.notification.NotificationChannels.UPDATE_DRIVER_LOCATION
 import com.nifa.fuel_buddy.core.presentation.notification.NotificationService
 
-class UpdateDriverLocationNotification(context: Context) : NotificationService(context) {
+class UpdateDriverLocationNotification(
+    pendingIntent: PendingIntent?,
+    context: Context
+) : NotificationService(context) {
 
     override val notification: NotificationCompat.Builder =
         NotificationCompat.Builder(context, UPDATE_DRIVER_LOCATION.getChannelId(context))
@@ -16,6 +20,7 @@ class UpdateDriverLocationNotification(context: Context) : NotificationService(c
             .setContentTitle(context.getString(R.string.out_for_deliver_title))
             .setOngoing(true)
             .setAutoCancel(false)
+            .setContentIntent(pendingIntent)
 
     override val notificationId: Int = 100
 }

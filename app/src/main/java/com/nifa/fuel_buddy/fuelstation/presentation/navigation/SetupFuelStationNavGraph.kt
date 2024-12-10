@@ -8,7 +8,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.nifa.fuel_buddy.core.utils.CustomNavType
+import com.nifa.fuel_buddy.core.utils.Deeplink
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.account.AccountScreen
@@ -67,7 +69,13 @@ fun SetupFuelStationNavGraph(
             )
         }
 
-        composable<FuelStationNavigation.OutForDeliveryScreen> {
+        composable<FuelStationNavigation.OutForDeliveryScreen>(
+            deepLinks = listOf(
+                navDeepLink<FuelStationNavigation.OutForDeliveryScreen>(
+                    basePath = Deeplink.OUT_FOR_DELIVERY_BASE_PATH,
+                )
+            )
+        ) {
             val viewModel = hiltViewModel<OutForDeliveryScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -115,5 +123,4 @@ fun SetupFuelStationNavGraph(
             )
         }
     }
-
 }

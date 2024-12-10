@@ -1,9 +1,14 @@
 package com.nifa.fuel_buddy.fuelstation.presentation.service
 
+import android.app.PendingIntent
 import android.app.Service
+import android.app.TaskStackBuilder
 import android.content.Intent
 import android.os.IBinder
+import androidx.core.net.toUri
 import com.nifa.fuel_buddy.core.domain.LocationClient
+import com.nifa.fuel_buddy.core.presentation.MainActivity
+import com.nifa.fuel_buddy.core.utils.Deeplink
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.notification.UpdateDriverLocationNotification
@@ -33,16 +38,40 @@ class LocationUpdateService : Service() {
     override fun onBind(p0: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_START -> start()
-            ACTION_STOP -> stop()
+        intent?.let {
+            when (intent.action) {
+                ACTION_START -> start(it)
+                ACTION_STOP -> stop()
+            }
         }
+
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun start() {
+    private fun start(intent: Intent) {
 
-        val notification = UpdateDriverLocationNotification(this)
+        val bundle = intent.extras ?: throw IllegalArgumentException("Required Key not found")
+
+        val latitude = bundle.getDouble(LATITUDE)
+        val longitude = bundle.getDouble(LONGITUDE)
+        val orderId = bundle.getString(ORDER_ID)
+
+        val data = "${Deeplink.OUT_FOR_DELIVERY_BASE_PATH}/$latitude/$longitude/$orderId"
+
+        Timber.d(data)
+
+        val activityIntent = Intent(this, MainActivity::class.java).apply {
+            this.data = data.toUri()
+        }
+        val pendingIntent = TaskStackBuilder.create(this)?.run {
+            addNextIntentWithParentStack(activityIntent)
+            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        val notification = UpdateDriverLocationNotification(
+            pendingIntent = pendingIntent,
+            context = this
+        )
 
         startForeground(
             notification.notificationId,
@@ -75,5 +104,8 @@ class LocationUpdateService : Service() {
     companion object {
         const val ACTION_START = "ACTION_START"
         const val ACTION_STOP = "ACTION_STOP"
+        const val LATITUDE = "LATITUDE"
+        const val LONGITUDE = "LONGITUDE"
+        const val ORDER_ID = "ORDER_ID"
     }
 }
