@@ -65,4 +65,8 @@
     <string name="new_order">New</string>
     <string name="pending">Pending</string>
 
+    <!-- Notification based -->
+    <string name="update_driver_location_channel_id">"Driver Location Update alerts"</string>
+    <string name="update_driver_location_channel_name">"Driver Location Update alerts"</string>
+
 </resources>
