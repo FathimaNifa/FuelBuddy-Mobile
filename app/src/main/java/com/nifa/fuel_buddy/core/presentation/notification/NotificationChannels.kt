@@ -17,11 +17,11 @@ enum class NotificationChannels(
     UPDATE_DRIVER_LOCATION(
         channelId = R.string.update_driver_location_channel_id,
         channelName = R.string.update_driver_location_channel_name,
-        channelImportance = NotificationManager.IMPORTANCE_LOW
+        channelImportance = NotificationManager.IMPORTANCE_HIGH
     );
 
 
-    fun getNotificationChannel(context : Context) : NotificationChannel =
+    fun getNotificationChannel(context: Context): NotificationChannel =
         NotificationChannel(
             context.getString(channelId),
             context.getString(channelName),

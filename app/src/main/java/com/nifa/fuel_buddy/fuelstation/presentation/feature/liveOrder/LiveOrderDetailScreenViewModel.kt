@@ -2,6 +2,7 @@ package com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -91,7 +92,11 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
             LiveOrderDetailUiAction.OnAcceptButtonClicked -> {
                 // TODO: Add api call here
 
-                startLocationUpdateService()
+                startLocationUpdateService(
+                    latitude = uiState.value.latitude,
+                    longitude = uiState.value.longitude,
+                    orderId = uiState.value.orderId
+                )
 
                 val screen = FuelStationNavigation.OutForDeliveryScreen(
                     latitude = uiState.value.latitude,
@@ -105,9 +110,20 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
         }
     }
 
-    private fun startLocationUpdateService() {
+    private fun startLocationUpdateService(
+        latitude: Double,
+        longitude: Double,
+        orderId: String
+    ) {
+
+        val bundle = Bundle().apply {
+            putDouble(LocationUpdateService.LATITUDE, latitude)
+            putDouble(LocationUpdateService.LONGITUDE, longitude)
+            putString(LocationUpdateService.ORDER_ID, orderId)
+        }
         val intent = Intent(applicationContext, LocationUpdateService::class.java).apply {
             action = LocationUpdateService.ACTION_START
+            putExtras(bundle)
         }
         applicationContext.startService(intent)
     }
