@@ -17,7 +17,7 @@ enum class NotificationChannels(
     UPDATE_DRIVER_LOCATION(
         channelId = R.string.update_driver_location_channel_id,
         channelName = R.string.update_driver_location_channel_name,
-        channelImportance = NotificationManager.IMPORTANCE_DEFAULT
+        channelImportance = NotificationManager.IMPORTANCE_LOW
     );
 
 

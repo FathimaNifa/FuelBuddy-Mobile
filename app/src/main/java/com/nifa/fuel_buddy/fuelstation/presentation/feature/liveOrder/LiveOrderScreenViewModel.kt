@@ -1,5 +1,7 @@
 package com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
@@ -8,7 +10,9 @@ import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
+import com.nifa.fuel_buddy.fuelstation.presentation.service.LocationUpdateService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LiveOrderScreenViewModel @Inject constructor(
     private val repository: FuelStationRepository,
-    private val preferences: FuelStationPreferenceDataSource
+    private val preferences: FuelStationPreferenceDataSource,
+    @ApplicationContext private val applicationContext: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LiveOrderScreenUiState())
@@ -65,6 +70,7 @@ class LiveOrderScreenViewModel @Inject constructor(
             is LiveOrderScreenUiAction.OnAcceptButtonClicked -> {
 
                 // TODO: Add api call here
+                startLocationUpdateService()
 
                 val screen = FuelStationNavigation.OutForDeliveryScreen(
                     latitude = action.latitude,
@@ -87,6 +93,13 @@ class LiveOrderScreenViewModel @Inject constructor(
 
             is LiveOrderScreenUiAction.OnDeclineButtonClicked -> Unit
         }
+    }
+
+    private fun startLocationUpdateService() {
+        val intent = Intent(applicationContext, LocationUpdateService::class.java).apply {
+            action = LocationUpdateService.ACTION_START
+        }
+        applicationContext.startService(intent)
     }
 
     private fun sendEvent(event: LiveOrderScreenUiEvent) = viewModelScope.launch {

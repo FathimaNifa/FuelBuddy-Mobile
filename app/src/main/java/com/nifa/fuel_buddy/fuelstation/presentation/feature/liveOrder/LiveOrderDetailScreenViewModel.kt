@@ -1,5 +1,7 @@
 package com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +12,10 @@ import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
+import com.nifa.fuel_buddy.fuelstation.presentation.service.LocationUpdateService
 import com.nifa.fuel_buddy.user.domain.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +37,8 @@ import kotlin.reflect.typeOf
 @OptIn(ExperimentalCoroutinesApi::class)
 class LiveOrderDetailScreenViewModel @Inject constructor(
     private val repository: FuelStationRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    @ApplicationContext private val applicationContext: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LiveOrderDetailScreenUiState())
@@ -86,6 +91,8 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
             LiveOrderDetailUiAction.OnAcceptButtonClicked -> {
                 // TODO: Add api call here
 
+                startLocationUpdateService()
+
                 val screen = FuelStationNavigation.OutForDeliveryScreen(
                     latitude = uiState.value.latitude,
                     longitude = uiState.value.longitude,
@@ -96,6 +103,13 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
 
             LiveOrderDetailUiAction.OnDeclineButtonClicked -> Unit
         }
+    }
+
+    private fun startLocationUpdateService() {
+        val intent = Intent(applicationContext, LocationUpdateService::class.java).apply {
+            action = LocationUpdateService.ACTION_START
+        }
+        applicationContext.startService(intent)
     }
 
     private fun sendEvent(event: LiveOrderDetailScreenUiEvent) = viewModelScope.launch {
