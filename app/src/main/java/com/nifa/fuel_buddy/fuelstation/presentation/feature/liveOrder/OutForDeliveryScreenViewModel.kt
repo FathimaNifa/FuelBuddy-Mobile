@@ -1,11 +1,15 @@
 package com.nifa.fuel_buddy.fuelstation.presentation.feature.liveOrder
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
+import com.nifa.fuel_buddy.fuelstation.presentation.service.LocationUpdateService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OutForDeliveryScreenViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    @ApplicationContext private val applicationContext: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState())
@@ -43,6 +48,7 @@ class OutForDeliveryScreenViewModel @Inject constructor(
         when (action) {
             UiAction.OnDeliveredOrderButtonClicked -> {
                 // TODO: Add Api call here
+                stopLocationUpdateService()
             }
 
             UiAction.OnTakeMeToMapButtonClicked -> {
@@ -55,6 +61,14 @@ class OutForDeliveryScreenViewModel @Inject constructor(
             }
         }
     }
+
+    private fun stopLocationUpdateService() {
+        val intent = Intent(applicationContext, LocationUpdateService::class.java).apply {
+            action = LocationUpdateService.ACTION_STOP
+        }
+        applicationContext.startService(intent)
+    }
+
 
     private fun sendEvent(event: UiEvent) = viewModelScope.launch {
         _uiEvent.send(event)
