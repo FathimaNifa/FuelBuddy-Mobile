@@ -1,5 +1,7 @@
 package com.nifa.fuel_buddy.core.data.datastore.di
 
+import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSource
+import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSourceImpl
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSourceImpl
 import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
@@ -18,4 +20,7 @@ interface DataStoreBindingModule {
 
     @Binds
     fun bindUserDataStoreSource(userPreferenceDataSource: UserPreferenceDataSourceImpl): UserPreferenceDataSource
+
+    @Binds
+    fun bindDataStoreSource(preferenceDataSource: PreferenceDataSourceImpl): PreferenceDataSource
 }
