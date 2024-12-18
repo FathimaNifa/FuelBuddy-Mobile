@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -13,12 +14,13 @@ fun LoaderScreen(
     modifier: Modifier = Modifier,
     uiState: LoaderScreenUiState,
     uiAction: (LoaderScreenUiAction) -> Unit,
-    uiEvent: Flow<LoaderScreenUiEvent>
+    uiEvent: Flow<LoaderScreenUiEvent>,
+    navigateAndPopUpBackStack : (NavigationScreen) -> Unit
 ) {
 
     uiEvent.CollectAsEffect { event ->
         when (event) {
-            is LoaderScreenUiEvent.NavigateTo -> Unit
+            is LoaderScreenUiEvent.NavigateTo -> navigateAndPopUpBackStack.invoke(event.navigationScreen)
         }
     }
 
@@ -43,6 +45,7 @@ private fun LoaderScreenPreview() {
     LoaderScreen(
         uiState = LoaderScreenUiState(),
         uiAction = {},
-        uiEvent = emptyFlow()
+        uiEvent = emptyFlow(),
+        navigateAndPopUpBackStack = {}
     )
 }

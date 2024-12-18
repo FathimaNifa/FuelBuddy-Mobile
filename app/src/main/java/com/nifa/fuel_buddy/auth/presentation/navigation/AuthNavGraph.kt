@@ -25,6 +25,7 @@ import com.nifa.fuel_buddy.auth.presentation.feature.signup.user.UserSignUpScree
 import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupAllBackStack
+import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupTo
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import kotlin.reflect.typeOf
 
@@ -110,7 +111,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             LoaderScreen(
                 uiState = uiState,
                 uiEvent = viewModel.uiEvent,
-                uiAction = viewModel::onUiAction
+                uiAction = viewModel::onUiAction,
+                navigateAndPopUpBackStack = navController::navigateAndPopupTo
             )
         }
     }
