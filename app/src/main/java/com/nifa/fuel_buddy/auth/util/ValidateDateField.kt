@@ -7,7 +7,7 @@ import java.util.Locale
 
 object ValidateDateField {
 
-    private const val DATE_NUM_REGEX = """^\d{2}/\d{2}/\d{4}$"""
+    private const val DATE_NUM_REGEX = """^\d{2}-\d{2}-\d{4}${'$'}"""
 
     fun execute(text: String): ValidationResult {
 
@@ -24,7 +24,7 @@ object ValidateDateField {
             )
 
         try {
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             sdf.isLenient = false
             sdf.parse(text)
         } catch (e: Exception) {

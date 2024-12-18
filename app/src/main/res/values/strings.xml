@@ -27,7 +27,7 @@
     <string name="registration_number_not_blank">The Registration number can\'t be blank</string>
     <string name="driving_license_number_not_blank">The Driving license number can\'t be blank</string>
     <string name="date_not_blank">Date can\'t be blank</string>
-    <string name="error_date_follows_pattern">Date Should be in this Pattern\n dd/mm/yyyy</string>
+    <string name="error_date_follows_pattern">Date Should be in this Pattern\n dd-mm-yyyy</string>
     <string name="invalid_date">Invalid Date</string>
     <string name="error_password_not_match">The passwords don\'t match</string>
     <string name="not_valid_email">That\'s not a valid email</string>
