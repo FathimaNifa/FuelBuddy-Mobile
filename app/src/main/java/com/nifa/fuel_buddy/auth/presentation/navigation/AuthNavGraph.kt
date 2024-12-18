@@ -48,7 +48,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         }
 
         composable<AuthNavigation.ChooseAccountTypeScreen> {
-            val viewModel = viewModel<ChooseAccountTypeViewModel>()
+            val viewModel = hiltViewModel<ChooseAccountTypeViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             ChooseAccountTypeScreen(

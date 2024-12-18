@@ -3,7 +3,9 @@ package com.nifa.fuel_buddy.auth.presentation.feature.accounttype
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
+import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSource
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,8 +17,12 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChooseAccountTypeViewModel : ViewModel() {
+@HiltViewModel
+class ChooseAccountTypeViewModel @Inject constructor(
+    private val preferenceDataSource: PreferenceDataSource
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChooseAccountTypeScreenUiState())
     val uiState = _uiState.stateIn(
@@ -50,11 +56,16 @@ class ChooseAccountTypeViewModel : ViewModel() {
             ChooseAccountTypeScreenUiAction.OnContinueCTAButtonClicked -> {
 
                 uiState.value.selectedAccountType?.let { selectedAccountType ->
+                    updateAccountTypeInPreference(selectedAccountType)
                     val navigationScreen = AuthNavigation.SignInScreen(selectedAccountType)
                     sendEvent(ChooseAccountTypeScreenUiEvent.NavigateTo(navigationScreen))
                 }
             }
         }
+    }
+
+    private fun updateAccountTypeInPreference(accountType: AccountType) = viewModelScope.launch {
+        preferenceDataSource.setAccountType(accountType)
     }
 
     private fun updateSelectedAccountTypeUiState(selectedAccountType: AccountType?): Unit =
