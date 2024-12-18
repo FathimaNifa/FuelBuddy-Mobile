@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.auth.domain.AuthRepository
+import com.nifa.fuel_buddy.auth.domain.model.User
 import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
@@ -170,13 +171,17 @@ class SignInScreenViewModel @Inject constructor(
                 }
 
                 is Result.Success -> {
-                    authRepository.setUserPreferences(result.data)
+                    setPref(result.data)
                     sendEvent(
                         SignInScreenUiEvent.NavigateAndPopupBackStack(NavGraphs.UserNavGraph)
                     )
                 }
             }
         }
+    }
+
+    private fun setPref(user: User) = viewModelScope.launch {
+        authRepository.setUserPreferences(user)
     }
 
     private fun signInFuelStation(fuelStationEmail: String, password: String) =
@@ -283,7 +288,9 @@ class SignInScreenViewModel @Inject constructor(
 
 sealed interface SignInScreenUiEvent {
     data class NavigateTo(val navigationScreen: NavigationScreen) : SignInScreenUiEvent
-    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) : SignInScreenUiEvent
+    data class NavigateAndPopupBackStack(val navigationScreen: NavigationScreen) :
+        SignInScreenUiEvent
+
     data class ShowErrorSnackBar(val errorMessage: String) : SignInScreenUiEvent
 }
 
