@@ -9,6 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import com.nifa.fuel_buddy.core.presentation.userFeedback.FeedBackScreen
+import com.nifa.fuel_buddy.core.presentation.userFeedback.FeedbackViewModel
 import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.Deeplink
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
@@ -119,7 +121,21 @@ fun SetupFuelStationNavGraph(
 
             AccountScreen(
                 uiState = uiState,
-                uiAction = viewModel::onUiAction
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateToCallback = navHostController::navigateTo
+            )
+        }
+
+        composable<FuelStationNavigation.FeedbackScreen> {
+
+            val viewModel = hiltViewModel<FeedbackViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            FeedBackScreen(
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent
             )
         }
     }

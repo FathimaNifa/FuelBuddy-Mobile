@@ -23,4 +23,7 @@ sealed interface FuelStationNavigation : NavigationScreen {
 
     @Serializable
     data object AccountScreen : FuelStationNavigation
+
+    @Serializable
+    data object FeedbackScreen : FuelStationNavigation
 }

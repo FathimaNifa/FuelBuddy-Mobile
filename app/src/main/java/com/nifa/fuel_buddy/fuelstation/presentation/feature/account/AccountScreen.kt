@@ -17,14 +17,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nifa.fuel_buddy.R
+import com.nifa.fuel_buddy.core.utils.ext.CollectAsEffect
+import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import com.nifa.fuel_buddy.user.presentation.feature.account.components.ActionButton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun AccountScreen(
     modifier: Modifier = Modifier,
     uiState: AccountScreenUiState,
-    uiAction: (AccountScreenUiAction) -> Unit
+    uiAction: (AccountScreenUiAction) -> Unit,
+    uiEvent: Flow<AccountScreenUiEvent>,
+    navigateToCallback: (FuelStationNavigation) -> Unit
 ) {
+
+    uiEvent.CollectAsEffect { event ->
+        when (event) {
+            is AccountScreenUiEvent.NavigateTo -> {
+                navigateToCallback.invoke(event.screen)
+            }
+        }
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -83,6 +97,8 @@ private fun AccountScreenPreview() {
             bunkName = "HP",
             bunkEmail = "hp@gmail.com"
         ),
-        uiAction = {}
+        uiAction = {},
+        uiEvent = emptyFlow(),
+        navigateToCallback = {}
     )
 }
