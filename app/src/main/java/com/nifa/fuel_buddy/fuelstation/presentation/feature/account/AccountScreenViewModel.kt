@@ -3,13 +3,16 @@ package com.nifa.fuel_buddy.fuelstation.presentation.feature.account
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
+import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,6 +29,9 @@ class AccountScreenViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = AccountScreenUiState()
     )
+
+    private val _uiEvent = Channel<AccountScreenUiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
         observeAndUpdateUserEmail()
@@ -53,7 +59,13 @@ class AccountScreenViewModel @Inject constructor(
         when (action) {
             AccountScreenUiAction.OnChangePasswordClicked -> Unit
             AccountScreenUiAction.OnLogoutButtonClicked -> logoutUser()
-            AccountScreenUiAction.OnSupportAndFeedBackClicked -> Unit
+            AccountScreenUiAction.OnSupportAndFeedBackClicked -> {
+                sendEvent(
+                    AccountScreenUiEvent.NavigateTo(
+                        FuelStationNavigation.FeedbackScreen
+                    )
+                )
+            }
         }
     }
 
@@ -75,6 +87,10 @@ class AccountScreenViewModel @Inject constructor(
         preferences.clearAll()
     }
 
+    private fun sendEvent(event: AccountScreenUiEvent) = viewModelScope.launch {
+        _uiEvent.send(event)
+    }
+
 }
 
 data class AccountScreenUiState(
@@ -86,4 +102,7 @@ sealed interface AccountScreenUiAction {
     data object OnChangePasswordClicked : AccountScreenUiAction
     data object OnSupportAndFeedBackClicked : AccountScreenUiAction
     data object OnLogoutButtonClicked : AccountScreenUiAction
+}
+sealed interface AccountScreenUiEvent {
+    data class NavigateTo(val screen: FuelStationNavigation) : AccountScreenUiEvent
 }
