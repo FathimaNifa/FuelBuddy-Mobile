@@ -64,9 +64,12 @@
     <string name="cancelled">Cancelled</string>
     <string name="new_order">New</string>
     <string name="pending">Pending</string>
+    <string name="submit">Submit</string>
+    <string name="feed_back">Feedback</string>
 
     <!-- Notification based -->
     <string name="update_driver_location_channel_id">"Driver Location Update alerts"</string>
     <string name="update_driver_location_channel_name">"Driver Location Update alerts"</string>
+    <string name="slash">/</string>
 
 </resources>
