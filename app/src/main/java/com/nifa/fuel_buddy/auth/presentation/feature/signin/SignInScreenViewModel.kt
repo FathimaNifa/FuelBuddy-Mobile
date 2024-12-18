@@ -50,6 +50,19 @@ class SignInScreenViewModel @Inject constructor(
         getAccountTypeAndUpdateUiState()
         observeEmailSupportingTextAndUpdateShowEmailAsErrorUiState()
         observePasswordSupportingTextAndUpdateShowPasswordAsErrorUiState()
+        observeAccountTypeAndShowSignupButton()
+    }
+
+    private fun observeAccountTypeAndShowSignupButton() {
+        uiState.map { it.accountType }
+            .distinctUntilChanged()
+            .onEach { accountType ->
+                val shouldShowSignup = when (accountType) {
+                    AccountType.USER -> true
+                    AccountType.FUEL_STATION -> false
+                }
+                updateShouldShowSignupUiState(shouldShowSignup)
+            }.launchIn(viewModelScope)
     }
 
     private fun getAccountTypeAndUpdateUiState() {
@@ -83,10 +96,7 @@ class SignInScreenViewModel @Inject constructor(
             }
 
             SignInScreenUiAction.OnSignUpClicked -> {
-                val navigationScreen = when (uiState.value.accountType) {
-                    AccountType.USER -> AuthNavigation.UserSignUpScreen
-                    AccountType.FUEL_STATION -> AuthNavigation.FuelStationSignUpScreen
-                }
+                val navigationScreen = AuthNavigation.UserSignUpScreen
                 sendEvent(SignInScreenUiEvent.NavigateTo(navigationScreen))
             }
 
@@ -154,6 +164,7 @@ class SignInScreenViewModel @Inject constructor(
                     Timber.d("${result.error}")
                     sendEvent(SignInScreenUiEvent.ShowErrorSnackBar(result.error.message))
                 }
+
                 is Result.Loading -> {
                     updateIsLoadingUiState(result.isLoading)
                 }
@@ -261,6 +272,13 @@ class SignInScreenViewModel @Inject constructor(
                 isLoading = isLoading
             )
         }
+
+    private fun updateShouldShowSignupUiState(shouldShowSignup: Boolean): Unit =
+        _uiState.update {
+            it.copy(
+                shouldShowSignup = shouldShowSignup
+            )
+        }
 }
 
 sealed interface SignInScreenUiEvent {
@@ -287,5 +305,6 @@ data class SignInScreenUiState(
     val showPasswordAsError: Boolean = false,
     val maskPassword: Boolean = true,
     val accountType: AccountType = AccountType.USER,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val shouldShowSignup: Boolean = true
 )

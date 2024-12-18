@@ -153,28 +153,30 @@ fun SignInScreen(
                     onClick = { uiAction.invoke(SignInScreenUiAction.OnSignInButtonClicked) }
                 )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { uiAction.invoke(SignInScreenUiAction.OnSignUpClicked) },
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.i_m_a_new_user),
-                        fontSize = 14.sp,
-                        fontFamily = Font.JosefinRegular,
-                        color = colorResource(R.color.white),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = stringResource(R.string.sign_up).uppercase(),
-                        fontSize = 14.sp,
-                        fontFamily = Font.JosefinRegular,
-                        color = colorResource(R.color.saffron),
-                        textAlign = TextAlign.Center,
-                        style = TextStyle(textDecoration = TextDecoration.Underline)
-                    )
+                if (uiState.shouldShowSignup) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { uiAction.invoke(SignInScreenUiAction.OnSignUpClicked) },
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.i_m_a_new_user),
+                            fontSize = 14.sp,
+                            fontFamily = Font.JosefinRegular,
+                            color = colorResource(R.color.white),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = stringResource(R.string.sign_up).uppercase(),
+                            fontSize = 14.sp,
+                            fontFamily = Font.JosefinRegular,
+                            color = colorResource(R.color.saffron),
+                            textAlign = TextAlign.Center,
+                            style = TextStyle(textDecoration = TextDecoration.Underline)
+                        )
+                    }
                 }
             }
         }
