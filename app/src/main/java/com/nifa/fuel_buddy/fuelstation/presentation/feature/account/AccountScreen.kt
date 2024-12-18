@@ -32,7 +32,7 @@ fun AccountScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_profile),
+            painter = painterResource(R.drawable.ic_fuel),
             contentDescription = "Profile Image",
             modifier = Modifier
                 .padding(30.dp)
@@ -49,16 +49,19 @@ fun AccountScreen(
                 .padding(start = 10.dp, end = 10.dp),
             verticalArrangement = Arrangement.spacedBy(30.dp)
         ) {
+
             ActionButton(
                 text = uiState.bunkName,
+                iconResId = R.drawable.ic_fuel_small,
+                onClick = { uiAction.invoke(AccountScreenUiAction.OnChangePasswordClicked) }
+            )
+
+            ActionButton(
+                text = uiState.bunkEmail,
                 iconResId = R.drawable.ic_mail,
                 onClick = {}
             )
-            ActionButton(
-                text = stringResource(R.string.change_password),
-                iconResId = R.drawable.ic_key,
-                onClick = { uiAction.invoke(AccountScreenUiAction.OnChangePasswordClicked) }
-            )
+
             ActionButton(text = stringResource(R.string.support_and_feedback),
                 iconResId = R.drawable.ic_support,
                 onClick = { uiAction.invoke(AccountScreenUiAction.OnSupportAndFeedBackClicked) }
@@ -76,7 +79,10 @@ fun AccountScreen(
 @Composable
 private fun AccountScreenPreview() {
     AccountScreen(
-        uiState = AccountScreenUiState(),
+        uiState = AccountScreenUiState(
+            bunkName = "HP",
+            bunkEmail = "hp@gmail.com"
+        ),
         uiAction = {}
     )
 }

@@ -49,16 +49,19 @@ fun AccountScreen(
                 .padding(start = 10.dp, end = 10.dp),
             verticalArrangement = Arrangement.spacedBy(30.dp)
         ) {
+
+            ActionButton(
+                text = uiState.userName,
+                iconResId = R.drawable.ic_account,
+                onClick = {}
+            )
+
             ActionButton(
                 text = uiState.userEmail,
                 iconResId = R.drawable.ic_mail,
                 onClick = {}
             )
-            ActionButton(
-                text = stringResource(R.string.change_password),
-                iconResId = R.drawable.ic_key,
-                onClick = { uiAction.invoke(AccountScreenUiAction.OnChangePasswordClicked) }
-            )
+
             ActionButton(text = stringResource(R.string.support_and_feedback),
                 iconResId = R.drawable.ic_support,
                 onClick = { uiAction.invoke(AccountScreenUiAction.OnSupportAndFeedBackClicked) }
@@ -78,6 +81,7 @@ fun AccountScreen(
 private fun AccountScreenPreview() {
     AccountScreen(
         uiState = AccountScreenUiState(
+            userName = "xyz",
             userEmail = "xyz@gmail.com"
         ),
         uiAction = {}
