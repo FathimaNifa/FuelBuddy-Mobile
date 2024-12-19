@@ -10,7 +10,6 @@ import com.nifa.fuel_buddy.fuelstation.data.model.ProductDetailsDto
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderStatus
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
-import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedHistoryProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import kotlinx.coroutines.delay
@@ -107,7 +106,7 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
         }
     }
 
-    override suspend fun getOrderHistoryProducts(request: GetOrderedHistoryProductsRequest): Flow<Result<GetOrderedProductDetailsDto, NetworkError>> {
+    override suspend fun getOrderHistoryProducts(request: GetOrderedProductsRequest): Flow<Result<GetOrderedProductDetailsDto, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
             delay(500L)

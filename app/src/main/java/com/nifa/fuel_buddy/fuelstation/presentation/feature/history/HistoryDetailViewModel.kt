@@ -9,7 +9,7 @@ import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderStatus
-import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedHistoryProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import com.nifa.fuel_buddy.user.domain.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,7 +60,7 @@ class HistoryDetailViewModel @Inject constructor(
             .distinctUntilChanged()
             .filter { it.isNotBlank() }
             .flatMapLatest {
-                val request = GetOrderedHistoryProductsRequest(it)
+                val request = GetOrderedProductsRequest(it)
                 repository.getOrderHistoryProducts(request)
             }
             .onEach { result ->

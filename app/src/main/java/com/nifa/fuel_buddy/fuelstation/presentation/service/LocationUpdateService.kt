@@ -54,7 +54,7 @@ class LocationUpdateService : Service() {
 
         val latitude = bundle.getDouble(LATITUDE)
         val longitude = bundle.getDouble(LONGITUDE)
-        val orderId = bundle.getString(ORDER_ID)
+        val orderId = bundle.getString(ORDER_ID) ?: ""
 
         val data = "${Deeplink.OUT_FOR_DELIVERY_BASE_PATH}/$latitude/$longitude/$orderId"
 
@@ -83,7 +83,8 @@ class LocationUpdateService : Service() {
             .onEach {
                 val request = UpdateDriverLocationRequest(
                     latitude = it.latitude,
-                    longitude = it.longitude
+                    longitude = it.longitude,
+                    orderId = orderId
                 )
                 repository.updateDriverLocation(request)
                 Timber.d("$it")
