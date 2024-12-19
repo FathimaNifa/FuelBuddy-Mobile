@@ -14,8 +14,9 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocation
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import javax.inject.Inject
 
-class FuelStationNetworkSourceImpl(
+class FuelStationNetworkSourceImpl @Inject constructor(
     @ApplicationContext context: Context,
     private val api: FuelStationApi
 ) : FuelStationNetworkSource, BaseApiResponse(
