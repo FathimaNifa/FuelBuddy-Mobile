@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface FuelStationRepository {
 
+    suspend fun getLiveCustomerOrder(): Flow<OrderDetails>
+
     suspend fun getCustomerOrders(request: GetCustomerOrdersRequest): Flow<Result<List<OrderDetails>, NetworkError>>
 
     suspend fun getOrderedProducts(request: GetOrderedProductsRequest): Flow<Result<List<Product>, NetworkError>>

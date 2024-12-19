@@ -21,6 +21,11 @@ import javax.inject.Inject
 class FuelStationRepositoryImpl @Inject constructor(
     private val networkSource: FuelStationNetworkSource
 ) : FuelStationRepository {
+
+    override suspend fun getLiveCustomerOrder(): Flow<OrderDetails> {
+        return networkSource.getLiveCustomerOrders().map(OrderDetailsDto::toOrderDetails)
+    }
+
     override suspend fun getCustomerOrders(request: GetCustomerOrdersRequest): Flow<Result<List<OrderDetails>, NetworkError>> {
         return networkSource.getCustomerOrders(request).map { result ->
             when (result) {

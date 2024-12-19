@@ -1,10 +1,10 @@
 package com.nifa.fuel_buddy.user.data.networkSource
 
 import android.content.Context
-import com.google.android.gms.maps.model.LatLng
 import com.nifa.fuel_buddy.core.domain.BaseApiResponse
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.user.data.model.GetAllProductsDto
 import com.nifa.fuel_buddy.user.data.model.GetFuelOrderHistoryDto
 import com.nifa.fuel_buddy.user.data.model.GetNearbyFuelStationDto
@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 class UserNetworkSourceImpl @Inject constructor(
     @ApplicationContext context: Context,
-    private val userApi: UserApi
+    private val userApi: UserApi,
+    private val userSocketSource: UserSocketSource
 ) : BaseApiResponse(context), UserNetworkSource {
     override suspend fun getNearbyFuelStation(request: GetNearbyFuelStationRequest): Flow<Result<GetNearbyFuelStationDto, NetworkError>> {
         return safeApiCall { userApi.getNearbyFuelStation(request) }
@@ -37,7 +38,7 @@ class UserNetworkSourceImpl @Inject constructor(
         return safeApiCall { userApi.getOrderedProducts(request) }
     }
 
-    override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLng, NetworkError>> {
-        return safeApiCall { userApi.trackOrder(request) }
+    override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLong, NetworkError>> {
+        return userSocketSource.trackOrder()
     }
 }

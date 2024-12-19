@@ -1,8 +1,8 @@
 package com.nifa.fuel_buddy.user.domain
 
-import com.google.android.gms.maps.model.LatLng
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.user.domain.model.FuelOrderHistory
 import com.nifa.fuel_buddy.user.domain.model.FuelStation
 import com.nifa.fuel_buddy.user.domain.model.Product
@@ -22,5 +22,5 @@ interface UserRepository {
 
     suspend fun getOrderedProducts(request: GetOrderedProductRequest): Flow<Result<List<Product>, NetworkError>>
 
-    suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLng, NetworkError>>
+    suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLong, NetworkError>>
 }

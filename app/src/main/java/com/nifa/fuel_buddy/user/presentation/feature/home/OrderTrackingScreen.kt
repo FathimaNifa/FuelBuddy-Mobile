@@ -64,7 +64,7 @@ fun OrderTrackingScreen(
 
         MapEffect(uiState.deliveryPartnerLocation) {
             uiState.deliveryPartnerLocation?.let {
-                markerState.position = it
+                markerState.position = LatLng(it.latitude, it.longitude)
             }
         }
 
