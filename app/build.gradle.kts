@@ -94,7 +94,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-//Okhttp
+    //Okhttp
     implementation(libs.okhttp)
 
     // Location Services
@@ -105,4 +105,7 @@ dependencies {
 
     // Google maps for compose
     implementation(libs.maps.compose)
+
+    //Socket IO
+    implementation(libs.socket.io.client)
 }
