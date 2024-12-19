@@ -2,12 +2,16 @@ package com.nifa.fuel_buddy.user.presentation.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.core.domain.LocationClient
 import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.user.domain.UserRepository
 import com.nifa.fuel_buddy.user.domain.model.FuelStation
 import com.nifa.fuel_buddy.user.domain.model.Product
+import com.nifa.fuel_buddy.user.domain.model.toCartItem
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
+import com.nifa.fuel_buddy.user.domain.request.OrderProductsRequest
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,7 +33,8 @@ import javax.inject.Inject
 @HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeDetailScreenViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    locationClient: LocationClient
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeDetailScreenUiState())
@@ -85,6 +90,15 @@ class HomeDetailScreenViewModel @Inject constructor(
                         updateHomeDetailScreenStateUiState(HomeDetailScreenState.DETAIL)
                 }
             }.launchIn(viewModelScope)
+
+        locationClient.getCurrentLocation()
+            .onEach {
+                val latLong = LatLong(
+                    latitude = it.latitude,
+                    longitude = it.longitude
+                )
+                updateCurrentLocation(latLong)
+            }.launchIn(viewModelScope)
     }
 
     private fun getProductList() {
@@ -136,12 +150,34 @@ class HomeDetailScreenViewModel @Inject constructor(
                 updateHomeDetailScreenStateUiState(HomeDetailScreenState.DETAIL)
             }
 
-            HomeDetailUiAction.OrderNowButtonClicked -> {
-                sendEvent(
-                    HomeDetailScreenUiEvent.NavigateTo(UserNavigation.OrderStatusScreen)
-                )
-            }
+            HomeDetailUiAction.OrderNowButtonClicked -> orderProducts()
         }
+    }
+
+    private fun orderProducts() = viewModelScope.launch {
+        val bunkId = uiState.value.fuelStation?.id ?: ""
+        val currentLocation = uiState.value.currentLocation
+        val cartItems = uiState.value.productListAddedInTheCart.map(Product::toCartItem)
+
+        val request = OrderProductsRequest(
+            bunkId = bunkId,
+            deliveryLocation = currentLocation,
+            cartItems = cartItems
+        )
+
+        userRepository.orderProducts(request)
+            .onEach { result ->
+                when (result) {
+                    is Result.Error -> Unit
+                    is Result.Loading -> Unit
+                    is Result.Success -> {
+                        sendEvent(
+                            HomeDetailScreenUiEvent.NavigateTo(UserNavigation.OrderStatusScreen)
+                        )
+                    }
+                }
+            }.launchIn(viewModelScope)
+
     }
 
     private fun updateProductQuantity(productId: String, action: (Int) -> Int) {
@@ -227,6 +263,13 @@ class HomeDetailScreenViewModel @Inject constructor(
             )
         }
 
+    private fun updateCurrentLocation(latLong: LatLong): Unit =
+        _uiState.update {
+            it.copy(
+                currentLocation = latLong
+            )
+        }
+
 }
 
 data class HomeDetailScreenUiState(
@@ -235,6 +278,7 @@ data class HomeDetailScreenUiState(
     val imageUrl: String = "",
     val productList: List<Product> = emptyList(),
     val addedItemCount: Int = 0,
+    val currentLocation: LatLong = LatLong(0.0, 0.0),
     val shouldShowCartCTABottomSheet: Boolean = false,
     val productListAddedInTheCart: List<Product> = emptyList(),
     val totalPrice: Long = 0,

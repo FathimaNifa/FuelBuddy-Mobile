@@ -1,5 +1,6 @@
 package com.nifa.fuel_buddy.user.domain.model
 
+import com.nifa.fuel_buddy.user.domain.request.CartItem
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,4 +10,9 @@ data class Product(
     val imageUrl: String,
     val price: Long,
     val quantityAdded: Int
+)
+
+fun Product.toCartItem() = CartItem(
+    productId = productId,
+    productQuantity = quantityAdded
 )
