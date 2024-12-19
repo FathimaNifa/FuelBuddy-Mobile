@@ -1,7 +1,7 @@
 package com.nifa.fuel_buddy.fuelstation.di
 
-import com.nifa.fuel_buddy.fuelstation.data.networkSource.FakeFuelStationNetworkSource
 import com.nifa.fuel_buddy.fuelstation.data.networkSource.FuelStationNetworkSource
+import com.nifa.fuel_buddy.fuelstation.data.networkSource.FuelStationNetworkSourceImpl
 import com.nifa.fuel_buddy.fuelstation.data.repository.FuelStationRepositoryImpl
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import dagger.Binds
@@ -20,5 +20,5 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindFuelStationNetworkSource(fuelStationNetworkSource: FakeFuelStationNetworkSource) : FuelStationNetworkSource
+    fun bindFuelStationNetworkSource(fuelStationNetworkSource: FuelStationNetworkSourceImpl) : FuelStationNetworkSource
 }

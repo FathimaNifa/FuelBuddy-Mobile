@@ -44,8 +44,7 @@ class HistoryScreenViewModel @Inject constructor(
             val bunkToken = preferences.fuelStationPreferencesData.first().bunkToken
 
             val request = GetOrderHistoryRequest(
-                bunkId = bunkId,
-                bunkToken = bunkToken
+                bunkId = bunkId
             )
 
             repository.getOrderHistory(request).collect { result ->

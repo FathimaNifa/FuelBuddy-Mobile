@@ -11,7 +11,6 @@ import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
-import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedHistoryProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import com.nifa.fuel_buddy.user.domain.model.Product
@@ -52,7 +51,7 @@ class FuelStationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getOrderHistoryProducts(request: GetOrderedHistoryProductsRequest): Flow<Result<List<Product>, NetworkError>> {
+    override suspend fun getOrderHistoryProducts(request: GetOrderedProductsRequest): Flow<Result<List<Product>, NetworkError>> {
         return networkSource.getOrderHistoryProducts(request).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
