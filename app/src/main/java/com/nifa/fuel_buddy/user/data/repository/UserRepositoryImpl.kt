@@ -3,6 +3,7 @@ package com.nifa.fuel_buddy.user.data.repository
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.model.LatLong
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.user.data.model.FuelOrderHistoryDto
 import com.nifa.fuel_buddy.user.data.model.FuelStationDto
 import com.nifa.fuel_buddy.user.data.model.OrderedProductsDto
@@ -68,5 +69,9 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLong, NetworkError>> {
         return userNetworkSource.trackOrder(request)
+    }
+
+    override suspend fun orderResponse(): Flow<OrderDecision> {
+        return userNetworkSource.orderResponse()
     }
 }

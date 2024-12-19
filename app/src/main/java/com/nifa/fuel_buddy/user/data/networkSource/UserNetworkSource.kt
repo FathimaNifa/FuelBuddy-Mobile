@@ -3,6 +3,7 @@ package com.nifa.fuel_buddy.user.data.networkSource
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.model.LatLong
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.user.data.model.GetAllProductsDto
 import com.nifa.fuel_buddy.user.data.model.GetFuelOrderHistoryDto
 import com.nifa.fuel_buddy.user.data.model.GetNearbyFuelStationDto
@@ -24,4 +25,6 @@ interface UserNetworkSource {
     suspend fun getOrderedProducts(request: GetOrderedProductRequest): Flow<Result<GetOrderedProductsDto, NetworkError>>
 
     suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLong, NetworkError>>
+
+    suspend fun orderResponse() : Flow<OrderDecision>
 }

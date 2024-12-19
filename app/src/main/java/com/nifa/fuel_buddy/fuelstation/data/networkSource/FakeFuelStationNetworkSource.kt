@@ -8,6 +8,7 @@ import com.nifa.fuel_buddy.fuelstation.data.model.GetOrderedProductDetailsDto
 import com.nifa.fuel_buddy.fuelstation.data.model.OrderDetailsDto
 import com.nifa.fuel_buddy.fuelstation.data.model.ProductDetailsDto
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderStatus
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
@@ -154,6 +155,21 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
     override suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<SuccessResponse, NetworkError>> {
         return flow {
             Timber.d("updateDriverLocation : $request")
+            emit(
+                Result.Success(
+                    SuccessResponse(
+                        statusCode = 200,
+                        message = "Success"
+                    )
+                )
+            )
+        }
+    }
+
+    override suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<SuccessResponse, NetworkError>> {
+        return flow {
+            emit(Result.Loading(true))
+            delay(500L)
             emit(
                 Result.Success(
                     SuccessResponse(

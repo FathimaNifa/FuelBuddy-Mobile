@@ -9,6 +9,7 @@ import com.nifa.fuel_buddy.fuelstation.data.model.toProduct
 import com.nifa.fuel_buddy.fuelstation.data.networkSource.FuelStationNetworkSource
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
@@ -68,6 +69,16 @@ class FuelStationRepositoryImpl @Inject constructor(
 
     override suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<Unit, NetworkError>> {
         return networkSource.updateDriverLocation(request).map { result ->
+            when (result) {
+                is Result.Error -> Result.Error(result.error)
+                is Result.Loading -> Result.Loading(result.isLoading)
+                is Result.Success -> Result.Success(Unit)
+            }
+        }
+    }
+
+    override suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<Unit, NetworkError>> {
+        return networkSource.acceptOrder(request).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
                 is Result.Loading -> Result.Loading(result.isLoading)
