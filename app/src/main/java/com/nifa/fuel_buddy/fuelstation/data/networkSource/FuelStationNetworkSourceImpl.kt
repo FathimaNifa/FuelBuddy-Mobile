@@ -7,23 +7,28 @@ import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.SuccessResponse
 import com.nifa.fuel_buddy.fuelstation.data.model.GetCustomerOrderDto
 import com.nifa.fuel_buddy.fuelstation.data.model.GetOrderedProductDetailsDto
+import com.nifa.fuel_buddy.fuelstation.data.model.OrderDetailsDto
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
 class FuelStationNetworkSourceImpl @Inject constructor(
     @ApplicationContext context: Context,
-    private val api: FuelStationApi
+    private val api: FuelStationApi,
+    private val socketSource: FuelStationSocketSource
 ) : FuelStationNetworkSource, BaseApiResponse(
     context
 ) {
     override suspend fun getCustomerOrders(request: GetCustomerOrdersRequest): Flow<Result<GetCustomerOrderDto, NetworkError>> {
-        return emptyFlow()
+        return safeApiCall { api.getCustomerOrders(request) }
+    }
+
+    override suspend fun getLiveCustomerOrders(): Flow<OrderDetailsDto> {
+        return socketSource.getCustomerOrders()
     }
 
     override suspend fun getOrderedProducts(request: GetOrderedProductsRequest): Flow<Result<GetOrderedProductDetailsDto, NetworkError>> {

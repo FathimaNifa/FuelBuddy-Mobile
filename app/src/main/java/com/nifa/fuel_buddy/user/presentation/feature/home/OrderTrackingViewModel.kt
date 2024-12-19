@@ -4,9 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.google.android.gms.maps.model.LatLng
 import com.nifa.fuel_buddy.core.domain.LocationClient
 import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.user.domain.UserRepository
 import com.nifa.fuel_buddy.user.domain.request.TrackOrderRequest
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
@@ -62,19 +62,19 @@ class OrderTrackingViewModel @Inject constructor(
         locationClient.getCurrentLocation()
             .catch { it.printStackTrace() }
             .onEach {
-                updateCurrentLocationUiState(LatLng(it.latitude, it.longitude))
+                updateCurrentLocationUiState(LatLong(it.latitude, it.longitude))
             }
             .launchIn(viewModelScope)
     }
 
-    private fun updateCurrentLocationUiState(currentLocation: LatLng) =
+    private fun updateCurrentLocationUiState(currentLocation: LatLong) =
         _uiState.update {
             it.copy(
                 currentLocation = currentLocation
             )
         }
 
-    private fun updateDeliveryPartnerLocation(deliveryPartnerLocation: LatLng) =
+    private fun updateDeliveryPartnerLocation(deliveryPartnerLocation: LatLong) =
         _uiState.update {
             it.copy(
                 deliveryPartnerLocation = deliveryPartnerLocation
@@ -84,6 +84,6 @@ class OrderTrackingViewModel @Inject constructor(
 }
 
 data class OrderTrackingUiState(
-    val currentLocation: LatLng? = null,
-    val deliveryPartnerLocation: LatLng? = null
+    val currentLocation: LatLong? = null,
+    val deliveryPartnerLocation: LatLong? = null
 )

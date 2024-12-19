@@ -10,15 +10,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.net.URI
+import javax.inject.Inject
 
-class SocketIoMangerImpl : SocketIoManager {
+class SocketIoMangerImpl @Inject constructor() : SocketIoManager {
 
     private val _socketIoConnectionState = MutableStateFlow(SocketIoConnectionState.DISCONNECTED)
 
     override val socketIoConnectionState: StateFlow<SocketIoConnectionState> =
         _socketIoConnectionState.asStateFlow()
 
-    private var socket: Socket? = null
+
+    override var socket: Socket? = null
+        private set
 
     @Synchronized
     override fun connect(bearerToken: String) {
@@ -33,13 +36,14 @@ class SocketIoMangerImpl : SocketIoManager {
 
             socket = IO.socket(URI.create(BuildConfig.socketUrl), options).connect()
 
-            setupEvents()
+            setupConnectionEvents()
         }
     }
 
     @Synchronized
     override fun disconnect() {
         socket?.let {
+            it.off()
             it.close()
             socket = null
             updateSocketIoConnectionState(SocketIoConnectionState.DISCONNECTING)
@@ -55,7 +59,7 @@ class SocketIoMangerImpl : SocketIoManager {
     private fun updateSocketIoConnectionState(state: SocketIoConnectionState): Unit =
         _socketIoConnectionState.update { state }
 
-    private fun setupEvents() {
+    private fun setupConnectionEvents() {
         socket?.let {
             it.on(Socket.EVENT_CONNECT, connectHandler)
             it.on(Socket.EVENT_DISCONNECT, disconnectHandler)

@@ -5,6 +5,7 @@ import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.SuccessResponse
 import com.nifa.fuel_buddy.fuelstation.data.model.GetCustomerOrderDto
 import com.nifa.fuel_buddy.fuelstation.data.model.GetOrderedProductDetailsDto
+import com.nifa.fuel_buddy.fuelstation.data.model.OrderDetailsDto
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
@@ -14,6 +15,8 @@ import kotlinx.coroutines.flow.Flow
 interface FuelStationNetworkSource {
 
     suspend fun getCustomerOrders(request: GetCustomerOrdersRequest): Flow<Result<GetCustomerOrderDto, NetworkError>>
+
+    suspend fun getLiveCustomerOrders(): Flow<OrderDetailsDto>
 
     suspend fun getOrderedProducts(request: GetOrderedProductsRequest): Flow<Result<GetOrderedProductDetailsDto, NetworkError>>
 

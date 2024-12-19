@@ -50,6 +50,26 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
         }
     }
 
+    override suspend fun getLiveCustomerOrders(): Flow<OrderDetailsDto> {
+        return flow {
+            emit(
+                OrderDetailsDto(
+                    orderNumber = "22",
+                    orderId = "1",
+                    location = "Sakthi Vinayakar Nagar, Injambakkam Chennai, Tamil Nadu 600115",
+                    awayFrom = "5.5km away",
+                    userName = "Kannan G",
+                    totalPrice = "650",
+                    deliveryCharge = "20",
+                    orderStatus = OrderStatus.New.name,
+                    dateAndTime = "",
+                    latitude = 13.0437639,
+                    longitude = 80.2632539
+                )
+            )
+        }
+    }
+
     override suspend fun getOrderedProducts(request: GetOrderedProductsRequest): Flow<Result<GetOrderedProductDetailsDto, NetworkError>> {
         return flow {
             emit(Result.Loading(true))

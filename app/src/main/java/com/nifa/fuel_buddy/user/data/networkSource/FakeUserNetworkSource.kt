@@ -1,8 +1,8 @@
 package com.nifa.fuel_buddy.user.data.networkSource
 
-import com.google.android.gms.maps.model.LatLng
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.user.data.model.GetAllProductsDto
 import com.nifa.fuel_buddy.user.data.model.GetFuelOrderHistoryDto
 import com.nifa.fuel_buddy.user.data.model.GetNearbyFuelStationDto
@@ -88,7 +88,7 @@ class FakeUserNetworkSource @Inject constructor() : UserNetworkSource {
         }
     }
 
-    override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLng, NetworkError>> {
+    override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLong, NetworkError>> {
         return flow {
             getRoute().forEach { latLng ->
                 emit(
@@ -257,87 +257,87 @@ val dummyFuelOrderHistory = listOf(
 )
 
 fun getRoute() = listOf(
-    LatLng(
+    LatLong(
         12.831517, 79.709842
-    ), LatLng(
+    ), LatLong(
         12.831684, 79.709903
-    ), LatLng(
+    ), LatLong(
         12.831748, 79.710025
-    ), LatLng(
+    ), LatLong(
         12.831753, 79.710120
-    ), LatLng(
+    ), LatLong(
         12.831685, 79.710226
-    ), LatLng(
+    ), LatLong(
         12.831590, 79.710339
-    ), LatLng(
+    ), LatLong(
         12.831496, 79.710446
-    ), LatLng(
+    ), LatLong(
         12.831291, 79.710647
-    ), LatLng(
+    ), LatLong(
         12.831209, 79.710719
-    ), LatLng(
+    ), LatLong(
         12.831055, 79.710833
-    ), LatLng(
+    ), LatLong(
         12.830982, 79.710879
-    ), LatLng(
+    ), LatLong(
         12.830839, 79.711059
-    ), LatLng(
+    ), LatLong(
         12.830773, 79.711165
-    ), LatLng(
+    ), LatLong(
         12.830704, 79.711269
-    ), LatLng(
+    ), LatLong(
         12.830643, 79.711358
-    ), LatLng(
+    ), LatLong(
         12.830327, 79.711408
-    ), LatLng(
+    ), LatLong(
         12.830187, 79.711386
-    ), LatLng(
+    ), LatLong(
         12.829927, 79.711273
-    ), LatLng(
+    ), LatLong(
         12.829758, 79.711219
-    ), LatLng(
+    ), LatLong(
         12.829661, 79.711177
-    ), LatLng(
+    ), LatLong(
         12.829537, 79.711136
-    ), LatLng(
+    ), LatLong(
         12.829432, 79.711104
-    ), LatLng(
+    ), LatLong(
         12.829329, 79.711072
-    ), LatLng(
+    ), LatLong(
         12.829221, 79.711034
-    ), LatLng(
+    ), LatLong(
         12.829073, 79.710996
-    ), LatLng(
+    ), LatLong(
         12.828917, 79.710969
-    ), LatLng(
+    ), LatLong(
         12.828770, 79.710958
-    ), LatLng(
+    ), LatLong(
         12.828559, 79.710971
-    ), LatLng(
+    ), LatLong(
         12.828446, 79.710986
-    ), LatLng(
+    ), LatLong(
         12.828324, 79.711001
-    ), LatLng(
+    ), LatLong(
         12.828039, 79.711029
-    ), LatLng(
+    ), LatLong(
         12.827904, 79.711034
-    ), LatLng(
+    ), LatLong(
         12.827760, 79.711040
-    ), LatLng(
+    ), LatLong(
         12.827630, 79.711207
-    ), LatLng(
+    ), LatLong(
         12.827587, 79.711329
-    ), LatLng(
+    ), LatLong(
         12.827635, 79.711460
-    ), LatLng(
+    ), LatLong(
         12.827743, 79.711588
-    ), LatLng(
+    ), LatLong(
         12.827836, 79.711714
-    ), LatLng(
+    ), LatLong(
         12.827894, 79.711838
-    ), LatLng(
+    ), LatLong(
         12.827939, 79.711936
-    ), LatLng(
+    ), LatLong(
         12.827968, 79.711978
     )
 )
