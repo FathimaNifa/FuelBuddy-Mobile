@@ -13,19 +13,23 @@ sealed interface UserNavigation : NavigationScreen {
     data class HomeDetailScreen(val fuelStation: FuelStation) : UserNavigation
 
     @Serializable
-    data object OrderStatusScreen : UserNavigation
+    data class OrderStatusScreen(val orderId: String) : UserNavigation
 
     @Serializable
     data object ActivityScreen : UserNavigation
 
     @Serializable
-    data class ActivityDetailScreen(val fuelStationName: String, val orderId: String, val deliveryCharge : Int) : UserNavigation
+    data class ActivityDetailScreen(
+        val fuelStationName: String,
+        val orderId: String,
+        val deliveryCharge: Int
+    ) : UserNavigation
 
     @Serializable
     data object AccountScreen : UserNavigation
 
     @Serializable
-    data class OrderTrackingScreen(val orderId : String) : UserNavigation
+    data class OrderTrackingScreen(val orderId: String) : UserNavigation
 
     @Serializable
     data object FeedbackScreen : UserNavigation

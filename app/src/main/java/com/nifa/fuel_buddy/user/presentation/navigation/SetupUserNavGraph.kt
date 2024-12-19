@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +12,7 @@ import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.core.presentation.userFeedback.FeedBackScreen
 import com.nifa.fuel_buddy.core.presentation.userFeedback.FeedbackViewModel
 import com.nifa.fuel_buddy.core.utils.CustomNavType
+import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupTo
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import com.nifa.fuel_buddy.user.domain.model.FuelStation
 import com.nifa.fuel_buddy.user.domain.model.Product
@@ -80,11 +80,15 @@ fun SetupUserNavGraph(
         }
 
         composable<UserNavigation.OrderStatusScreen> {
-            val viewModel = viewModel<OrderStatusScreenViewModel>()
+            val viewModel = hiltViewModel<OrderStatusScreenViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             OrderStatusScreen(
-                uiState = uiState
+                uiState = uiState,
+                uiAction = viewModel::onUiAction,
+                uiEvent = viewModel.uiEvent,
+                navigateAndPopupCallback = navHostController::navigateAndPopupTo,
+                navigateToCallback = navHostController::navigateTo
             )
         }
 

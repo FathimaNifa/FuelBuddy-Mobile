@@ -171,8 +171,10 @@ class HomeDetailScreenViewModel @Inject constructor(
                     is Result.Error -> Unit
                     is Result.Loading -> Unit
                     is Result.Success -> {
+                        val orderId = result.data.orderId
+                        val screen = UserNavigation.OrderStatusScreen(orderId)
                         sendEvent(
-                            HomeDetailScreenUiEvent.NavigateTo(UserNavigation.OrderStatusScreen)
+                            HomeDetailScreenUiEvent.NavigateTo(screen)
                         )
                     }
                 }

@@ -10,11 +10,13 @@ import com.nifa.fuel_buddy.user.data.model.OrderedProductsDto
 import com.nifa.fuel_buddy.user.data.model.ProductDto
 import com.nifa.fuel_buddy.user.data.model.toFuelOrderHistory
 import com.nifa.fuel_buddy.user.data.model.toFuelStation
+import com.nifa.fuel_buddy.user.data.model.toOrderProductData
 import com.nifa.fuel_buddy.user.data.model.toProduct
 import com.nifa.fuel_buddy.user.data.networkSource.UserNetworkSource
 import com.nifa.fuel_buddy.user.domain.UserRepository
 import com.nifa.fuel_buddy.user.domain.model.FuelOrderHistory
 import com.nifa.fuel_buddy.user.domain.model.FuelStation
+import com.nifa.fuel_buddy.user.domain.model.OrderProductData
 import com.nifa.fuel_buddy.user.domain.model.Product
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
@@ -76,12 +78,12 @@ class UserRepositoryImpl @Inject constructor(
         return userNetworkSource.orderResponse()
     }
 
-    override suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<Unit, NetworkError>> {
+    override suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<OrderProductData, NetworkError>> {
         return userNetworkSource.orderProducts(request).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
                 is Result.Loading -> Result.Loading(result.isLoading)
-                is Result.Success -> Result.Success(Unit)
+                is Result.Success -> Result.Success(result.data.data.toOrderProductData())
             }
         }
     }
