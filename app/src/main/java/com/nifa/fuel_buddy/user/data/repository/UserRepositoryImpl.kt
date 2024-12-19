@@ -19,6 +19,7 @@ import com.nifa.fuel_buddy.user.domain.model.Product
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
 import com.nifa.fuel_buddy.user.domain.request.GetOrderedProductRequest
+import com.nifa.fuel_buddy.user.domain.request.OrderProductsRequest
 import com.nifa.fuel_buddy.user.domain.request.TrackOrderRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -73,5 +74,15 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun orderResponse(): Flow<OrderDecision> {
         return userNetworkSource.orderResponse()
+    }
+
+    override suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<Unit, NetworkError>> {
+        return userNetworkSource.orderProducts(request).map { result ->
+            when (result) {
+                is Result.Error -> Result.Error(result.error)
+                is Result.Loading -> Result.Loading(result.isLoading)
+                is Result.Success -> Result.Success(Unit)
+            }
+        }
     }
 }

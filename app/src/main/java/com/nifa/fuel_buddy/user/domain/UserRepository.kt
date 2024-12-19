@@ -10,6 +10,7 @@ import com.nifa.fuel_buddy.user.domain.model.Product
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
 import com.nifa.fuel_buddy.user.domain.request.GetOrderedProductRequest
+import com.nifa.fuel_buddy.user.domain.request.OrderProductsRequest
 import com.nifa.fuel_buddy.user.domain.request.TrackOrderRequest
 import kotlinx.coroutines.flow.Flow
 
@@ -26,4 +27,6 @@ interface UserRepository {
     suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLong, NetworkError>>
 
     suspend fun orderResponse(): Flow<OrderDecision>
+
+    suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<Unit, NetworkError>>
 }
