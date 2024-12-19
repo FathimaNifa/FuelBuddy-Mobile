@@ -3,6 +3,7 @@ package com.nifa.fuel_buddy.fuelstation.domain
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
@@ -23,4 +24,6 @@ interface FuelStationRepository {
     suspend fun getOrderHistoryProducts(request: GetOrderedProductsRequest): Flow<Result<List<Product>, NetworkError>>
 
     suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<Unit, NetworkError>>
+
+    suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<Unit, NetworkError>>
 }

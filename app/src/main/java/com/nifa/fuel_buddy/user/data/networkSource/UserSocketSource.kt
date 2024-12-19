@@ -7,6 +7,8 @@ import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.core.utils.ext.nullAsEmpty
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
+import com.nifa.fuel_buddy.user.domain.model.OrderResponse
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
@@ -31,6 +33,18 @@ class UserSocketSource @Inject constructor(
 
         awaitClose {
             socketIoManager.socket?.off(SocketEvent.TRACK_ORDER.event)
+        }
+    }
+
+    fun orderResponse() = callbackFlow {
+        socketIoManager.socket?.on(SocketEvent.ORDER_RESPONSE.event) {
+            val payload = (it?.get(0) as? String).nullAsEmpty()
+            val data = Gson().fromJson(payload, OrderResponse::class.java)
+            val orderDecision = OrderDecision.entries.firstOrNull { it.name == data.type } ?: OrderDecision.ORDERED
+
+            launch {
+                send(orderDecision)
+            }
         }
     }
 }

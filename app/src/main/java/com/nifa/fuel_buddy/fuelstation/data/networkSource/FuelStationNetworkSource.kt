@@ -6,6 +6,7 @@ import com.nifa.fuel_buddy.core.domain.SuccessResponse
 import com.nifa.fuel_buddy.fuelstation.data.model.GetCustomerOrderDto
 import com.nifa.fuel_buddy.fuelstation.data.model.GetOrderedProductDetailsDto
 import com.nifa.fuel_buddy.fuelstation.data.model.OrderDetailsDto
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
@@ -25,4 +26,6 @@ interface FuelStationNetworkSource {
     suspend fun getOrderHistoryProducts(request: GetOrderedProductsRequest): Flow<Result<GetOrderedProductDetailsDto, NetworkError>>
 
     suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<SuccessResponse, NetworkError>>
+
+    suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<SuccessResponse, NetworkError>>
 }

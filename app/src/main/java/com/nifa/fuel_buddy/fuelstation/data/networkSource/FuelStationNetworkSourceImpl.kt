@@ -8,6 +8,7 @@ import com.nifa.fuel_buddy.core.domain.SuccessResponse
 import com.nifa.fuel_buddy.fuelstation.data.model.GetCustomerOrderDto
 import com.nifa.fuel_buddy.fuelstation.data.model.GetOrderedProductDetailsDto
 import com.nifa.fuel_buddy.fuelstation.data.model.OrderDetailsDto
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
@@ -45,5 +46,9 @@ class FuelStationNetworkSourceImpl @Inject constructor(
 
     override suspend fun updateDriverLocation(request: UpdateDriverLocationRequest): Flow<Result<SuccessResponse, NetworkError>> {
         return safeApiCall { api.updateLocation(request) }
+    }
+
+    override suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<SuccessResponse, NetworkError>> {
+        return safeApiCall { api.acceptOrder(request) }
     }
 }

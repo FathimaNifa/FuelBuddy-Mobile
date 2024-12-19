@@ -17,7 +17,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -45,13 +45,10 @@ class LiveOrderScreenViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            val bunkId = preferences.fuelStationPreferencesData.first().bunkId
-            val bunkToken = preferences.fuelStationPreferencesData.first().bunkToken
+            val bunkId = preferences.fuelStationPreferencesData.last().bunkId
+            val bunkToken = preferences.fuelStationPreferencesData.last().bunkToken
 
-            val request = GetCustomerOrdersRequest(
-                bunkId = bunkId,
-                bunkToken = bunkToken
-            )
+            val request = GetCustomerOrdersRequest(bunkId = bunkId)
 
             repository.getCustomerOrders(request).collect { result ->
                 when (result) {
