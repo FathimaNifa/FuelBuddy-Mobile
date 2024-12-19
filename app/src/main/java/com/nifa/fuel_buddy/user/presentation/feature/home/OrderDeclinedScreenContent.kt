@@ -2,7 +2,6 @@ package com.nifa.fuel_buddy.user.presentation.feature.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,9 +27,8 @@ import com.nifa.fuel_buddy.core.utils.Font
 import com.nifa.fuel_buddy.user.presentation.feature.home.components.ActionButton
 
 @Composable
-fun OrderApprovedScreenContent(
+fun OrderDeclinedScreenContent(
     modifier: Modifier = Modifier,
-    trackOrderButtonClicked: () -> Unit,
     backToHomeButtonClicked: () -> Unit
 ) {
     Column(
@@ -60,7 +58,7 @@ fun OrderApprovedScreenContent(
             contentAlignment = Alignment.Center
         ) {
             Image(
-                imageVector = ImageVector.vectorResource(R.drawable.approved),
+                imageVector = ImageVector.vectorResource(R.drawable.ic_error),
                 contentDescription = "Profile Image",
                 modifier = modifier
                     .padding(30.dp)
@@ -75,37 +73,21 @@ fun OrderApprovedScreenContent(
                 .padding(20.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            Column(
+            ActionButton(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ActionButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.track_order),
-                    backgroundColor = colorResource(R.color.saffron),
-                    textColor = colorResource(R.color.black),
-                    onClick = trackOrderButtonClicked
-                )
-                ActionButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.back_to_home),
-                    backgroundColor = colorResource(R.color.raisin_black),
-                    textColor = colorResource(R.color.saffron),
-                    onClick = backToHomeButtonClicked
-                )
-            }
+                text = stringResource(R.string.back_to_home),
+                backgroundColor = colorResource(R.color.saffron),
+                textColor = colorResource(R.color.black),
+                onClick = backToHomeButtonClicked
+            )
         }
     }
 }
 
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun OrderApprovedScreenContentPreview() {
-    OrderApprovedScreenContent(
-        modifier = Modifier,
-        trackOrderButtonClicked = {},
+private fun OrderDeclinedScreenContentPreview() {
+    OrderDeclinedScreenContent(
         backToHomeButtonClicked = {}
     )
 }

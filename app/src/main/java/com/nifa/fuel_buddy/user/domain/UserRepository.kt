@@ -6,6 +6,7 @@ import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.user.domain.model.FuelOrderHistory
 import com.nifa.fuel_buddy.user.domain.model.FuelStation
+import com.nifa.fuel_buddy.user.domain.model.OrderProductData
 import com.nifa.fuel_buddy.user.domain.model.Product
 import com.nifa.fuel_buddy.user.domain.request.GetAllProductRequest
 import com.nifa.fuel_buddy.user.domain.request.GetNearbyFuelStationRequest
@@ -28,5 +29,5 @@ interface UserRepository {
 
     suspend fun orderResponse(): Flow<OrderDecision>
 
-    suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<Unit, NetworkError>>
+    suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<OrderProductData, NetworkError>>
 }

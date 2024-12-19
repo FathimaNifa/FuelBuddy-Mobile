@@ -2,13 +2,14 @@ package com.nifa.fuel_buddy.user.data.networkSource
 
 import com.nifa.fuel_buddy.core.domain.NetworkError
 import com.nifa.fuel_buddy.core.domain.Result
-import com.nifa.fuel_buddy.core.domain.SuccessResponse
 import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.user.data.model.GetAllProductsDto
 import com.nifa.fuel_buddy.user.data.model.GetFuelOrderHistoryDto
 import com.nifa.fuel_buddy.user.data.model.GetNearbyFuelStationDto
 import com.nifa.fuel_buddy.user.data.model.GetOrderedProductsDto
+import com.nifa.fuel_buddy.user.data.model.OrderProductsDataDto
+import com.nifa.fuel_buddy.user.data.model.OrderProductsDto
 import com.nifa.fuel_buddy.user.data.model.toFuelOrderHistoryDto
 import com.nifa.fuel_buddy.user.data.model.toFuelStationDto
 import com.nifa.fuel_buddy.user.data.model.toOrderedProductsDto
@@ -112,14 +113,17 @@ class FakeUserNetworkSource @Inject constructor() : UserNetworkSource {
         }
     }
 
-    override suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<SuccessResponse, NetworkError>> {
+    override suspend fun orderProducts(request: OrderProductsRequest): Flow<Result<OrderProductsDto, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
             emit(
                 Result.Success(
-                    SuccessResponse(
+                    OrderProductsDto(
                         statusCode = 200,
-                        message = "Success"
+                        message = "Success",
+                        data = OrderProductsDataDto(
+                            orderId = "1234567"
+                        )
                     )
                 )
             )
