@@ -5,9 +5,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferenceDataSource {
 
-    val preferenceData: Flow<AccountType?>
+    val accountTypeFlow: Flow<AccountType?>
+
+    val jwtTokenFlow: Flow<String>
 
     suspend fun setAccountType(accountType: AccountType)
+
+    suspend fun setJwtToken(token: String)
 
     suspend fun clearAll()
 }

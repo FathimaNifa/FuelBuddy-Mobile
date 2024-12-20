@@ -33,7 +33,7 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                             userId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
                             userName = "userName",
                             userEmail = userSignInRequest.userEmail,
-                            userToken = ""
+                            userToken = "UserToken"
                         )
                     )
                 )
@@ -55,7 +55,7 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                             bunkId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
                             bunkName = "userName",
                             bunkEmail = fuelStationSignInRequest.userEmail,
-                            bunkToken = ""
+                            bunkToken = "BunkToken"
                         )
                     )
                 )
@@ -77,7 +77,7 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                             userId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
                             userName = userSignUpRequest.userName,
                             userEmail = userSignUpRequest.userEmail,
-                            userToken = ""
+                            userToken = "BunkToken"
                         )
                     )
                 )
@@ -99,7 +99,7 @@ class FakeAuthNetworkSource @Inject constructor() : AuthNetworkSource {
                             bunkId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
                             bunkName = fuelStationSignUpRequest.bunkName,
                             bunkEmail = fuelStationSignUpRequest.bunkEmail,
-                            bunkToken = ""
+                            bunkToken = "BunkToken"
                         )
                     )
                 )

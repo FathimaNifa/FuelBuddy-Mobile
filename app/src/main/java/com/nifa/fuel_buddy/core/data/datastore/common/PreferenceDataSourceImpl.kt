@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
+import com.nifa.fuel_buddy.core.domain.NetworkConstant
 import com.nifa.fuel_buddy.core.utils.ext.nullAsEmpty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -16,7 +17,7 @@ import javax.inject.Inject
 class PreferenceDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : PreferenceDataSource {
-    override val preferenceData: Flow<AccountType?>
+    override val accountTypeFlow: Flow<AccountType?>
         get() = dataStore.data
             .catch { t ->
                 // datastore data throws an IOException when an error is encountered when reading data
@@ -32,9 +33,29 @@ class PreferenceDataSourceImpl @Inject constructor(
                 }
             }
 
+
+    override val jwtTokenFlow: Flow<String>
+        get() = dataStore.data
+            .catch { t ->
+                // datastore data throws an IOException when an error is encountered when reading data
+                if (t is IOException)
+                    emit(emptyPreferences())
+                else
+                    throw t
+            }.map { preferences ->
+                preferences[JwtToken].nullAsEmpty()
+            }
+
     override suspend fun setAccountType(accountType: AccountType) {
         dataStore.edit { preferences ->
             preferences[AccountTypeKey] = accountType.name
+        }
+    }
+
+    override suspend fun setJwtToken(token: String) {
+        val jwtToken = "${NetworkConstant.BEARER} $token"
+        dataStore.edit { preferences ->
+            preferences[JwtToken] = jwtToken
         }
     }
 
@@ -44,5 +65,6 @@ class PreferenceDataSourceImpl @Inject constructor(
 
     companion object {
         val AccountTypeKey = stringPreferencesKey("account_type")
+        val JwtToken = stringPreferencesKey("jwt_token")
     }
 }
