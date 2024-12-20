@@ -187,7 +187,7 @@ class SignInScreenViewModel @Inject constructor(
     private fun signInFuelStation(fuelStationEmail: String, password: String) =
         viewModelScope.launch {
             val request = FuelStationSignInRequest(
-                fuelStationEmail = fuelStationEmail,
+                userEmail = fuelStationEmail,
                 password = password
             )
             authRepository.fuelStationSignIn(request).collect { result ->

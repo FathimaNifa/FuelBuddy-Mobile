@@ -23,6 +23,6 @@ interface AuthApi {
     @POST("bunk/bunkSignUp")
     suspend fun fuelStationSignup(@Body fuelStationSignupRequest: FuelStationSignUpRequest): Response<FuelStationSignUpDto>
 
-    @POST("bunk/bunkSignIn")
+    @POST("bunk/signIn")
     suspend fun fuelStationSignIn(@Body fuelStationSignInRequest: FuelStationSignInRequest): Response<FuelStationSignInDto>
 }
