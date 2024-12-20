@@ -6,6 +6,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.nifa.fuel_buddy.core.domain.location.LocationClient
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.OrderDeliveredRequest
@@ -28,7 +30,8 @@ import javax.inject.Inject
 class OutForDeliveryScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @ApplicationContext private val applicationContext: Context,
-    private val repository: FuelStationRepository
+    private val repository: FuelStationRepository,
+    private val locationClient: LocationClient,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState())
@@ -58,12 +61,22 @@ class OutForDeliveryScreenViewModel @Inject constructor(
             }
 
             UiAction.OnTakeMeToMapButtonClicked -> {
-                sendEvent(
-                    UiEvent.OpenGoogleMapApp(
-                        latitude = uiState.value.latitude,
-                        longitude = uiState.value.longitude
-                    )
-                )
+                locationClient.getCurrentLocation()
+                    .onEach {
+                        val fromLatLng = it
+                        val toLatLng = LatLong(
+                            latitude = uiState.value.latitude,
+                            longitude = uiState.value.longitude
+                        )
+
+                        sendEvent(
+                            UiEvent.OpenGoogleMapApp(
+                                fromLatLng = fromLatLng,
+                                toLatLng = toLatLng
+                            )
+                        )
+
+                    }.launchIn(viewModelScope)
             }
         }
     }
@@ -131,7 +144,7 @@ class OutForDeliveryScreenViewModel @Inject constructor(
     }
 
     sealed interface UiEvent {
-        data class OpenGoogleMapApp(val latitude: Double, val longitude: Double) : UiEvent
+        data class OpenGoogleMapApp(val fromLatLng: LatLong, val toLatLng: LatLong) : UiEvent
         data class NavigateAndPopupTo(val screen: FuelStationNavigation) : UiEvent
     }
 }

@@ -55,8 +55,8 @@ fun OutForDeliveryScreen(
 
             is UiEvent.OpenGoogleMapApp -> {
                 context.openGoogleMaps(
-                    latitude = event.latitude,
-                    longitude = event.longitude
+                    fromLatLong = event.fromLatLng,
+                    toLatLong = event.toLatLng
                 )
             }
         }

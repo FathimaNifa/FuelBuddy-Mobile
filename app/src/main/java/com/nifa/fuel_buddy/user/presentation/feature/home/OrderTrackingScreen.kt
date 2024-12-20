@@ -14,6 +14,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapEffect
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapsComposeExperimentalApi
+import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
@@ -28,7 +29,7 @@ fun OrderTrackingScreen(
 ) {
 
     val mapProperties = MapProperties(
-        isMyLocationEnabled = uiState.currentLocation != null
+        isMyLocationEnabled = false
     )
     val cameraPositionState = rememberCameraPositionState()
 
@@ -42,10 +43,13 @@ fun OrderTrackingScreen(
 
         val markerState = rememberMarkerState()
 
+        val currentLocationMarketState = rememberMarkerState()
+
 
         MapEffect(uiState.currentLocation) { map ->
 
             uiState.currentLocation?.let { location ->
+
                 map.setOnMapLoadedCallback {
                     scope.launch {
                         cameraPositionState.animate(
@@ -57,6 +61,7 @@ fun OrderTrackingScreen(
                                 15f
                             )
                         )
+                        currentLocationMarketState.position = LatLng(location.latitude, location.longitude)
                     }
                 }
             }
@@ -67,6 +72,8 @@ fun OrderTrackingScreen(
                 markerState.position = LatLng(it.latitude, it.longitude)
             }
         }
+
+        Marker(state = currentLocationMarketState)
 
 
         MarkerComposable(state = markerState) {

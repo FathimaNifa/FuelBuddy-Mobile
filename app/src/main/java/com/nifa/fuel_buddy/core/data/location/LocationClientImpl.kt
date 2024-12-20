@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.core.domain.location
+package com.nifa.fuel_buddy.core.data.location
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,6 +11,8 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.nifa.fuel_buddy.core.domain.location.LocationClient
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 import com.nifa.fuel_buddy.core.utils.ext.hasLocationPermission
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
@@ -65,7 +67,7 @@ class LocationClientImpl @Inject constructor(
     }
 
     @SuppressLint("MissingPermission")
-    override fun getCurrentLocation(): Flow<Location> {
+    override fun getCurrentLocation(): Flow<LatLong> {
         return callbackFlow {
             val cancellationTokenSource = CancellationTokenSource()
 
@@ -78,7 +80,11 @@ class LocationClientImpl @Inject constructor(
                 cancellationTokenSource.token
             )
                 .addOnSuccessListener {
-                    launch { send(it) }
+                    val latLong = LatLong(
+                        latitude = it.latitude,
+                        longitude = it.longitude
+                    )
+                    launch { send(latLong) }
                 }.addOnFailureListener {
                     throw it
                 }.addOnCanceledListener {
