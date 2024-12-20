@@ -48,7 +48,7 @@ class FeedbackViewModel @Inject constructor(
     }
 
     private fun observePrefAndUpdateAccountTypeUiState() {
-        preferenceDataSource.preferenceData
+        preferenceDataSource.accountTypeFlow
             .onEach { accountType ->
                 accountType?.let {
                     updateAccountType(accountType)
