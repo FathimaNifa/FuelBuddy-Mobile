@@ -1,7 +1,7 @@
 package com.nifa.fuel_buddy.core.data.socket
 
 import com.nifa.fuel_buddy.BuildConfig
-import com.nifa.fuel_buddy.core.domain.NetworkConstant.AUTHORIZATION
+import com.nifa.fuel_buddy.core.domain.util.NetworkConstant.AUTHORIZATION
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter

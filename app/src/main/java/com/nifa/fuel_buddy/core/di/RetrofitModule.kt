@@ -3,7 +3,7 @@ package com.nifa.fuel_buddy.core.di
 import com.nifa.fuel_buddy.BuildConfig
 import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSource
 import com.nifa.fuel_buddy.core.data.networkSource.CommonApi
-import com.nifa.fuel_buddy.core.domain.JwtInterceptor
+import com.nifa.fuel_buddy.core.domain.util.JwtInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

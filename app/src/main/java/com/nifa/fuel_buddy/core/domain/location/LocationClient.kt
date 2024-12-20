@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.core.domain
+package com.nifa.fuel_buddy.core.domain.location
 
 import android.location.Location
 import kotlinx.coroutines.flow.Flow

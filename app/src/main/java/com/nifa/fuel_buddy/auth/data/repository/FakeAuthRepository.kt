@@ -9,8 +9,8 @@ import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
-import com.nifa.fuel_buddy.core.domain.NetworkError
-import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.util.NetworkError
+import com.nifa.fuel_buddy.core.domain.util.Result
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

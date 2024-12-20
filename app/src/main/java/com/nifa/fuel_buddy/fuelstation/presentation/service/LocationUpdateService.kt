@@ -6,7 +6,7 @@ import android.app.TaskStackBuilder
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.net.toUri
-import com.nifa.fuel_buddy.core.domain.LocationClient
+import com.nifa.fuel_buddy.core.domain.location.LocationClient
 import com.nifa.fuel_buddy.core.presentation.MainActivity
 import com.nifa.fuel_buddy.core.utils.Deeplink
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository

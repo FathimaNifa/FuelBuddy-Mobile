@@ -3,9 +3,9 @@ package com.nifa.fuel_buddy.user.data.networkSource
 import com.google.gson.Gson
 import com.nifa.fuel_buddy.core.data.socket.SocketEvent
 import com.nifa.fuel_buddy.core.data.socket.SocketIoManager
-import com.nifa.fuel_buddy.core.domain.NetworkError
-import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.model.LatLong
+import com.nifa.fuel_buddy.core.domain.util.NetworkError
+import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.core.utils.ext.nullAsEmpty
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.user.domain.model.OrderResponse

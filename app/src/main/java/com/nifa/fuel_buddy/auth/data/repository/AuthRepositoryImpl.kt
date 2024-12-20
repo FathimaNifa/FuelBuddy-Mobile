@@ -14,8 +14,8 @@ import com.nifa.fuel_buddy.auth.domain.model.toFuelStationPreferences
 import com.nifa.fuel_buddy.auth.domain.model.toUserPreferences
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
-import com.nifa.fuel_buddy.core.domain.NetworkError
-import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.util.NetworkError
+import com.nifa.fuel_buddy.core.domain.util.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

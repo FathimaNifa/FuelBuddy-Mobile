@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.core.domain
+package com.nifa.fuel_buddy.core.domain.util
 
 import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSource
 

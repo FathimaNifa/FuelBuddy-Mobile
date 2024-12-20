@@ -1,7 +1,7 @@
 package com.nifa.fuel_buddy.core.di
 
-import com.nifa.fuel_buddy.core.domain.LocationClient
-import com.nifa.fuel_buddy.core.domain.LocationClientImpl
+import com.nifa.fuel_buddy.core.domain.location.LocationClient
+import com.nifa.fuel_buddy.core.domain.location.LocationClientImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

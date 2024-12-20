@@ -6,8 +6,8 @@ import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.FuelStationSignUpRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignInRequest
 import com.nifa.fuel_buddy.auth.domain.model.request.UserSignUpRequest
-import com.nifa.fuel_buddy.core.domain.NetworkError
-import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.util.NetworkError
+import com.nifa.fuel_buddy.core.domain.util.Result
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {

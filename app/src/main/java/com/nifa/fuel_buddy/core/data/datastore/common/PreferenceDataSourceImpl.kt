@@ -6,8 +6,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
-import com.nifa.fuel_buddy.core.domain.CustomScope
-import com.nifa.fuel_buddy.core.domain.NetworkConstant
+import com.nifa.fuel_buddy.core.domain.util.CustomScope
+import com.nifa.fuel_buddy.core.domain.util.NetworkConstant
 import com.nifa.fuel_buddy.core.utils.ext.nullAsEmpty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

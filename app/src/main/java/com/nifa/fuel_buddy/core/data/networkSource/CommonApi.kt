@@ -1,6 +1,6 @@
 package com.nifa.fuel_buddy.core.data.networkSource
 
-import com.nifa.fuel_buddy.core.domain.SuccessResponse
+import com.nifa.fuel_buddy.core.domain.model.SuccessResponse
 import com.nifa.fuel_buddy.core.domain.model.request.SubmitFeedbackRequest
 import retrofit2.Response
 import retrofit2.http.Body
