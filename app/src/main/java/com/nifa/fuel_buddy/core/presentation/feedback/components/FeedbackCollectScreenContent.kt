@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.core.presentation.userFeedback
+package com.nifa.fuel_buddy.core.presentation.feedback.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,21 +19,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nifa.fuel_buddy.R
 import com.nifa.fuel_buddy.auth.presentation.feature.composable.AuthCTA
-import com.nifa.fuel_buddy.core.presentation.userFeedback.components.FeedbackTextField
+import com.nifa.fuel_buddy.core.presentation.feedback.FeedbackUiAction
+import com.nifa.fuel_buddy.core.presentation.feedback.FeedbackUiState
 import com.nifa.fuel_buddy.core.utils.Font
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
-fun FeedBackScreen(
+fun FeedbackCollectScreenContent(
     modifier: Modifier = Modifier,
     uiState: FeedbackUiState,
-    uiAction: (FeedbackUiAction) -> Unit,
-    uiEvent: Flow<FeedbackUiEvent>
+    uiAction: (FeedbackUiAction) -> Unit
 ) {
-
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .background(colorResource(R.color.black)),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
@@ -82,10 +80,9 @@ fun FeedBackScreen(
 
 @Preview
 @Composable
-private fun FeedBackScreenPreview() {
-    FeedBackScreen(
+private fun FeedbackCollectScreenContentPreview() {
+    FeedbackCollectScreenContent(
         uiState = FeedbackUiState(),
-        uiAction = {},
-        uiEvent = emptyFlow()
+        uiAction = {}
     )
 }

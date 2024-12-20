@@ -9,10 +9,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import com.nifa.fuel_buddy.core.presentation.userFeedback.FeedBackScreen
-import com.nifa.fuel_buddy.core.presentation.userFeedback.FeedbackViewModel
+import com.nifa.fuel_buddy.core.presentation.feedback.FeedBackScreen
+import com.nifa.fuel_buddy.core.presentation.feedback.FeedbackViewModel
 import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.core.utils.Deeplink
+import com.nifa.fuel_buddy.core.utils.ext.navigateAndPopupTo
 import com.nifa.fuel_buddy.core.utils.ext.navigateTo
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.presentation.feature.account.AccountScreen
@@ -135,7 +136,8 @@ fun SetupFuelStationNavGraph(
             FeedBackScreen(
                 uiState = uiState,
                 uiAction = viewModel::onUiAction,
-                uiEvent = viewModel.uiEvent
+                uiEvent = viewModel.uiEvent,
+                navigateAndPopupToCallback = navHostController::navigateAndPopupTo
             )
         }
     }
