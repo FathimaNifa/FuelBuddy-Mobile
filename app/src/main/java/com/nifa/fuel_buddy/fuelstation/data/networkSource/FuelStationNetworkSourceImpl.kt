@@ -12,6 +12,7 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.OrderDeliveredRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -50,5 +51,9 @@ class FuelStationNetworkSourceImpl @Inject constructor(
 
     override suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<SuccessResponse, NetworkError>> {
         return safeApiCall { api.acceptOrder(request) }
+    }
+
+    override suspend fun orderDelivered(request: OrderDeliveredRequest): Flow<Result<SuccessResponse, NetworkError>> {
+        return safeApiCall { api.orderDelivered(request) }
     }
 }
