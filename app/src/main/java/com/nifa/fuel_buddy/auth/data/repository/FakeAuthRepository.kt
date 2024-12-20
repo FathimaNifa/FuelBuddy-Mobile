@@ -49,7 +49,7 @@ class FakeAuthRepository @Inject constructor(
                     FuelStation(
                         bunkId = "3c301d46-913b-4347-9d69-d5e70ce6c712",
                         bunkName = "userName",
-                        bunkEmail = fuelStationSignInRequest.fuelStationEmail,
+                        bunkEmail = fuelStationSignInRequest.userEmail,
                         bunkToken = ""
                     )
                 )

@@ -1,5 +1,6 @@
 package com.nifa.fuel_buddy.auth.data.model
 
+import com.google.gson.annotations.SerializedName
 import com.nifa.fuel_buddy.auth.domain.model.FuelStation
 
 data class FuelStationSignInDto(
@@ -9,9 +10,13 @@ data class FuelStationSignInDto(
 )
 
 data class FuelStationSignInDataDto(
+    @SerializedName("userId")
     val bunkId: String,
+    @SerializedName("userName")
     val bunkName: String,
+    @SerializedName("userEmail")
     val bunkEmail: String,
+    @SerializedName("userToken")
     val bunkToken: String
 )
 

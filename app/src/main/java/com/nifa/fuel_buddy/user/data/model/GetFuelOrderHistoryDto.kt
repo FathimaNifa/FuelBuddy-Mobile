@@ -18,7 +18,7 @@ data class FuelOrderHistoryDto(
     val awayFrom: Double,
     val bunkRating: Int,
     val bunkRatedUserCount: Int,
-    val deliveryCharge : Int = 0
+    val deliveryCharge : Int
 )
 
 fun FuelOrderHistoryDto.toFuelOrderHistory() = FuelOrderHistory(
