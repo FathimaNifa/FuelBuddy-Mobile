@@ -12,20 +12,38 @@ data class FuelOrderHistoryDto(
     val orderId: String,
     val orderDateTime: String,
     val totalPrice: String,
-    val fuelStation: FuelStationDto,
+    val bunkId: String,
+    val bunkName: String,
+    val bunkImage: String,
+    val awayFrom: Double,
+    val bunkRating: Int,
+    val bunkRatedUserCount: Int,
+    val deliveryCharge : Int = 0
 )
 
 fun FuelOrderHistoryDto.toFuelOrderHistory() = FuelOrderHistory(
     orderId = orderId,
     orderDateTime = orderDateTime,
     totalPrice = totalPrice,
-    fuelStation = fuelStation.toFuelStation()
+    bunkId = bunkId,
+    bunkName = bunkName,
+    bunkImage = bunkImage,
+    awayFrom = awayFrom,
+    bunkRating = bunkRating,
+    bunkRatedUserCount = bunkRatedUserCount,
+    deliveryCharge = deliveryCharge
 )
 
 fun FuelOrderHistory.toFuelOrderHistoryDto() = FuelOrderHistoryDto(
     orderId = orderId,
     orderDateTime = orderDateTime,
     totalPrice = totalPrice,
-    fuelStation = fuelStation.toFuelStationDto()
+    bunkId = bunkId,
+    bunkName = bunkName,
+    bunkImage = bunkImage,
+    awayFrom = awayFrom,
+    bunkRating = bunkRating,
+    bunkRatedUserCount = bunkRatedUserCount,
+    deliveryCharge = deliveryCharge
 )
 

@@ -18,13 +18,13 @@ interface UserApi {
     @POST("bunk/getNearestBunkDetails")
     suspend fun getNearbyFuelStation(@Body request: GetNearbyFuelStationRequest): Response<GetNearbyFuelStationDto>
 
-    @POST("bunk/getFuelOrderHistory")
+    @POST("user/getFuelOrderHistory")
     suspend fun getFuelOrderHistory(): Response<GetFuelOrderHistoryDto>
 
     @POST("product/getAllProducts")
     suspend fun getAllProducts(@Body request: GetAllProductRequest): Response<GetAllProductsDto>
 
-    @POST("products/getOrderedProducts")
+    @POST("product/getOrderedProducts")
     suspend fun getOrderedProducts(@Body request: GetOrderedProductRequest): Response<GetOrderedProductsDto>
 
     @POST("product/orderProduct")

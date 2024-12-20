@@ -6,7 +6,6 @@ import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.user.domain.UserRepository
 import com.nifa.fuel_buddy.user.domain.model.FuelOrderHistory
-import com.nifa.fuel_buddy.user.domain.model.FuelStation
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -55,9 +54,9 @@ class ActivityScreenViewModel @Inject constructor(
         when (action) {
             is ActivityScreenUiAction.OnActivityCardClicked -> {
                 val navigation = UserNavigation.ActivityDetailScreen(
-                    fuelStationName = action.fuelStation.name,
+                    fuelStationName = action.bunkName,
                     orderId = action.orderId,
-                    deliveryCharge = action.fuelStation.deliveryCharge
+                    deliveryCharge = action.deliveryCharge
                 )
                 sendEvent(
                     ActivityScreenUiEvent.NavigateTo(
@@ -87,7 +86,8 @@ data class ActivityScreenUiState(
 
 sealed interface ActivityScreenUiAction {
     data class OnActivityCardClicked(
-        val fuelStation: FuelStation,
+        val bunkName : String,
+        val deliveryCharge : Int,
         val orderId: String
     ) : ActivityScreenUiAction
 }
