@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import com.nifa.fuel_buddy.fuelstation.presentation.service.LocationUpdateService
@@ -17,11 +19,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,19 +47,21 @@ class LiveOrderScreenViewModel @Inject constructor(
     init {
 
         viewModelScope.launch {
+            preferences.fuelStationPreferencesData.collectLatest { pref ->
+                hitGetCustomerOrderApi(pref.bunkId)
+            }
+        }
+    }
 
-            val bunkId = preferences.fuelStationPreferencesData.last().bunkId
-            val bunkToken = preferences.fuelStationPreferencesData.last().bunkToken
-
-            val request = GetCustomerOrdersRequest(bunkId = bunkId)
-
-            repository.getCustomerOrders(request).collect { result ->
-                when (result) {
-                    is Result.Error -> Unit
-                    is Result.Loading -> Unit
-                    is Result.Success -> {
-                        updateOrderDetails(result.data)
-                    }
+    private fun hitGetCustomerOrderApi(bunkId: String) = viewModelScope.launch {
+        val request = GetCustomerOrdersRequest(bunkId)
+        repository.getCustomerOrders(request).collect { result ->
+            when (result) {
+                is Result.Error -> Timber.d("getCustomerOrders Error ${result.error.message}")
+                is Result.Loading -> Timber.d("getCustomerOrders Loading ${result.isLoading}")
+                is Result.Success -> {
+                    Timber.d("getCustomerOrders Success ${result.data}")
+                    updateOrderDetails(result.data)
                 }
             }
         }
@@ -67,7 +72,12 @@ class LiveOrderScreenViewModel @Inject constructor(
 
             is LiveOrderScreenUiAction.OnAcceptButtonClicked -> {
 
-                // TODO: Add api call here
+
+                hitAcceptOrderApi(
+                    type = OrderDecision.ACCEPTED,
+                    orderId = action.orderId
+                )
+
                 startLocationUpdateService(
                     latitude = action.latitude,
                     longitude = action.longitude,
@@ -93,8 +103,30 @@ class LiveOrderScreenViewModel @Inject constructor(
                 )
             }
 
-            is LiveOrderScreenUiAction.OnDeclineButtonClicked -> Unit
+            is LiveOrderScreenUiAction.OnDeclineButtonClicked -> {
+                hitAcceptOrderApi(
+                    type = OrderDecision.DECLINED,
+                    orderId = action.orderId
+                )
+                removeOrderFromList(action.orderId)
+            }
         }
+    }
+
+    private fun removeOrderFromList(orderId: String) {
+        val orderList = uiState.value.orderList
+        val removedList = orderList.filter { it.orderId != orderId }
+        updateOrderDetails(removedList)
+    }
+
+    private fun hitAcceptOrderApi(type: OrderDecision, orderId: String) = viewModelScope.launch {
+
+        val request = AcceptOrderRequest(
+            orderId = orderId,
+            type = type.name
+        )
+
+        repository.acceptOrder(request)
     }
 
     private fun startLocationUpdateService(
