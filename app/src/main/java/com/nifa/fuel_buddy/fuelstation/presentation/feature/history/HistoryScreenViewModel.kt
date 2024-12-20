@@ -3,7 +3,7 @@ package com.nifa.fuel_buddy.fuelstation.presentation.feature.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
-import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest

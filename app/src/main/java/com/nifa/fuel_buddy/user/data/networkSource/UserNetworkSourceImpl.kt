@@ -1,10 +1,10 @@
 package com.nifa.fuel_buddy.user.data.networkSource
 
 import android.content.Context
-import com.nifa.fuel_buddy.core.domain.BaseApiResponse
-import com.nifa.fuel_buddy.core.domain.NetworkError
-import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.model.LatLong
+import com.nifa.fuel_buddy.core.domain.util.BaseApiResponse
+import com.nifa.fuel_buddy.core.domain.util.NetworkError
+import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.user.data.model.GetAllProductsDto
 import com.nifa.fuel_buddy.user.data.model.GetFuelOrderHistoryDto

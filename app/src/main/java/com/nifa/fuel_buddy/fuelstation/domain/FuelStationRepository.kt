@@ -1,7 +1,7 @@
 package com.nifa.fuel_buddy.fuelstation.domain
 
-import com.nifa.fuel_buddy.core.domain.NetworkError
-import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.util.NetworkError
+import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
@@ -28,5 +28,5 @@ interface FuelStationRepository {
 
     suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<Unit, NetworkError>>
 
-    suspend fun orderDelivered(request : OrderDeliveredRequest) : Flow<Result<Unit,NetworkError>>
+    suspend fun orderDelivered(request : OrderDeliveredRequest) : Flow<Result<Unit, NetworkError>>
 }

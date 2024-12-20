@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.core.domain
+package com.nifa.fuel_buddy.core.domain.location
 
 import android.annotation.SuppressLint
 import android.content.Context

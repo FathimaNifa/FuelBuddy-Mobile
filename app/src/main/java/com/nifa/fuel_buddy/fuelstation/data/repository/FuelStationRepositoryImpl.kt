@@ -1,7 +1,7 @@
 package com.nifa.fuel_buddy.fuelstation.data.repository
 
-import com.nifa.fuel_buddy.core.domain.NetworkError
-import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.util.NetworkError
+import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.fuelstation.data.model.OrderDetailsDto
 import com.nifa.fuel_buddy.fuelstation.data.model.ProductDetailsDto
 import com.nifa.fuel_buddy.fuelstation.data.model.toOrderDetails

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
 import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSource
 import com.nifa.fuel_buddy.core.domain.CommonRepository
-import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.domain.model.request.SubmitFeedbackRequest
+import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation

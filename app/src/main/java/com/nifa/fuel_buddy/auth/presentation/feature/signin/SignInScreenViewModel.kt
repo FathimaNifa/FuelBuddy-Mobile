@@ -12,7 +12,7 @@ import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
 import com.nifa.fuel_buddy.auth.presentation.navigation.AuthNavigation
 import com.nifa.fuel_buddy.auth.util.ValidateEmail
 import com.nifa.fuel_buddy.auth.util.ValidatePassword
-import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.core.domain.util.Result
 import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import com.nifa.fuel_buddy.core.utils.UiText
