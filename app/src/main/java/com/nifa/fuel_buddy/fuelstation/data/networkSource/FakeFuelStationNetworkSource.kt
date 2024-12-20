@@ -48,7 +48,7 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
                                 orderNumber = "223",
                                 orderId = "2",
                                 location = "Anna Nagar, Injambakkam Chennai, Tamil Nadu 600115",
-                                awayFrom = "5.5km away",
+                                awayFrom = "3km away",
                                 userName = "G",
                                 totalPrice = "650",
                                 deliveryCharge = "20",
@@ -99,7 +99,7 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
                                 productId = "1",
                                 productName = "Petrol",
                                 productImage = "",
-                                productPrice = 500,
+                                productPrice = 315,
                                 quantity = 2
                             )
                         )
@@ -155,7 +155,7 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
                                 productId = "1",
                                 productName = "Petrol",
                                 productImage = "",
-                                productPrice = 500,
+                                productPrice = 315,
                                 quantity = 2
                             )
                         )
