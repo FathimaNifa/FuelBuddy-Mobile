@@ -42,7 +42,7 @@ fun OrderDeclinedScreenContent(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = stringResource(R.string.your_order_is_accepted),
+                text = stringResource(R.string.your_order_is_declined),
                 color = Color.White,
                 fontSize = 16.sp,
                 fontFamily = Font.JosefinBold,
