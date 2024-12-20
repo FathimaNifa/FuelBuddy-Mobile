@@ -10,7 +10,9 @@ import androidx.navigation.toRoute
 import com.nifa.fuel_buddy.core.domain.Result
 import com.nifa.fuel_buddy.core.utils.CustomNavType
 import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
+import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDecision
 import com.nifa.fuel_buddy.fuelstation.domain.model.OrderDetails
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import com.nifa.fuel_buddy.fuelstation.presentation.service.LocationUpdateService
@@ -90,8 +92,11 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
     fun onUiAction(action: LiveOrderDetailUiAction) {
         when (action) {
             LiveOrderDetailUiAction.OnAcceptButtonClicked -> {
-                // TODO: Add api call here
 
+                hitAcceptOrderApi(
+                    type = OrderDecision.ACCEPTED,
+                    orderId = uiState.value.orderId
+                )
                 startLocationUpdateService(
                     latitude = uiState.value.latitude,
                     longitude = uiState.value.longitude,
@@ -106,8 +111,23 @@ class LiveOrderDetailScreenViewModel @Inject constructor(
                 sendEvent(LiveOrderDetailScreenUiEvent.NavigateTo(screen))
             }
 
-            LiveOrderDetailUiAction.OnDeclineButtonClicked -> Unit
+            LiveOrderDetailUiAction.OnDeclineButtonClicked -> {
+                hitAcceptOrderApi(
+                    type = OrderDecision.DECLINED,
+                    orderId = uiState.value.orderId
+                )
+            }
         }
+    }
+
+    private fun hitAcceptOrderApi(type: OrderDecision, orderId: String) = viewModelScope.launch {
+
+        val request = AcceptOrderRequest(
+            orderId = orderId,
+            type = type.name
+        )
+
+        repository.acceptOrder(request)
     }
 
     private fun startLocationUpdateService(

@@ -42,6 +42,19 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
                                 dateAndTime = "",
                                 latitude = 13.0437639,
                                 longitude = 80.2632539
+                            ),
+                            OrderDetailsDto(
+                                orderNumber = "223",
+                                orderId = "2",
+                                location = "Anna Nagar, Injambakkam Chennai, Tamil Nadu 600115",
+                                awayFrom = "5.5km away",
+                                userName = "G",
+                                totalPrice = "650",
+                                deliveryCharge = "20",
+                                orderStatus = OrderStatus.New.name,
+                                dateAndTime = "",
+                                latitude = 13.0437639,
+                                longitude = 80.2632539
                             )
                         )
                     )
