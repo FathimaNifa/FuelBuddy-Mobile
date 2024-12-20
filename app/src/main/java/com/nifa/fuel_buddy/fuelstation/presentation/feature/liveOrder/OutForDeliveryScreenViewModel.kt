@@ -6,6 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.nifa.fuel_buddy.core.domain.Result
+import com.nifa.fuel_buddy.fuelstation.domain.FuelStationRepository
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.OrderDeliveredRequest
 import com.nifa.fuel_buddy.fuelstation.presentation.navigation.FuelStationNavigation
 import com.nifa.fuel_buddy.fuelstation.presentation.service.LocationUpdateService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +16,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -22,7 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OutForDeliveryScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    @ApplicationContext private val applicationContext: Context
+    @ApplicationContext private val applicationContext: Context,
+    private val repository: FuelStationRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState())
@@ -47,7 +53,7 @@ class OutForDeliveryScreenViewModel @Inject constructor(
     fun onUiAction(action: UiAction) {
         when (action) {
             UiAction.OnDeliveredOrderButtonClicked -> {
-                // TODO: Add Api call here
+                hitOrderedApi()
                 stopLocationUpdateService()
             }
 
@@ -61,6 +67,24 @@ class OutForDeliveryScreenViewModel @Inject constructor(
             }
         }
     }
+
+    private fun hitOrderedApi() = viewModelScope.launch {
+        val orderId = uiState.value.orderId
+        val request = OrderDeliveredRequest(orderId)
+
+        repository.orderDelivered(request)
+            .onEach { result ->
+                when (result) {
+                    is Result.Error -> Unit
+                    is Result.Loading -> Unit
+                    is Result.Success -> {
+                        val screen = FuelStationNavigation.LiveOrderScreen
+                        sendEvent(UiEvent.NavigateAndPopupTo(screen))
+                    }
+                }
+            }.launchIn(viewModelScope)
+    }
+
 
     private fun stopLocationUpdateService() {
         val intent = Intent(applicationContext, LocationUpdateService::class.java).apply {
@@ -108,6 +132,6 @@ class OutForDeliveryScreenViewModel @Inject constructor(
 
     sealed interface UiEvent {
         data class OpenGoogleMapApp(val latitude: Double, val longitude: Double) : UiEvent
-        data class NavigateTo(val screen: FuelStationNavigation) : UiEvent
+        data class NavigateAndPopupTo(val screen: FuelStationNavigation) : UiEvent
     }
 }

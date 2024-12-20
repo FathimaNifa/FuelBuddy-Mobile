@@ -12,6 +12,7 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.OrderDeliveredRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -180,6 +181,21 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
     }
 
     override suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<SuccessResponse, NetworkError>> {
+        return flow {
+            emit(Result.Loading(true))
+            delay(500L)
+            emit(
+                Result.Success(
+                    SuccessResponse(
+                        statusCode = 200,
+                        message = "Success"
+                    )
+                )
+            )
+        }
+    }
+
+    override suspend fun orderDelivered(request: OrderDeliveredRequest): Flow<Result<SuccessResponse, NetworkError>> {
         return flow {
             emit(Result.Loading(true))
             delay(500L)

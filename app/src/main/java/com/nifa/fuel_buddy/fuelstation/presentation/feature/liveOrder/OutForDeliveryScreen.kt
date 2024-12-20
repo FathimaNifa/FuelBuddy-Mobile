@@ -42,15 +42,15 @@ fun OutForDeliveryScreen(
     uiState: UiState,
     uiAction: (UiAction) -> Unit,
     uiEvent: Flow<UiEvent>,
-    navigateToCallback: (FuelStationNavigation) -> Unit
+    navigateAndPopupTo: (FuelStationNavigation) -> Unit
 ) {
 
     val context = LocalContext.current
 
     uiEvent.CollectAsEffect { event ->
         when (event) {
-            is UiEvent.NavigateTo -> {
-                navigateToCallback.invoke(event.screen)
+            is UiEvent.NavigateAndPopupTo -> {
+                navigateAndPopupTo.invoke(event.screen)
             }
 
             is UiEvent.OpenGoogleMapApp -> {
@@ -136,6 +136,6 @@ private fun OutForDeliveryScreenPreview() {
         uiState = UiState(),
         uiAction = {},
         uiEvent = emptyFlow(),
-        navigateToCallback = {}
+        navigateAndPopupTo = {}
     )
 }

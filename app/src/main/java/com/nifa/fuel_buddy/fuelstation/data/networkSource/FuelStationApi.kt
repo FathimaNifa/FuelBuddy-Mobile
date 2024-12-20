@@ -7,6 +7,7 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.OrderDeliveredRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -28,4 +29,7 @@ interface FuelStationApi {
 
     @POST("bunk/acceptOrder")
     suspend fun acceptOrder(@Body request: AcceptOrderRequest): Response<SuccessResponse>
+
+    @POST("bunk/deliveredStatus")
+    suspend fun orderDelivered(@Body request: OrderDeliveredRequest): Response<SuccessResponse>
 }

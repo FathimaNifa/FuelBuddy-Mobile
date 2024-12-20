@@ -13,6 +13,7 @@ import com.nifa.fuel_buddy.fuelstation.domain.model.request.AcceptOrderRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetCustomerOrdersRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderHistoryRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.GetOrderedProductsRequest
+import com.nifa.fuel_buddy.fuelstation.domain.model.request.OrderDeliveredRequest
 import com.nifa.fuel_buddy.fuelstation.domain.model.request.UpdateDriverLocationRequest
 import com.nifa.fuel_buddy.user.domain.model.Product
 import kotlinx.coroutines.flow.Flow
@@ -79,6 +80,16 @@ class FuelStationRepositoryImpl @Inject constructor(
 
     override suspend fun acceptOrder(request: AcceptOrderRequest): Flow<Result<Unit, NetworkError>> {
         return networkSource.acceptOrder(request).map { result ->
+            when (result) {
+                is Result.Error -> Result.Error(result.error)
+                is Result.Loading -> Result.Loading(result.isLoading)
+                is Result.Success -> Result.Success(Unit)
+            }
+        }
+    }
+
+    override suspend fun orderDelivered(request: OrderDeliveredRequest): Flow<Result<Unit, NetworkError>> {
+        return networkSource.orderDelivered(request).map { result ->
             when (result) {
                 is Result.Error -> Result.Error(result.error)
                 is Result.Loading -> Result.Loading(result.isLoading)

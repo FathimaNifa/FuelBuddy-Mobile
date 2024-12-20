@@ -86,7 +86,7 @@ fun SetupFuelStationNavGraph(
                 uiState = uiState,
                 uiAction = viewModel::onUiAction,
                 uiEvent = viewModel.uiEvent,
-                navigateToCallback = navHostController::navigateTo
+                navigateAndPopupTo = navHostController::navigateAndPopupTo
             )
         }
 
