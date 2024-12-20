@@ -46,5 +46,8 @@ class UserSocketSource @Inject constructor(
                 send(orderDecision)
             }
         }
+        awaitClose {
+            socketIoManager.socket?.off(SocketEvent.ORDER_RESPONSE.event)
+        }
     }
 }

@@ -9,13 +9,9 @@ import com.nifa.fuel_buddy.user.domain.UserRepository
 import com.nifa.fuel_buddy.user.presentation.navigation.UserNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -42,13 +38,13 @@ class OrderStatusScreenViewModel @Inject constructor(
     private val orderId = savedStateHandle.toRoute<UserNavigation.OrderStatusScreen>().orderId
 
     init {
-        uiState.map { it.screenState }
+        /*uiState.map { it.screenState }
             .distinctUntilChanged()
             .filter { it == OrderStatusScreenState.LOADING }
             .onEach {
                 delay(3000L)
                 updateScreenStateUiState(OrderStatusScreenState.APPROVED)
-            }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)*/
 
         viewModelScope.launch {
             userRepository.orderResponse()
