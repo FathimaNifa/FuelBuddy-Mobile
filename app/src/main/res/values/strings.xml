@@ -17,6 +17,7 @@
     <string name="your_license_is_verified">Your License is verified</string>
     <string name="error">Error</string>
     <string name="your_order_is_accepted">Your Order is Accepted</string>
+    <string name="feedback_sent_successfully">Feedback sent successfully 🎉</string>
     <string name="your_order_is_declined">Your Order is Declined</string>
     <string name="out_for_deliver_title">Our Customer is waiting for the Order\nPlease Deliver it ASAP</string>
     <string name="track_order">Track Order</string>

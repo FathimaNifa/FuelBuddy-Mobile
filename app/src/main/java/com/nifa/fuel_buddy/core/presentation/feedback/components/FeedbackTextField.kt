@@ -1,4 +1,4 @@
-package com.nifa.fuel_buddy.core.presentation.userFeedback.components
+package com.nifa.fuel_buddy.core.presentation.feedback.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
