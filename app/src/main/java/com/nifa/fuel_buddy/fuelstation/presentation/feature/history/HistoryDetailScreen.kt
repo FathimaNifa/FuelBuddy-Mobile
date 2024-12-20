@@ -39,7 +39,8 @@ fun HistoryDetailScreen(
     uiState: HistoryDetailScreenUiState
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .background(colorResource(R.color.black)),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Text(
