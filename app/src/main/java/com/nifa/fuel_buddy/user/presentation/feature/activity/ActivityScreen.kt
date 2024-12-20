@@ -44,14 +44,17 @@ fun ActivityScreen(
             val data = uiState.fuelOrderHistoryList[index]
             ActivityCard(
                 price = data.totalPrice,
-                title = data.fuelStation.name,
+                title = data.bunkName,
                 datetime = data.orderDateTime,
-                imageUrl = data.fuelStation.imageUrl,
+                imageUrl = data.bunkImage,
                 onClick = {
-                    uiAction.invoke(ActivityScreenUiAction.OnActivityCardClicked(
-                        fuelStation = data.fuelStation,
-                        orderId = data.orderId
-                    ))
+                    uiAction.invoke(
+                        ActivityScreenUiAction.OnActivityCardClicked(
+                            bunkName = data.bunkName,
+                            deliveryCharge = data.deliveryCharge,
+                            orderId = data.orderId
+                        )
+                    )
                 }
             )
         }

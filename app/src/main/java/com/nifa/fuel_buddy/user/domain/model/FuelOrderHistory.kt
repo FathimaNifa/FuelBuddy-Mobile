@@ -4,5 +4,11 @@ data class FuelOrderHistory(
     val orderId: String,
     val orderDateTime: String,
     val totalPrice : String,
-    val fuelStation: FuelStation,
+    val bunkId: String,
+    val bunkName: String,
+    val bunkImage: String,
+    val awayFrom: Double,
+    val bunkRating: Int,
+    val bunkRatedUserCount: Int,
+    val deliveryCharge : Int
 )

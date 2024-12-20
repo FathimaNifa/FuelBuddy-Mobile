@@ -246,42 +246,78 @@ val dummyFuelOrderHistory = listOf(
         orderId = "1",
         orderDateTime = "20 Oct | 1.41 PM",
         totalPrice = "2243",
-        fuelStation = hpFuelStation,
+        bunkId = hpFuelStation.id,
+        bunkName = hpFuelStation.name,
+        bunkImage = hpFuelStation.imageUrl,
+        bunkRating = hpFuelStation.rating,
+        bunkRatedUserCount = hpFuelStation.ratedUserCount,
+        deliveryCharge = hpFuelStation.deliveryCharge,
+        awayFrom = hpFuelStation.distance.toDouble()
 //        productList = dummyProductListWithAddedQuantity
     ),
     FuelOrderHistory(
         orderId = "2",
         orderDateTime = "1 Oct | 10.03 PM",
         totalPrice = "2263",
-        fuelStation = bharathFuelStation,
+        bunkId = bharathFuelStation.id,
+        bunkName = bharathFuelStation.name,
+        bunkImage = bharathFuelStation.imageUrl,
+        bunkRating = bharathFuelStation.rating,
+        bunkRatedUserCount = bharathFuelStation.ratedUserCount,
+        deliveryCharge = bharathFuelStation.deliveryCharge,
+        awayFrom = bharathFuelStation.distance.toDouble()
 //        productList = dummyProductListWithAddedQuantity
     ),
     FuelOrderHistory(
         orderId = "3",
         orderDateTime = "12 Sept | 12.41 PM",
         totalPrice = "2213",
-        fuelStation = indianFuelStation,
+        bunkId = indianFuelStation.id,
+        bunkName = indianFuelStation.name,
+        bunkImage = indianFuelStation.imageUrl,
+        bunkRating = indianFuelStation.rating,
+        bunkRatedUserCount = indianFuelStation.ratedUserCount,
+        deliveryCharge = indianFuelStation.deliveryCharge,
+        awayFrom = indianFuelStation.distance.toDouble()
 //        productList = dummyProductListWithAddedQuantity
     ),
     FuelOrderHistory(
         orderId = "4",
         orderDateTime = "9 Nov | 6.39 AM",
         totalPrice = "2303",
-        fuelStation = shell,
+        bunkId = reliance.id,
+        bunkName = reliance.name,
+        bunkImage = reliance.imageUrl,
+        bunkRating = reliance.rating,
+        bunkRatedUserCount = reliance.ratedUserCount,
+        deliveryCharge = reliance.deliveryCharge,
+        awayFrom = reliance.distance.toDouble()
 //        productList = dummyProductListWithAddedQuantity
     ),
     FuelOrderHistory(
         orderId = "5",
         orderDateTime = "1 Feb | 9.41 PM",
         totalPrice = "2233",
-        fuelStation = reliance,
+        bunkId = shell.id,
+        bunkName = shell.name,
+        bunkImage = shell.imageUrl,
+        bunkRating = shell.rating,
+        bunkRatedUserCount = shell.ratedUserCount,
+        deliveryCharge = shell.deliveryCharge,
+        awayFrom = shell.distance.toDouble()
 //        productList = dummyProductListWithAddedQuantity
     ),
     FuelOrderHistory(
         orderId = "6",
         orderDateTime = "9 Mar | 2.05 PM",
         totalPrice = "2283",
-        fuelStation = nayara,
+        bunkId = nayara.id,
+        bunkName = nayara.name,
+        bunkImage = nayara.imageUrl,
+        bunkRating = nayara.rating,
+        bunkRatedUserCount = nayara.ratedUserCount,
+        deliveryCharge = nayara.deliveryCharge,
+        awayFrom = nayara.distance.toDouble()
 //        productList = dummyProductListWithAddedQuantity
     ),
 )
