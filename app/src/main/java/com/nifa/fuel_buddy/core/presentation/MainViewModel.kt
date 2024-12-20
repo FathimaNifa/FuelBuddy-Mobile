@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
+import com.nifa.fuel_buddy.core.data.socket.SocketIoManager
 import com.nifa.fuel_buddy.core.presentation.navigation.NavGraphs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -12,16 +13,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val fuelStationPreferenceDataSource: FuelStationPreferenceDataSource,
-    private val preferenceDataSource: PreferenceDataSource
+    private val preferenceDataSource: PreferenceDataSource,
+    private val socketIoManager: SocketIoManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
@@ -36,6 +40,11 @@ class MainViewModel @Inject constructor(
         observePrefAndUpdateNavGraph()
 
         observePrefAndUpdateJwtToken()
+
+        socketIoManager.socketIoConnectionState
+            .onEach {
+                Timber.d("Socket connection State : $it")
+            }.launchIn(viewModelScope)
 
     }
 
