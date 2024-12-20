@@ -13,5 +13,7 @@ interface PreferenceDataSource {
 
     suspend fun setJwtToken(token: String)
 
+    fun getJwtToken() : String
+
     suspend fun clearAll()
 }
