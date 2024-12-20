@@ -1,8 +1,7 @@
 package com.nifa.fuel_buddy.core.di
 
 import com.nifa.fuel_buddy.BuildConfig
-import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
-import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
+import com.nifa.fuel_buddy.core.data.datastore.common.PreferenceDataSource
 import com.nifa.fuel_buddy.core.data.networkSource.CommonApi
 import com.nifa.fuel_buddy.core.domain.JwtInterceptor
 import dagger.Module
@@ -31,17 +30,11 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideOkHttp(
-        fuelStationPreferenceDataSource: FuelStationPreferenceDataSource,
-        userPreferenceDataSource: UserPreferenceDataSource
+        preferenceDataSource: PreferenceDataSource
     ): OkHttpClient =
         OkHttpClient
             .Builder()
-            .addInterceptor(
-                JwtInterceptor(
-                    fuelStationPreferences = fuelStationPreferenceDataSource,
-                    userPreferences = userPreferenceDataSource
-                )
-            )
+            .addInterceptor(JwtInterceptor(preferenceDataSource))
             .build()
 
     @Provides

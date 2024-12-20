@@ -6,17 +6,38 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.nifa.fuel_buddy.auth.presentation.feature.accounttype.AccountType
+import com.nifa.fuel_buddy.core.domain.CustomScope
 import com.nifa.fuel_buddy.core.domain.NetworkConstant
 import com.nifa.fuel_buddy.core.utils.ext.nullAsEmpty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
 class PreferenceDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : PreferenceDataSource {
+
+    private var jwtToken = ""
+
+    init {
+        CustomScope.getApplicationScope().launch {
+            dataStore.data
+                .catch { t ->
+                    // datastore data throws an IOException when an error is encountered when reading data
+                    if (t is IOException)
+                        emit(emptyPreferences())
+                    else
+                        throw t
+                }.map { preferences ->
+                    jwtToken = preferences[JwtToken].nullAsEmpty()
+                }.launchIn(this)
+        }
+    }
+
     override val accountTypeFlow: Flow<AccountType?>
         get() = dataStore.data
             .catch { t ->
@@ -57,6 +78,10 @@ class PreferenceDataSourceImpl @Inject constructor(
         dataStore.edit { preferences ->
             preferences[JwtToken] = jwtToken
         }
+    }
+
+    override fun getJwtToken(): String {
+        return jwtToken
     }
 
     override suspend fun clearAll() {
