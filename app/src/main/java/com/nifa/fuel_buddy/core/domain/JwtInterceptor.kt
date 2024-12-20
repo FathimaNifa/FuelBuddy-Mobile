@@ -23,7 +23,7 @@ class JwtInterceptor(
             ) { userPref, fuelPref ->
                 val token = when {
                     userPref.userId.isNotBlank() -> userPref.userToken
-                    fuelPref.bunkId.isNotBlank() -> fuelPref.bunkId
+                    fuelPref.bunkId.isNotBlank() -> fuelPref.bunkToken
                     else -> ""
                 }
                 bearerToken = "Bearer $token"
