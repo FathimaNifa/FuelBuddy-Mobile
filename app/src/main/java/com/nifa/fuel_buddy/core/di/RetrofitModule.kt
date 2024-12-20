@@ -3,6 +3,7 @@ package com.nifa.fuel_buddy.core.di
 import com.nifa.fuel_buddy.BuildConfig
 import com.nifa.fuel_buddy.core.data.datastore.fuelstation.FuelStationPreferenceDataSource
 import com.nifa.fuel_buddy.core.data.datastore.user.UserPreferenceDataSource
+import com.nifa.fuel_buddy.core.data.networkSource.CommonApi
 import com.nifa.fuel_buddy.core.domain.JwtInterceptor
 import dagger.Module
 import dagger.Provides
@@ -11,6 +12,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -41,4 +43,8 @@ object RetrofitModule {
                 )
             )
             .build()
+
+    @Provides
+    @Singleton
+    fun provideCommonApi(retrofit: Retrofit): CommonApi = retrofit.create()
 }

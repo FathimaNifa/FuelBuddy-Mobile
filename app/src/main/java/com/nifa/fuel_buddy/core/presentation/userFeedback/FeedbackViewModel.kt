@@ -2,6 +2,7 @@ package com.nifa.fuel_buddy.core.presentation.userFeedback
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nifa.fuel_buddy.core.domain.CommonRepository
 import com.nifa.fuel_buddy.core.presentation.navigation.NavigationScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -17,7 +18,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FeedbackViewModel @Inject constructor() : ViewModel() {
+class FeedbackViewModel @Inject constructor(
+    private val commonRepository: CommonRepository
+) : ViewModel() {
 
     companion object {
         const val MAX_TEXT_COUNT = 500
