@@ -47,7 +47,7 @@ class LocationClientImpl @Inject constructor(
                 val locationCallback = object : LocationCallback() {
                     override fun onLocationResult(result: LocationResult) {
                         super.onLocationResult(result)
-                        result.locations.lastOrNull()?.let { location ->
+                        result.lastLocation?.let { location ->
                             launch { send(location) }
                         }
                     }

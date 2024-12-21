@@ -31,12 +31,10 @@ class FakeLocationClientImpl @Inject constructor(
 
     companion object {
         val USER_LOCATION = LatLong(
-            latitude = 13.0103349,
-            longitude = 80.2292406
+            13.010330, 80.231505
         )
         val DELIVERY_PARTNER_LOCATION = LatLong(
-            latitude = 13.0079438,
-            longitude = 80.2416342
+            13.006590, 80.242390
         )
     }
 }
