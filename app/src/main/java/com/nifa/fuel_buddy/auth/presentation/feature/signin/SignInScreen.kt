@@ -135,7 +135,7 @@ fun SignInScreen(
                     supportingText = uiState.passwordSupportingText?.asString(context)
                 )
 
-                Text(
+               /* Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { uiAction.invoke(SignInScreenUiAction.OnForgotPasswordClicked) },
@@ -145,7 +145,7 @@ fun SignInScreen(
                     color = colorResource(R.color.saffron),
                     textAlign = TextAlign.Center,
                     style = TextStyle(textDecoration = TextDecoration.Underline)
-                )
+                )*/
 
                 AuthCTA(
                     isLoading = uiState.isLoading,
