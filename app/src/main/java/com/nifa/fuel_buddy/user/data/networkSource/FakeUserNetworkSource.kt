@@ -94,7 +94,7 @@ class FakeUserNetworkSource @Inject constructor() : UserNetworkSource {
 
     override suspend fun trackOrder(request: TrackOrderRequest): Flow<Result<LatLong, NetworkError>> {
         return flow {
-            getRoute().forEach { latLng ->
+            getDemoRoute().forEach { latLng ->
                 emit(
                     Result.Success(
                         latLng
@@ -406,4 +406,63 @@ fun getRoute() = listOf(
     ), LatLong(
         12.827968, 79.711978
     )
+)
+
+fun getDemoRoute() = listOf(
+    LatLong(13.006590, 80.242390),
+    LatLong(13.006651, 80.241223),
+    LatLong(13.006694, 80.240907),
+    LatLong(13.006744, 80.240615),
+    LatLong(13.006956, 80.239477),
+    LatLong(13.007004, 80.239206),
+    LatLong(13.007077, 80.238797),
+    LatLong(13.007077, 80.238797),
+    LatLong(13.007188, 80.238188),
+    LatLong(13.007250, 80.237850),
+    LatLong(13.007330, 80.237516),
+    LatLong(13.007400, 80.237220),
+    LatLong(13.007570, 80.236400),
+    LatLong(13.007620, 80.236130),
+    LatLong(13.007683, 80.235792),
+    LatLong(13.007744, 80.235503),
+    LatLong(13.007799, 80.235233),
+    LatLong(13.007853, 80.234993),
+    LatLong(13.007906, 80.234723),
+    LatLong(13.007950, 80.234500),
+    LatLong(13.008000, 80.234230),
+    LatLong(13.008050, 80.233959),
+    LatLong(13.008125, 80.233554),
+    LatLong(13.008175, 80.233283),
+    LatLong(13.008224, 80.233013),
+    LatLong(13.008287, 80.232675),
+    LatLong(13.008287, 80.232675),
+    LatLong(13.008287, 80.232675),
+    LatLong(13.008867, 80.229693),
+    LatLong(13.008907, 80.229491),
+    LatLong(13.008960, 80.229221),
+    LatLong(13.009076, 80.228703),
+    LatLong(13.009123, 80.228502),
+    LatLong(13.009270, 80.228230),
+    LatLong(13.009450, 80.228050),
+    LatLong(13.009330, 80.228300),
+    LatLong(13.009180, 80.228580),
+    LatLong(13.009180, 80.228580),
+    LatLong(13.009034, 80.229316),
+    LatLong(13.008984, 80.229567),
+    LatLong(13.008917, 80.229902),
+    LatLong(13.008827, 80.230358),
+    LatLong(13.008827, 80.230358),
+    LatLong(13.008827, 80.230358),
+    LatLong(13.008744, 80.231173),
+    LatLong(13.008893, 80.231200),
+    LatLong(13.009060, 80.231230),
+    LatLong(13.009172, 80.231245),
+    LatLong(13.009290, 80.231260),
+    LatLong(13.009430, 80.231240),
+    LatLong(13.009556, 80.231303),
+    LatLong(13.009556, 80.231303),
+    LatLong(13.009854, 80.231396),
+    LatLong(13.010001, 80.231427),
+    LatLong(13.010183, 80.231468),
+    LatLong(13.010330, 80.231505),
 )
