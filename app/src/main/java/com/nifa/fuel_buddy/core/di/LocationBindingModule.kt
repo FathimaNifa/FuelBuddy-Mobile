@@ -1,7 +1,7 @@
 package com.nifa.fuel_buddy.core.di
 
+import com.nifa.fuel_buddy.core.data.location.FakeLocationClientImpl
 import com.nifa.fuel_buddy.core.domain.location.LocationClient
-import com.nifa.fuel_buddy.core.domain.location.LocationClientImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -11,5 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 interface LocationBindingModule {
     @Binds
-    fun bindLocationClient(locationClient: LocationClientImpl): LocationClient
+    fun bindLocationClient(locationClient: FakeLocationClientImpl): LocationClient
 }

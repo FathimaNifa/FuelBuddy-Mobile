@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import com.nifa.fuel_buddy.core.domain.model.LatLong
 
 fun Context.isConnectedToNetwork(): Boolean {
     return getSystemService<ConnectivityManager>()?.let { connectivityManager ->
@@ -51,6 +52,16 @@ fun Context.hasLocationPermission(): Boolean {
 
 fun Context.openGoogleMaps(latitude: Double, longitude: Double) {
     val query = "google.navigation:q=$latitude,$longitude"
+    val gmmIntentUri = Uri.parse(query)
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.setPackage("com.google.android.apps.maps")
+    startActivity(mapIntent)
+}
+
+fun Context.openGoogleMaps(fromLatLong: LatLong, toLatLong: LatLong) {
+    val query =
+        "https://www.google.com/maps/dir/${fromLatLong.latitude},${fromLatLong.longitude}/${toLatLong.latitude},${toLatLong.longitude}"
+
     val gmmIntentUri = Uri.parse(query)
     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
     mapIntent.setPackage("com.google.android.apps.maps")

@@ -1,5 +1,6 @@
 package com.nifa.fuel_buddy.fuelstation.data.networkSource
 
+import com.nifa.fuel_buddy.core.data.location.FakeLocationClientImpl
 import com.nifa.fuel_buddy.core.domain.model.SuccessResponse
 import com.nifa.fuel_buddy.core.domain.util.NetworkError
 import com.nifa.fuel_buddy.core.domain.util.Result
@@ -34,29 +35,16 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
                             OrderDetailsDto(
                                 orderNumber = "22",
                                 orderId = "1",
-                                location = "Sakthi Vinayakar Nagar, Injambakkam Chennai, Tamil Nadu 600115",
-                                awayFrom = "5.5km away",
-                                userName = "Kannan G",
+                                location = "Anna University, Guindy, Chennai, Tamil Nadu 600025",
+                                awayFrom = "3.6 km away",
+                                userName = "Fathima MK",
                                 totalPrice = "650",
                                 deliveryCharge = "20",
                                 orderStatus = OrderStatus.New.name,
                                 dateAndTime = "",
-                                latitude = 13.0437639,
-                                longitude = 80.2632539
+                                latitude = FakeLocationClientImpl.USER_LOCATION.latitude,
+                                longitude = FakeLocationClientImpl.USER_LOCATION.longitude
                             ),
-                            OrderDetailsDto(
-                                orderNumber = "223",
-                                orderId = "2",
-                                location = "Anna Nagar, Injambakkam Chennai, Tamil Nadu 600115",
-                                awayFrom = "3km away",
-                                userName = "G",
-                                totalPrice = "650",
-                                deliveryCharge = "20",
-                                orderStatus = OrderStatus.New.name,
-                                dateAndTime = "",
-                                latitude = 13.0437639,
-                                longitude = 80.2632539
-                            )
                         )
                     )
                 )
@@ -123,16 +111,16 @@ class FakeFuelStationNetworkSource @Inject constructor() : FuelStationNetworkSou
                             OrderDetailsDto(
                                 orderNumber = "22",
                                 orderId = "1",
-                                location = "Sakthi Vinayakar Nagar, Injambakkam Chennai, Tamil Nadu 600115",
-                                awayFrom = "5.5km away",
-                                userName = "Kannan G",
+                                location = "Inside Anna University, Opp to Gandhi Mandapam, Sardar Patel Rd, Guindy, Chennai, Tamil Nadu 600025",
+                                awayFrom = "3.6 km away",
+                                userName = "Fathima MK",
                                 totalPrice = "650",
                                 deliveryCharge = "20",
                                 orderStatus = OrderStatus.DELIVERED.name,
-                                dateAndTime = "20 Oct | 1.41 pm",
-                                latitude = 13.0437639,
-                                longitude = 80.2632539
-                            )
+                                dateAndTime = "",
+                                latitude = FakeLocationClientImpl.USER_LOCATION.latitude,
+                                longitude = FakeLocationClientImpl.USER_LOCATION.longitude
+                            ),
                         )
                     )
                 )

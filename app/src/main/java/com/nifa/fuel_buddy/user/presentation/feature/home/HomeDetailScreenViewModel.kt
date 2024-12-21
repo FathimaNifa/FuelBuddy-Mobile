@@ -93,11 +93,7 @@ class HomeDetailScreenViewModel @Inject constructor(
 
         locationClient.getCurrentLocation()
             .onEach {
-                val latLong = LatLong(
-                    latitude = it.latitude,
-                    longitude = it.longitude
-                )
-                updateCurrentLocation(latLong)
+                updateCurrentLocation(it)
             }.launchIn(viewModelScope)
     }
 
